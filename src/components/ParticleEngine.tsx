@@ -1,10 +1,10 @@
 import { useRef, useMemo, useEffect } from 'react';
-import { motion, useTransform } from 'motion/react';
+import { motion, useTransform, useMotionValue } from 'motion/react';
 import type { MotionValue } from 'motion/react';
 
-const PARTICLE_COUNT = 7600;
-const RING_CENTER = 0.62; // 링 중심 반지름
-const RING_SIGMA = 0.18; // 가우시안 표준편차 (링 두께)
+const PARTICLE_COUNT = 30000;
+const RING_CENTER = 0.72; // Larger overall shape
+const RING_SIGMA = 0.12; // Tighter core density
 const MOUSE_INFLUENCE = 0.01;
 const MOUSE_RADIUS = 0.16;
 const GATHER_DURATION = 4;
@@ -40,38 +40,117 @@ interface Particle {
   twinkleSpeed: number;
   twinkleOffset: number;
   delay: number;
+  color: string;
 }
 
 interface ParticleEngineProps {
-  scrollYProgress: MotionValue<number>;
+  scrollYProgress?: MotionValue<number>;
   className?: string;
+  mode?: "default" | "logo";
 }
 
-export default function ParticleEngine({ scrollYProgress, className = '' }: ParticleEngineProps) {
+export default function ParticleEngine({ scrollYProgress, className = '', mode = "default" }: ParticleEngineProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mouseRef = useRef({ x: 0.5, y: 0.5 });
   const mouseTargetRef = useRef({ x: 0.5, y: 0.5 });
 
   const particles = useMemo((): Particle[] => {
+    // If it's logo mode, pre-calculate specific dot clustering
+    if (mode === "logo") {
+      // Create a hexagonal dot grid similar to the user's reference logo using coordinates
+      const logoDots = [
+        { rX: -0.15, rY: -0.1, s: 6 },
+        { rX: -0.05, rY: -0.2, s: 12 },
+        { rX: 0.05, rY: -0.3, s: 16 },
+
+        { rX: -0.2, rY: 0, s: 8 },
+        { rX: -0.1, rY: -0.1, s: 14 },
+        { rX: 0, rY: -0.2, s: 18 },
+        { rX: 0.1, rY: -0.3, s: 22 },
+
+        { rX: -0.25, rY: 0.1, s: 6 },
+        { rX: -0.15, rY: 0, s: 10 },
+        { rX: -0.05, rY: -0.1, s: 16 },
+        { rX: 0.05, rY: -0.2, s: 20 },
+        { rX: 0.15, rY: -0.3, s: 24 },
+
+        { rX: -0.2, rY: 0.2, s: 8 },
+        { rX: -0.1, rY: 0.1, s: 12 },
+        { rX: 0, rY: 0, s: 18 },
+        { rX: 0.1, rY: -0.1, s: 24 },
+        { rX: 0.2, rY: -0.2, s: 28 },
+
+        { rX: -0.1, rY: 0.3, s: 10 },
+        { rX: 0, rY: 0.2, s: 14 },
+        { rX: 0.1, rY: 0.1, s: 18 },
+        { rX: 0.2, rY: 0, s: 22 },
+
+        { rX: 0.05, rY: 0.3, s: 12 },
+        { rX: 0.15, rY: 0.2, s: 16 }
+      ];
+
+      // We don't need 30k particles for the logo, just enough to form dense glowing clusters at these points
+      const LOGO_PARTICLE_COUNT = 8000;
+      return Array.from({ length: LOGO_PARTICLE_COUNT }, (_, i) => {
+        const start = getStartPos();
+        // Clump to specific logical dots
+        const targetDot = logoDots[i % logoDots.length];
+        // Add random scatter around the target dot. Larger base 's' means larger radius.
+        const angle = Math.random() * Math.PI * 2;
+        // Make the scatter proportional to the visual size of the dot we're simulating
+        const radius = Math.random() * (targetDot.s * 0.002);
+        const endX = targetDot.rX + Math.cos(angle) * Math.sqrt(radius);
+        const endY = targetDot.rY + Math.sin(angle) * Math.sqrt(radius);
+
+        return {
+          startX: start.x,
+          startY: start.y,
+          angle,
+          radius: Math.sqrt(endX * endX + endY * endY), // Fake radius to leverage existing logic
+          orbitSpeed: (Math.random() - 0.5) * 0.005,
+          size: 0.3 + Math.random() * 0.5,
+          opacity: 0.15 + Math.random() * 0.35,
+          twinkleSpeed: 0.2 + Math.random() * 1.0,
+          twinkleOffset: Math.random() * Math.PI * 2,
+          delay: Math.random() * 1.2,
+          color: `255, 255, 255`,
+          // inject specific target pos to override
+          targetX: endX,
+          targetY: endY
+        } as any;
+      });
+    }
+
+    // Default giant sphere/galaxy mode:
     return Array.from({ length: PARTICLE_COUNT }, () => {
       const start = getStartPos();
       const angle = Math.random() * Math.PI * 2;
-      const radius = Math.max(0.08, gaussRandom(RING_CENTER, RING_SIGMA));
-      const isGlow = Math.random() < 0.05;
+
+      // More dramatic organic distortion for the larger scale
+      const distortion = Math.sin(angle * 3.5) * 0.12 + Math.cos(angle * 6) * 0.06 + (Math.random() - 0.5) * 0.08;
+      const baseRadius = Math.max(0.01, gaussRandom(RING_CENTER, RING_SIGMA));
+      const radius = baseRadius * (1 + distortion);
+
+      const isGlow = Math.random() < 0.15; // More bright points for richness
       return {
         startX: start.x,
         startY: start.y,
         angle,
         radius,
-        orbitSpeed: (Math.random() - 0.5) * 0.06,
-        size: 0.5 + Math.random() * 0.8,
-        opacity: isGlow ? 0.04 + Math.random() * 0.06 : 0.22 + Math.random() * 0.3,
-        twinkleSpeed: 0.5 + Math.random() * 1.5,
+        orbitSpeed: (Math.random() - 0.5) * 0.02, // Majestic, slow rotation
+        size: 0.5 + Math.random() * 0.7, // 0.5 ~ 1.2 range
+        opacity: isGlow ? 0.25 + Math.random() * 0.45 : 0.1 + Math.random() * 0.18,
+        twinkleSpeed: 0.4 + Math.random() * 1.4,
         twinkleOffset: Math.random() * Math.PI * 2,
-        delay: Math.random() * 0.5,
+        delay: Math.random() * 0.8,
+        color: Math.random() < 0.85
+          ? `190, 230, 255` // Bright vibrant blue
+          : Math.random() < 0.5
+            ? `255, 255, 255` // Pure white
+            : `150, 190, 255`, // Rich sky blue
       };
     });
-  }, []);
+  }, [mode]);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -130,35 +209,52 @@ export default function ParticleEngine({ scrollYProgress, className = '' }: Part
         const eased = easeInOutCubic(progress);
 
         if (eased >= 1) {
-          p.angle += p.orbitSpeed * 0.016;
+          // Increase orbit speed for more motion
+          p.angle += p.orbitSpeed * 0.03;
         }
 
-        const finalRadius = p.radius;
-        const ringX = 0.5 + scaleX * finalRadius * Math.cos(p.angle);
-        const ringY = 0.5 + scaleY * finalRadius * Math.sin(p.angle);
+        // Add subtle radial oscillation for "breathing" effect
+        const radialPulse = eased >= 1 ? 1 + 0.05 * Math.sin(elapsed * 1.2 + p.twinkleOffset) : 1;
+        const finalRadius = p.radius * radialPulse;
+
+        // If mode is logo, we override ringX/ringY with target pos + slow orbit
+        let ringX = 0.5 + scaleX * finalRadius * Math.cos(p.angle);
+        let ringY = 0.5 + scaleY * finalRadius * Math.sin(p.angle);
+
+        if ((p as any).targetX !== undefined) {
+          // Instead of circling origin, we circle our specific clump center slightly
+          ringX = 0.5 + scaleX * ((p as any).targetX + Math.cos(p.angle) * 0.015);
+          ringY = 0.5 + scaleY * ((p as any).targetY + Math.sin(p.angle) * 0.015);
+        }
 
         const baseX = p.startX + (ringX - p.startX) * eased;
         const baseY = p.startY + (ringY - p.startY) * eased;
 
         let x = baseX, y = baseY;
-        if (eased >= 1) {
-          const dx = baseX - mx;
-          const dy = baseY - my;
-          const dist = Math.sqrt(dx * dx + dy * dy) || 0.001;
-          const falloff = Math.max(0, 1 - dist / MOUSE_RADIUS);
-          const strength = easeOutCubic(falloff) * MOUSE_INFLUENCE;
-          x = baseX + (dx / dist) * strength;
-          y = baseY + (dy / dist) * strength;
-        }
+
+        // Magnetic Attraction: Strongly pull particles towards the mouse
+        const dx = mx - baseX;
+        const dy = my - baseY;
+        const dist = Math.sqrt(dx * dx + dy * dy) || 0.001;
+
+        // Subtle follow effect: gentle pull towards the mouse
+        const MAGNETIC_RANGE = 0.28;
+        const falloff = Math.max(0, 1 - dist / MAGNETIC_RANGE);
+
+        // Lower power and multiplier for a "slight follow" feel
+        const attractionStrength = Math.pow(falloff, 2) * 0.18 * eased;
+
+        x = baseX + dx * attractionStrength;
+        y = baseY + dy * attractionStrength;
 
         const twinkle = eased >= 1
-          ? 0.5 + 0.5 * Math.sin(elapsed * p.twinkleSpeed + p.twinkleOffset)
+          ? 0.4 + 0.6 * Math.sin(elapsed * p.twinkleSpeed * 1.5 + p.twinkleOffset)
           : 0.3 + 0.7 * eased;
         const opacity = p.opacity * Math.min(1, twinkle);
 
         ctx.beginPath();
         ctx.arc(x * w, y * h, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255,255,255,${opacity})`;
+        ctx.fillStyle = `rgba(${p.color},${opacity})`;
         ctx.fill();
       }
 
@@ -172,7 +268,11 @@ export default function ParticleEngine({ scrollYProgress, className = '' }: Part
     };
   }, [particles]);
 
-  const containerOpacity = useTransform(scrollYProgress, [0, 0.05, 0.12], [1, 1, 0]);
+  // If mode is logo, no fade. Otherwise, fade according to scrollYProgress
+  // We handle the hook unconditionally so React is happy, but return a static value if no scroll progress exists
+  const fallbackProgress = useMotionValue(0);
+  const mappedOpacity = useTransform(scrollYProgress || fallbackProgress, [0, 0.05, 0.12], [1, 1, 0]);
+  const containerOpacity = mode === "logo" ? 1 : mappedOpacity;
 
   return (
     <motion.div
