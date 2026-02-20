@@ -3,10 +3,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import { useScroll, useTransform, useMotionTemplate, motion } from 'motion/react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import ParticleEngine from './components/ParticleEngine';
+import HeroContent from './components/HeroContent';
 import {
   Menu,
   X,
@@ -31,96 +34,136 @@ import {
 
 const App = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { scrollYProgress } = useScroll();
+
+  const contentRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress: contentScrollProgress } = useScroll({
+    target: contentRef,
+    offset: ['start end', 'start 0.05'],
+  });
+  const clipInset = useTransform(contentScrollProgress, [0, 1], [20, 1.5]);
+  const clipRadius = useTransform(contentScrollProgress, [0, 1], [48, 20]);
+  const contentClipPath = useMotionTemplate`inset(${clipInset}% round ${clipRadius}px)`;
 
   return (
-    <div className="min-h-screen bg-background text-foreground font-sans overflow-x-hidden">
-      {/* Navigation */}
-      <nav className="fixed w-full z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border py-4 px-6">
+    <div className="min-h-screen bg-background text-foreground font-sans">
+      {/* GNB - Global Navigation Bar */}
+      <nav className="fixed w-full z-50 bg-black/80 backdrop-blur-xl py-4 px-6 md:px-10">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <div className="flex items-center">
-            <span className="text-2xl font-extrabold text-foreground tracking-tight">Biz.AI</span>
+          {/* Logo */}
+          <a href="#" className="flex items-center gap-2 shrink-0">
+            <div className="w-8 h-8 rounded-md bg-white flex items-center justify-center">
+              <span className="font-bold text-black text-lg">B</span>
+            </div>
+            <span className="text-xl font-bold text-white tracking-tight hidden sm:inline">Biz.AI</span>
+          </a>
+
+          {/* Center Navigation Links */}
+          <div className="hidden lg:flex items-center gap-8 text-white/90 text-[14px] font-medium">
+            <a href="#solution" className="hover:text-white transition-colors">AI Agent 제품군</a>
+            <a href="#domain" className="hover:text-white transition-colors">AI 솔루션</a>
+            <a href="#use-cases" className="hover:text-white transition-colors">고객 사례</a>
+            <a href="#about" className="hover:text-white transition-colors">회사 소개</a>
           </div>
 
-          <div className="hidden md:flex items-center gap-10 text-muted-foreground text-[15px] font-medium">
-            <a href="#solution" className="hover:text-foreground transition-colors">AI Agent 제품군</a>
-            <a href="#domain" className="hover:text-foreground transition-colors">AI 솔루션</a>
-            <a href="#use-cases" className="hover:text-foreground transition-colors">고객 사례</a>
-            <a href="#about" className="hover:text-foreground transition-colors">회사 소개</a>
-          </div>
-
-          <div className="hidden md:flex items-center gap-3">
-            <Button variant="default" size="sm">
+          {/* Right: CTA Buttons */}
+          <div className="flex items-center gap-3">
+            <Button variant="ghost" size="sm" className="hidden md:flex text-white/90 hover:text-white hover:bg-white/10">
               kt ds <ExternalLink size={14} />
             </Button>
-            <Button variant="default" size="sm">
+            <Button size="sm" className="hidden md:flex bg-white text-black hover:bg-white/90 px-4 py-2 rounded-md font-semibold">
               AI Agent 스튜디오 <ExternalLink size={14} />
             </Button>
-          </div>
-
-          <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-            {isMenuOpen ? <X /> : <Menu />}
-          </Button>
-        </div>
-      </nav>
-
-      {/* Hero Section */}
-      <section className="relative bg-primary pt-52 pb-44 px-6 flex items-center justify-center min-h-[600px]">
-        <div className="max-w-7xl mx-auto text-center text-primary-foreground relative z-10">
-          <h2 className="text-2xl md:text-3xl font-medium mb-6 opacity-95">KT DS의 AI 솔루션은</h2>
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight tracking-tight">[데이터 활용 극대화]를 이끌어</h1>
-          <p className="text-xl md:text-3xl font-medium mb-14 opacity-90">기업의 모든 데이터를 경쟁력으로 만듭니다.</p>
-          <div className="flex flex-col sm:flex-row gap-5 justify-center">
-            <Button variant="secondary" className="border-2 border-primary-foreground/80 bg-transparent text-primary-foreground hover:bg-primary-foreground hover:text-primary px-10 py-3.5 text-lg">
-              무료 체험 신청하기 &gt;
-            </Button>
-            <Button variant="secondary" className="border-2 border-primary-foreground/80 bg-transparent text-primary-foreground hover:bg-primary-foreground hover:text-primary px-10 py-3.5 text-lg">
-              솔루션 문의하기 &gt;
-            </Button>
+            <button className="lg:hidden text-white p-2" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="메뉴">
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
           </div>
         </div>
-      </section>
 
-      {/* Solution Section */}
-      <section id="solution" className="py-24 px-6 bg-background border-b border-border">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-24">
-            <h2 className="text-3xl md:text-4xl font-bold text-brand mb-4">KT DS의 AI 솔루션</h2>
-            <p className="text-muted-foreground text-lg">기업의 AI 도입부터 클라우드 인프라 관리까지 전 과정을 표준화하고 안정적으로 지원합니다</p>
-          </div>
-          <div className="relative mt-20">
-            <div className="flex flex-col gap-24 lg:pl-32">
-              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-y-32 gap-x-8 relative">
-                <SolutionItem type="top" tag="업무에 필요한 Agent를 3분만에 만들고 싶다면" title="AI:ON-U" desc="엔터프라이즈 맞춤형 AI Agent를 빠르게 구축하는 No-Code 기반 Agent Builder (비개발자 생성 가능)" icon={<Store className="text-chart-1" />} />
-                <SolutionItem type="top" tag="전사 AI Agent 도입을 고려하고 있다면" title="Works AI" desc="AI Agent 기반으로 다양한 업무처리를 지원하는 사내 AI Agent Portal" icon={<Utensils className="text-chart-1" />} />
-                <SolutionItem type="top" tag="회의록 작성을 1분 만에 하고 싶다면" title="AI 회의록" desc="음성 기반 회의 자동 기록 · 요약 · 업무 추출 AI 서비스" icon={<Monitor className="text-chart-1" />} />
-                <SolutionItem type="bottom" tag="멀티 클라우드 환경에 AI를 도입해서 비용을 30% 줄이고 싶다면" title="CloudWiz" desc="클라우드 운영 효율화와 자동화를 지원하는 관리 서비스" icon={<Car className="text-chart-1" />} />
-                <SolutionItem type="bottom" tag="기업 내부 시스템과 AI 기능을 효율적으로 표준화하고 싶다면" title="Beast AI Gateway" desc="엔터프라이즈용 AI 기술, API를 통합 관리하는 서비스" icon={<HeartPulse className="text-chart-1" />} />
-                <SolutionItem type="bottom" tag="보안이 중요한 폐쇄형 환경에서도 AI를 개발하고 싶다면" title="Codebox" desc="폐쇄형 설치형 AI 코드 개발 어플라이언스" icon={<ShoppingBag className="text-chart-1" />} />
+        {/* Mobile Menu */}
+        {isMenuOpen && (
+          <div className="lg:hidden absolute top-full left-0 right-0 bg-black/80 backdrop-blur-xl py-4 px-6">
+            <div className="flex flex-col gap-4">
+              <a href="#solution" className="text-white/90 hover:text-white font-medium py-1" onClick={() => setIsMenuOpen(false)}>AI Agent 제품군</a>
+              <a href="#domain" className="text-white/90 hover:text-white font-medium py-1" onClick={() => setIsMenuOpen(false)}>AI 솔루션</a>
+              <a href="#use-cases" className="text-white/90 hover:text-white font-medium py-1" onClick={() => setIsMenuOpen(false)}>고객 사례</a>
+              <a href="#about" className="text-white/90 hover:text-white font-medium py-1" onClick={() => setIsMenuOpen(false)}>회사 소개</a>
+              <div className="pt-2 mt-2 border-t border-white/10 flex flex-col gap-2">
+                <Button variant="ghost" size="sm" className="text-white/90 hover:text-white justify-start">
+                  kt ds <ExternalLink size={14} />
+                </Button>
+                <Button size="sm" className="bg-white text-black hover:bg-white/90 w-full justify-center">
+                  AI Agent 스튜디오 <ExternalLink size={14} />
+                </Button>
               </div>
             </div>
           </div>
+        )}
+      </nav>
+
+      {/* Hero Section - sticky behind content */}
+      <section className="sticky top-0 z-0 h-screen flex items-center justify-center overflow-clip bg-black">
+
+        {/* Dot grid pattern */}
+        <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:60px_60px]" />
+
+        {/* Particle Engine */}
+        <div className="absolute inset-0 z-0 pointer-events-none">
+          <ParticleEngine scrollYProgress={scrollYProgress} />
+        </div>
+
+        {/* Hero 텍스트 & 버튼 */}
+        <div className="relative z-10 flex items-center justify-center w-full">
+          <HeroContent />
         </div>
       </section>
 
-      {/* Domain Multi-Agent Section */}
-      <section id="domain" className="py-24 px-6 bg-muted/50 relative overflow-hidden">
+      {/* Content sections scroll over the hero */}
+      <div className="relative z-10 bg-black">
+
+      {/* Solution Section - White card with clip reveal */}
+      <motion.div
+        ref={contentRef}
+        className="bg-background will-change-[clip-path]"
+        style={{ clipPath: contentClipPath }}
+      >
+        <section id="solution" className="py-24 px-6">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-24">
+              <h2 className="text-3xl md:text-4xl font-bold text-brand mb-4">KT DS의 AI 솔루션</h2>
+              <p className="text-muted-foreground text-lg">기업의 AI 도입부터 클라우드 인프라 관리까지 전 과정을 표준화하고 안정적으로 지원합니다</p>
+            </div>
+            <div className="relative mt-20">
+              <div className="flex flex-col gap-24 lg:pl-32">
+                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-y-32 gap-x-8 relative">
+                  <SolutionItem type="top" tag="업무에 필요한 Agent를 3분만에 만들고 싶다면" title="AI:ON-U" desc="엔터프라이즈 맞춤형 AI Agent를 빠르게 구축하는 No-Code 기반 Agent Builder (비개발자 생성 가능)" icon={<Store className="text-chart-1" />} />
+                  <SolutionItem type="top" tag="전사 AI Agent 도입을 고려하고 있다면" title="Works AI" desc="AI Agent 기반으로 다양한 업무처리를 지원하는 사내 AI Agent Portal" icon={<Utensils className="text-chart-1" />} />
+                  <SolutionItem type="top" tag="회의록 작성을 1분 만에 하고 싶다면" title="AI 회의록" desc="음성 기반 회의 자동 기록 · 요약 · 업무 추출 AI 서비스" icon={<Monitor className="text-chart-1" />} />
+                  <SolutionItem type="bottom" tag="멀티 클라우드 환경에 AI를 도입해서 비용을 30% 줄이고 싶다면" title="CloudWiz" desc="클라우드 운영 효율화와 자동화를 지원하는 관리 서비스" icon={<Car className="text-chart-1" />} />
+                  <SolutionItem type="bottom" tag="기업 내부 시스템과 AI 기능을 효율적으로 표준화하고 싶다면" title="Beast AI Gateway" desc="엔터프라이즈용 AI 기술, API를 통합 관리하는 서비스" icon={<HeartPulse className="text-chart-1" />} />
+                  <SolutionItem type="bottom" tag="보안이 중요한 폐쇄형 환경에서도 AI를 개발하고 싶다면" title="Codebox" desc="폐쇄형 설치형 AI 코드 개발 어플라이언스" icon={<ShoppingBag className="text-chart-1" />} />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </motion.div>
+
+      {/* Domain Multi-Agent Section - Black bg */}
+      <section id="domain" className="py-24 px-6 relative overflow-hidden bg-black">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-20">
-            <h2 className="text-3xl md:text-4xl font-bold text-brand mb-4">도메인별 Multi-Agent</h2>
-            <p className="text-muted-foreground text-lg">공공/금융 등 도메인별로 KTDS의 Multi-Agent를 활용해 보세요.</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">도메인별 Multi-Agent</h2>
+            <p className="text-white/60 text-lg">공공/금융 등 도메인별로 KTDS의 Multi-Agent를 활용해 보세요.</p>
           </div>
-          <div className="relative max-w-5xl mx-auto">
-            <Card className="rounded-3xl md:rounded-[100px] p-12 md:p-24 min-h-[700px] flex flex-col items-center justify-center bg-card/80 backdrop-blur border-border">
-              <div className="relative w-full h-full flex flex-col items-center justify-center gap-16 md:gap-32 mt-12">
-                <div className="flex flex-wrap justify-center gap-24 md:gap-48 relative z-10">
-                  <DomainNode title="금융" agents={['Audit Agent', 'SQL Agent', 'RFP Agent']} pos="top" />
-                  <DomainNode title="공공기관" agents={['Audit Agent', 'RFP Agent', 'SQL Agent']} pos="top" />
-                </div>
-                <div className="flex flex-wrap justify-center gap-12 md:gap-32 relative z-10">
-                  <DomainNode title="일반기업" agents={['SQL Agent', 'RFP Agent', 'Codebox', 'beast AI Gateway']} pos="bottom" />
-                  <DomainNode title="미디어" agents={['SQL Agent', 'TA Agent']} pos="bottom" />
-                  <DomainNode title="통신/네트워크" agents={['SQL Agent', 'beast AI Gateway', 'Codebox']} pos="bottom" />
-                </div>
+          <div className="relative max-w-5xl mx-auto flex justify-center">
+            <Card className="relative rounded-full aspect-square w-[min(90vw,600px)] flex items-center justify-center bg-white/5 backdrop-blur border-white/10 overflow-visible">
+              <div className="absolute inset-0">
+                <DomainNodeCircle title="금융" agents={['Audit Agent', 'SQL Agent', 'RFP Agent']} angle={-90} />
+                <DomainNodeCircle title="공공기관" agents={['Audit Agent', 'RFP Agent', 'SQL Agent']} angle={-18} />
+                <DomainNodeCircle title="미디어" agents={['SQL Agent', 'TA Agent']} angle={54} />
+                <DomainNodeCircle title="일반기업" agents={['SQL Agent', 'RFP Agent', 'Codebox', 'beast AI Gateway']} angle={126} />
+                <DomainNodeCircle title="통신/네트워크" agents={['SQL Agent', 'beast AI Gateway', 'Codebox']} angle={198} />
               </div>
             </Card>
           </div>
@@ -387,6 +430,7 @@ const App = () => {
           </div>
         </div>
       </footer>
+      </div>
     </div>
   );
 };
@@ -425,6 +469,38 @@ const SolutionItem = ({ type, tag, title, desc, icon }: { type: 'top' | 'bottom'
     )}
   </div>
 );
+
+/** 원형 배치용 Domain 노드 - angle: 0=오른쪽, 90=아래, -90=위 (도) */
+const DomainNodeCircle = ({ title, agents, angle }: { title: string; agents: string[]; angle: number }) => {
+  const radius = 0.38; // 원의 반지름 (컨테이너 대비 비율)
+  const rad = (angle * Math.PI) / 180;
+  const x = 50 + radius * 100 * Math.cos(rad);
+  const y = 50 + radius * 100 * Math.sin(rad);
+  const badgeDist = 72;
+  const badgeX = Math.cos(rad) * badgeDist;
+  const badgeY = Math.sin(rad) * badgeDist;
+
+  return (
+    <div
+      className="absolute flex flex-col items-center justify-center group -translate-x-1/2 -translate-y-1/2"
+      style={{ left: `${x}%`, top: `${y}%` }}
+    >
+      <div
+        className="absolute flex flex-wrap justify-center gap-1 w-max max-w-[140px] z-20"
+        style={{ transform: `translate(calc(-50% + ${badgeX}px), calc(-50% + ${badgeY}px))` }}
+      >
+        {agents.map((agent, i) => (
+          <Badge key={i} variant="secondary" className="text-[10px] md:text-xs whitespace-nowrap bg-white/10 text-white/80 border-white/20">
+            {agent}
+          </Badge>
+        ))}
+      </div>
+      <div className="size-20 md:size-28 bg-white/10 rounded-full flex items-center justify-center relative shadow-sm border border-white/20 group-hover:shadow-md group-hover:bg-white/15 transition-all duration-300 ring-4 ring-white/10 z-10">
+        <span className="text-base md:text-lg font-bold text-white">{title}</span>
+      </div>
+    </div>
+  );
+};
 
 const DomainNode = ({ title, agents, pos }: { title: string; agents: string[]; pos: 'top' | 'bottom' }) => (
   <div className="flex flex-col items-center relative group">
