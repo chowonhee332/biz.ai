@@ -77,19 +77,19 @@ const AnimatedCounter = ({ from, to }: { from: number; to: number }) => {
 };
 
 const SolutionCard = ({ image, title, desc, tag }: { image: string; title: string; desc: string; tag: string }) => (
-  <div className="bg-white rounded-[32px] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 group flex flex-col h-full border border-gray-100">
-    <div className="aspect-[4/3] overflow-hidden bg-gray-50 relative p-4 flex items-center justify-center">
+  <div className="flex flex-col h-full text-left bg-transparent group px-8 relative w-[364px]">
+    <div className="w-[300px] h-[300px] rounded-[32px] overflow-hidden bg-transparent mb-10 relative flex items-center justify-center shadow-2xl">
       <img
         src={image}
         alt={title}
-        className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700 rounded-2xl"
+        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
       />
     </div>
-    <div className="p-8 flex flex-col flex-grow text-left">
-      <h4 className="text-2xl font-bold text-gray-900 mb-3">{title}</h4>
-      <p className="text-gray-500 text-[14px] leading-relaxed mb-6 font-medium break-keep">{desc}</p>
+    <div className="flex flex-col flex-grow w-[300px] font-pretendard">
+      <h4 className="text-[28px] font-bold text-gray-800 mb-6 tracking-tighter leading-tight">{title}</h4>
+      <p className="text-gray-500 text-[16px] leading-relaxed mb-8 font-medium break-keep opacity-80">{desc}</p>
       <div className="mt-auto">
-        <span className="text-blue-600 font-bold text-sm tracking-tight">{tag}</span>
+        <span className="text-[#3B82F6] font-bold text-[15px]">{tag}</span>
       </div>
     </div>
   </div>
@@ -101,7 +101,7 @@ const InteractiveMockup = ({ image }: { image: string }) => {
       <img
         src={image}
         alt="Dashboard Content"
-        className="w-full max-w-[800px] h-auto rounded-[12px] pointer-events-none block"
+        className="w-full h-auto rounded-[32px] pointer-events-none block shadow-2xl"
       />
     </div>
   );
@@ -425,10 +425,10 @@ const App = () => {
             className="bg-white relative z-20 origin-bottom overflow-hidden"
             animate={contentControls}
           >
-            <section id="solution" className="py-20 px-6">
+            <section id="solution" className="py-32 px-6">
               <div className="max-w-[1240px] mx-auto">
-                <div className="text-center mb-14">
-                  <h2 className="text-[52px] font-black bg-gradient-to-r from-black to-slate-300 bg-clip-text text-transparent mb-4 tracking-tight leading-tight" style={{ fontFamily: '"Pretendard Variable", Pretendard, sans-serif' }}>
+                <div className="text-center mb-20 font-pretendard">
+                  <h2 className="text-[52px] font-black bg-gradient-to-r from-black to-slate-300 bg-clip-text text-transparent mb-8 tracking-tight leading-tight">
                     kt ds의 AI 솔루션
                   </h2>
                   <p className="text-gray-500 text-[15px] max-w-2xl mx-auto font-medium">
@@ -437,28 +437,25 @@ const App = () => {
                 </div>
 
                 <div className="mb-14">
-                  <h3 className="text-[18px] font-bold bg-gradient-to-r from-black to-slate-400 bg-clip-text text-transparent mb-6 text-left">
-                    전사 공통 (General Business)
-                  </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                  <div className="grid grid-cols-1 md:grid-cols-3 divide-x divide-gray-100 w-fit mx-auto">
                     {[
                       {
-                        image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=600",
+                        image: "/1.png",
                         title: "AI:ON-U",
                         desc: "엔터프라이즈 맞춤형 AI Agent를 빠르게 구축하는 No-Code 기반 Agent Builder",
                         tag: "#3분 완성 Agent"
                       },
                       {
-                        image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=600",
+                        image: "/2.png",
                         title: "Works AI",
                         desc: "AI Agent 기반으로 다양한 업무처리를 지원하는 사내 AI Agent Portal",
-                        tag: "#업무 자동화"
+                        tag: "#3분 완성 Agent"
                       },
                       {
-                        image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=600",
-                        title: "D-Ant",
-                        desc: "데이터 분석부터 예측까지, 데이터 기반의 현명한 의사결정을 돕는 분석 솔루션",
-                        tag: "#데이터 사이언스"
+                        image: "/3.png",
+                        title: "AI 회의록",
+                        desc: "음성 기반 회의 자동 기록 요약 및 업무 추출 AI 서비스",
+                        tag: "#3분 완성 Agent"
                       }
                     ].map((card, i) => (
                       <motion.div
@@ -475,10 +472,7 @@ const App = () => {
                 </div>
 
                 <div>
-                  <h3 className="text-[18px] font-bold bg-gradient-to-r from-black to-slate-400 bg-clip-text text-transparent mb-6 text-left">
-                    IT 서비스/개발 직군 (IT Service & Dev)
-                  </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                  <div className="grid grid-cols-1 md:grid-cols-3 divide-x divide-gray-100 w-fit mx-auto">
                     <SolutionCard
                       image="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=600"
                       title="CloudWiz"
@@ -552,7 +546,7 @@ const App = () => {
         </section>
 
         <section id="use-cases" className="py-32 bg-black relative">
-          <div className="max-w-[1200px] mx-auto w-full min-h-[150vh] relative flex flex-col items-start">
+          <div className="max-w-[1240px] mx-auto w-full min-h-[150vh] relative flex flex-col items-start px-6">
             <div className="w-full mb-4 pt-[40px]">
               <h2 className="text-[56px] font-black bg-gradient-to-r from-white to-[#ABBBE7] bg-clip-text text-transparent tracking-tight leading-tight">
                 Solution, <br />
@@ -562,7 +556,7 @@ const App = () => {
             </div>
 
             <div className="w-full flex flex-col lg:flex-row items-start relative gap-0">
-              <div className="w-full lg:w-1/2 lg:sticky lg:top-0 lg:h-screen flex flex-col justify-start pt-[60px] z-20 pr-12 lg:pr-16">
+              <div className="w-full lg:w-[42%] lg:sticky lg:top-0 lg:h-screen flex flex-col justify-center z-20 pr-12 lg:pr-16">
                 <div className="flex flex-col">
                   {useCaseItems.map((item, index) => {
                     const isActive = index === activeUseCase;
@@ -658,7 +652,7 @@ const App = () => {
                 </div>
               </div>
 
-              <div className="w-full lg:w-1/2 flex flex-col gap-[70vh] pb-[50vh] pt-[140px] items-center lg:items-end overflow-visible">
+              <div className="w-full lg:w-[58%] flex flex-col gap-[70vh] pb-[50vh] pt-[140px] items-center lg:items-end overflow-visible">
                 {useCaseItems.map((item, index) => (
                   <UseCaseVisual key={index} image={item.image} index={index} setActive={setActiveUseCase} />
                 ))}
@@ -924,9 +918,9 @@ const App = () => {
               className="relative rounded-[40px] overflow-hidden bg-[#0A0A0A] border border-white/5 mb-8 h-[500px] flex items-center group"
             >
               <img
-                src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&q=80&w=1400"
+                src="/banner.png"
                 alt="AI Agent Studio"
-                className="absolute inset-0 w-full h-full object-cover opacity-60"
+                className="absolute inset-0 w-full h-full object-cover opacity-80"
               />
               <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-transparent z-[1]" />
 
