@@ -89,10 +89,13 @@ export default function HeroContent({ onSubmit, isAnalyzing = false }: HeroConte
             <h1
               className="text-3xl md:text-5xl lg:text-[72px] font-bold mb-6 leading-[1.1] tracking-tight w-full max-w-5xl px-2 flex flex-col items-center bg-gradient-to-r from-white via-white to-sky-400 bg-clip-text text-transparent"
             >
-              <span className="block whitespace-nowrap text-center">{lines[0]}</span>
+              <span className="block whitespace-nowrap text-center">
+                {lines[0]}
+                {!done && lines.length === 1 && <span className="inline-block w-[3px] h-[0.85em] bg-sky-400 ml-1 align-middle animate-pulse" />}
+              </span>
               <span className="block whitespace-nowrap text-center">
                 {lines[1] ?? ''}
-                {!done && <span className="inline-block w-[3px] h-[0.85em] bg-sky-400 ml-1 align-middle animate-pulse" />}
+                {!done && lines.length === 2 && <span className="inline-block w-[3px] h-[0.85em] bg-sky-400 ml-1 align-middle animate-pulse" />}
               </span>
             </h1>
             <motion.p
@@ -114,14 +117,14 @@ export default function HeroContent({ onSubmit, isAnalyzing = false }: HeroConte
         className="flex flex-col sm:flex-row gap-4 justify-center mt-8"
       >
         <Button
-          className="group bg-white text-[#0a0a0f] hover:bg-white/90 w-[140px] h-[37px] py-0 text-[14px] font-semibold rounded-full transition-all flex items-center justify-center gap-0"
+          className="group bg-white text-[#0a0a0f] hover:bg-white/90 w-[140px] h-[40px] py-0 text-[14px] font-semibold rounded-full transition-all flex items-center justify-center gap-0"
           disabled={isAnalyzing}
         >
           무료체험 신청
           <ChevronRight size={16} className="max-w-0 opacity-0 group-hover:max-w-[24px] group-hover:opacity-100 group-hover:ml-1 transition-all duration-300 overflow-hidden" />
         </Button>
         <Button
-          className="group bg-white/10 text-white border-none hover:bg-white/20 w-[140px] h-[37px] py-0 text-[14px] font-semibold rounded-full transition-all flex items-center justify-center gap-0"
+          className="group bg-white/10 text-white border-none hover:bg-white/20 w-[140px] h-[40px] py-0 text-[14px] font-semibold rounded-full transition-all flex items-center justify-center gap-0"
         >
           솔루션 문의
           <ChevronRight size={16} className="max-w-0 opacity-0 group-hover:max-w-[24px] group-hover:opacity-100 group-hover:ml-1 transition-all duration-300 overflow-hidden" />

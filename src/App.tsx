@@ -4,60 +4,332 @@
  */
 
 import React, { useState, useRef, useEffect } from 'react';
-import { useScroll, useTransform, useMotionTemplate, motion, useInView, AnimatePresence } from 'motion/react';
+import { useScroll, useTransform, useMotionTemplate, motion, useInView, AnimatePresence, animate, useAnimation, useMotionValueEvent } from 'motion/react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import ParticleEngine from './components/ParticleEngine';
 import HeroContent from './components/HeroContent';
 import {
+  ArrowUp,
+  Search,
+  Zap,
+  Target,
+  ShieldCheck,
+  CheckCircle2,
+  ChevronRight,
+  ArrowRight,
+  Code,
+  Brain,
+  Cpu,
+  Rocket,
+  Settings,
+  Box,
+  BookOpen,
+  Globe,
+  Youtube,
+  Linkedin,
+  Mail,
+  Smartphone,
+  Info,
   Menu,
   X,
   ExternalLink,
-  Store,
   Utensils,
   Monitor,
-  Car,
-  HeartPulse,
-  ShoppingBag,
-  ChevronRight,
-  Building2,
-  Map,
-  Settings,
-  Box,
-  Rocket,
-  BookOpen,
-  Linkedin,
-  Youtube,
-  Mail,
-  Search,
 } from 'lucide-react';
+
+// Sub-components (Moved to top for hoisting/scoping clarity)
+
+const StudioCard = ({ icon, title, desc }: { icon: React.ReactElement; title: string; desc: string }) => (
+  <Card className="p-10 rounded-3xl bg-[#111] border-white/5 hover:bg-[#1a1a1a] hover:border-white/20 transition-all duration-500 group flex flex-col items-center md:items-start text-center md:text-left shadow-2xl relative overflow-hidden">
+    <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-2xl -mr-16 -mt-16 group-hover:bg-blue-500/20 transition-colors duration-500" />
+    <div className="size-16 bg-white/5 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform border border-white/10 relative z-10 text-white/80 group-hover:text-blue-400">
+      {React.cloneElement(icon, { size: 32 })}
+    </div>
+    <h4 className="text-2xl font-bold text-white mb-4 relative z-10">{title}</h4>
+    <p className="text-white/50 leading-relaxed font-medium relative z-10">{desc}</p>
+  </Card>
+);
+
+const AnimatedCounter = ({ from, to }: { from: number; to: number }) => {
+  const nodeRef = useRef<HTMLSpanElement>(null);
+  const isInView = useInView(nodeRef, { once: true, margin: "-100px" });
+
+  useEffect(() => {
+    if (!isInView || !nodeRef.current) return;
+
+    const controls = animate(from, to, {
+      duration: 2,
+      ease: "easeOut",
+      onUpdate(value) {
+        if (nodeRef.current) {
+          nodeRef.current.textContent = Intl.NumberFormat("en-US").format(Math.floor(value));
+        }
+      }
+    });
+
+    return () => controls.stop();
+  }, [isInView, from, to]);
+
+  return <span ref={nodeRef}>{Intl.NumberFormat("en-US").format(from)}</span>;
+};
+
+const SolutionCard = ({ image, title, desc, tag }: { image: string; title: string; desc: string; tag: string }) => (
+  <div className="bg-white rounded-[32px] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 group flex flex-col h-full border border-gray-100">
+    <div className="aspect-[4/3] overflow-hidden bg-gray-50 relative p-4 flex items-center justify-center">
+      <img
+        src={image}
+        alt={title}
+        className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700 rounded-2xl"
+      />
+    </div>
+    <div className="p-8 flex flex-col flex-grow text-left">
+      <h4 className="text-2xl font-bold text-gray-900 mb-3">{title}</h4>
+      <p className="text-gray-500 text-[14px] leading-relaxed mb-6 font-medium break-keep">{desc}</p>
+      <div className="mt-auto">
+        <span className="text-blue-600 font-bold text-sm tracking-tight">{tag}</span>
+      </div>
+    </div>
+  </div>
+);
+
+const InteractiveMockup = ({ image }: { image: string }) => {
+  return (
+    <div className="w-full flex items-center justify-center lg:justify-end relative group/frame shrink-0 bg-transparent">
+      <img
+        src={image}
+        alt="Dashboard Content"
+        className="w-full max-w-[800px] h-auto rounded-[12px] pointer-events-none block"
+      />
+    </div>
+  );
+};
+
+const UseCaseVisual = ({ image, index, setActive }: { key?: React.Key; image: string; index: number; setActive: (idx: number) => void }) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { margin: "-40% 0px -40% 0px" });
+
+  useEffect(() => {
+    if (isInView) setActive(index);
+  }, [isInView, index, setActive]);
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 40 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+      transition={{
+        type: "spring",
+        stiffness: 80,
+        damping: 20,
+        mass: 1
+      }}
+      className="w-full h-full"
+    >
+      <InteractiveMockup image={image} />
+    </motion.div>
+  );
+};
+
+const DomainAccordionItem = ({
+  title,
+  agents,
+  image,
+  isActive,
+  onMouseEnter
+}: {
+  title: string;
+  agents: string[];
+  image: string;
+  isActive: boolean;
+  onMouseEnter: () => void
+}) => {
+  return (
+    <motion.div
+      layout
+      onMouseEnter={onMouseEnter}
+      className="relative h-[600px] overflow-hidden cursor-pointer rounded-2xl"
+      style={{ willChange: 'flex, width' }}
+      animate={{
+        flex: isActive ? 3 : 0.7,
+      }}
+      transition={{
+        type: "spring",
+        stiffness: 300,
+        damping: 30,
+        mass: 1
+      }}
+    >
+      <div className="absolute inset-0">
+        <motion.img
+          src={image}
+          alt={title}
+          loading="eager"
+          className="w-full h-full object-cover"
+          animate={{
+            filter: isActive ? 'brightness(0.8) contrast(1.1)' : 'grayscale(0.3) brightness(0.6)',
+            scale: isActive ? 1.05 : 1
+          }}
+          transition={{
+            type: "spring",
+            stiffness: 100,
+            damping: 20
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/60" />
+      </div>
+
+      <div className="absolute inset-x-0 bottom-0 p-8 flex flex-col justify-end h-full">
+        <div className="flex flex-col items-start gap-4">
+          <motion.div
+            layout
+            initial={false}
+          >
+            <h4 className={`text-white font-bold transition-colors duration-500 whitespace-nowrap ${isActive ? 'text-3xl mb-4' : 'text-xl'}`}>
+              {title}
+            </h4>
+          </motion.div>
+
+          {isActive && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="flex flex-col gap-2"
+            >
+              {agents.map((agent, i) => (
+                <div key={i} className="flex items-center">
+                  <span className="text-gray-300 text-sm font-medium">{agent}</span>
+                </div>
+              ))}
+            </motion.div>
+          )}
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
+const Tag = ({ text }: { text: string }) => (
+  <Badge variant="outline" className="border-blue-500 text-blue-500 rounded-full px-4 py-1.5 font-medium whitespace-nowrap">
+    {text}
+  </Badge>
+);
 
 const App = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { scrollYProgress } = useScroll();
+  const [showTopBtn, setShowTopBtn] = useState(false);
+  const [activeDomain, setActiveDomain] = useState<number>(0);
+  const { scrollY, scrollYProgress } = useScroll();
+  const [navVisible, setNavVisible] = useState(true);
 
-  const contentRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress: contentScrollProgress } = useScroll({
-    target: contentRef,
-    offset: ['start end', 'start 0.05'],
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const previous = scrollY.getPrevious() ?? 0;
+    if (latest > previous && latest > 100) {
+      setNavVisible(false); // 스크롤 내릴 때 숨김
+    } else {
+      setNavVisible(true); // 스크롤 올릴 때 보임
+    }
   });
 
-  const [activeCase, setActiveCase] = useState(0);
-  const caseRefs = [useRef<HTMLDivElement>(null), useRef<HTMLDivElement>(null), useRef<HTMLDivElement>(null)];
+  const contentRef = useRef<HTMLDivElement>(null);
+  const contentControls = useAnimation();
+  const contentInView = useInView(contentRef, { margin: "0px 0px -20% 0px" });
 
-  const scrollToCase = (index: number) => {
-    caseRefs[index].current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  useEffect(() => {
+    if (contentInView) {
+      contentControls.start({
+        clipPath: "inset(0% 1% round 28px)",
+        transition: {
+          type: "spring",
+          stiffness: 80,
+          damping: 12,
+          mass: 0.5
+        }
+      });
+    } else {
+      contentControls.start({
+        clipPath: "inset(15% 15% round 60px)",
+        transition: {
+          type: "spring",
+          stiffness: 80,
+          damping: 12,
+          mass: 0.5
+        }
+      });
+    }
+  }, [contentInView, contentControls]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowTopBtn(window.scrollY > 500);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
-  const clipInset = useTransform(contentScrollProgress, [0, 1], [20, 1.5]);
-  const clipRadius = useTransform(contentScrollProgress, [0, 1], [48, 20]);
-  const contentClipPath = useMotionTemplate`inset(${clipInset}% round ${clipRadius}px)`;
+
+  const [activeUseCase, setActiveUseCase] = useState(0);
+  const useCaseItems = [
+    {
+      id: "works-ai",
+      titlePrefix: "AI Portal",
+      titleSuffix: "Works AI",
+      desc: "AI 챗봇 기반으로 다양한 업무 처리를 지원하는 AI Agent 포털 서비스로\n기업 전체 AI 서비스를 통합 관리하고 접근할 수 있는 중앙 플랫폼입니다.",
+      tags: ["AI 비서+그룹웨어", "맞춤형"],
+      themeColor: "blue",
+      features: [
+        "기본적인 업무 기반에 최적화된 AI Agent 제공",
+        "업무에 필요한 에이전트를 직접 만들어 사내 공유/ 활용",
+        "그룹웨어 위젯 및 메뉴 커스텀을 통해 개인 맞춤형 컨텐츠 제공"
+      ],
+      icon: <Utensils className="w-8 h-8" />,
+      image: "/test.png"
+    },
+    {
+      id: "audit-agent",
+      titlePrefix: "Audit Agent",
+      desc: "방대한 기업 규제 및 감사 문서를 AI가 신속히 분석하여, 법적 리스크를 사전에 파악하고 완벽한 컴플라이언스 대응을 지원합니다.",
+      tags: ["자료검색", "감사/리스크"],
+      themeColor: "sky",
+      features: [
+        "사내 규정 및 가이드라인 기반의 AI 감사 수행",
+        "키워드/의미 기반의 빠른 법령 및 판례 검색",
+        "감사 보고서 자동 초안 작성 및 리스크 등급 분류"
+      ],
+      icon: <Search className="w-8 h-8" />,
+      image: "/test.png"
+    },
+    {
+      id: "meeting-agent",
+      titlePrefix: "지능형 회의록 Agent",
+      desc: "음성 인식(STT)과 NLP를 결합하여 회의 중 나오는 화자를 구분하고, 자동으로 액션 아이템을 추출합니다.",
+      tags: ["음성인식", "업무추출"],
+      themeColor: "emerald",
+      features: [
+        "실시간 음성 인식 및 화자 분리 기록",
+        "회의 내용 자동 요약 및 주요 의사결정 사항 추출",
+        "참석자 대상 회의록 자동 메일/메신저 발송 연동"
+      ],
+      icon: <Monitor className="w-8 h-8" />,
+      image: "/test.png"
+    }
+  ];
 
   return (
-    <div className="min-h-screen bg-background text-foreground font-sans">
+    <div className="min-h-screen bg-black text-white font-sans">
       {/* GNB - Global Navigation Bar */}
-      <nav className="fixed w-full z-50 bg-black/80 backdrop-blur-xl py-4 px-6 md:px-10">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
+      <motion.nav
+        initial={{ y: 0 }}
+        animate={{ y: navVisible ? 0 : -100 }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
+        className="fixed w-full z-50 bg-black/10 backdrop-blur-xl py-4 px-6 md:px-10 border-b border-white/5"
+      >
+        <div className="max-w-[1200px] mx-auto flex justify-between items-center">
           {/* Logo */}
           <a href="#" className="flex items-center gap-2 shrink-0">
             <img src="/bizai_logo.png" alt="Biz.AI Logo" className="h-7 w-auto" />
@@ -77,7 +349,7 @@ const App = () => {
             <Button variant="ghost" size="sm" className="hidden md:flex text-white/90 hover:text-white hover:bg-white/10">
               kt ds <ExternalLink size={14} />
             </Button>
-            <Button size="sm" className="hidden md:flex bg-white text-black hover:bg-white/90 px-4 py-2 rounded-md font-semibold">
+            <Button size="sm" className="hidden md:flex bg-white text-black hover:bg-white/90 px-4 py-2 rounded-md font-semibold font-pretendard">
               AI Agent 스튜디오 <ExternalLink size={14} />
             </Button>
             <button className="lg:hidden text-white p-2" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="메뉴">
@@ -87,321 +359,527 @@ const App = () => {
         </div>
 
         {/* Mobile Menu */}
-        {isMenuOpen && (
-          <div className="lg:hidden absolute top-full left-0 right-0 bg-black/80 backdrop-blur-xl py-4 px-6">
-            <div className="flex flex-col gap-4">
-              <a href="#solution" className="text-white/90 hover:text-white font-medium py-1" onClick={() => setIsMenuOpen(false)}>AI Agent 제품군</a>
-              <a href="#domain" className="text-white/90 hover:text-white font-medium py-1" onClick={() => setIsMenuOpen(false)}>AI 솔루션</a>
-              <a href="#use-cases" className="text-white/90 hover:text-white font-medium py-1" onClick={() => setIsMenuOpen(false)}>고객 사례</a>
-              <a href="#about" className="text-white/90 hover:text-white font-medium py-1" onClick={() => setIsMenuOpen(false)}>회사 소개</a>
-              <div className="pt-2 mt-2 border-t border-white/10 flex flex-col gap-2">
-                <Button variant="ghost" size="sm" className="text-white/90 hover:text-white justify-start">
-                  kt ds <ExternalLink size={14} />
-                </Button>
-                <Button size="sm" className="bg-white text-black hover:bg-white/90 w-full justify-center">
-                  AI Agent 스튜디오 <ExternalLink size={14} />
-                </Button>
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              className="lg:hidden absolute top-full left-0 right-0 bg-black/80 backdrop-blur-xl py-4 px-6 overflow-hidden border-b border-white/10"
+            >
+              <div className="flex flex-col gap-4">
+                <a href="#solution" className="text-white/90 hover:text-white font-medium py-1" onClick={() => setIsMenuOpen(false)}>AI Agent 제품군</a>
+                <a href="#domain" className="text-white/90 hover:text-white font-medium py-1" onClick={() => setIsMenuOpen(false)}>AI 솔루션</a>
+                <a href="#use-cases" className="text-white/90 hover:text-white font-medium py-1" onClick={() => setIsMenuOpen(false)}>고객 사례</a>
+                <a href="#about" className="text-white/90 hover:text-white font-medium py-1" onClick={() => setIsMenuOpen(false)}>회사 소개</a>
+                <div className="pt-2 mt-2 border-t border-white/10 flex flex-col gap-2">
+                  <Button variant="ghost" size="sm" className="text-white/90 hover:text-white justify-start">
+                    kt ds <ExternalLink size={14} />
+                  </Button>
+                  <Button size="sm" className="bg-white text-black hover:bg-white/90 w-full justify-center font-semibold">
+                    AI Agent 스튜디오 <ExternalLink size={14} />
+                  </Button>
+                </div>
               </div>
-            </div>
-          </div>
-        )}
-      </nav>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.nav>
 
-      {/* Hero Section - sticky behind content */}
-      <section className="sticky top-0 z-0 h-screen flex items-center justify-center overflow-clip bg-black">
-
-        {/* Dot grid pattern */}
-        <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:60px_60px]" />
-
-        {/* Particle Engine */}
+      {/* Hero Section */}
+      <section className="relative z-20 h-screen flex items-center justify-center overflow-clip bg-black">
         <div className="absolute inset-0 z-0 pointer-events-none">
           <ParticleEngine scrollYProgress={scrollYProgress} />
         </div>
-
-        {/* Hero 텍스트 & 버튼 */}
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[150%] h-[800px] bg-[radial-gradient(circle_at_50%_100%,rgba(37,99,235,0.2)_0%,transparent_70%)] pointer-events-none z-0" />
         <div className="relative z-10 flex items-center justify-center w-full">
           <HeroContent />
         </div>
       </section>
 
-      {/* Content sections scroll over the hero */}
-      <div className="relative z-10 bg-black">
+      {/* Main Content Area */}
+      <div className="relative z-20 bg-black">
+        <div ref={contentRef} className="relative w-full pt-10">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[150%] h-[800px] bg-[radial-gradient(circle_at_50%_0%,rgba(37,99,235,0.2)_0%,transparent_70%)] pointer-events-none z-10" />
 
-        {/* Solution Section - White card with clip reveal */}
-        <motion.div
-          ref={contentRef}
-          className="bg-background will-change-[clip-path]"
-          style={{ clipPath: contentClipPath }}
-        >
-          <section id="solution" className="py-24 px-6">
-            <div className="max-w-7xl mx-auto">
-              <div className="text-center mb-24">
-                <h2 className="text-3xl md:text-4xl font-bold text-brand mb-4">KT DS의 AI 솔루션</h2>
-                <p className="text-muted-foreground text-lg">기업의 AI 도입부터 클라우드 인프라 관리까지 전 과정을 표준화하고 안정적으로 지원합니다</p>
-              </div>
-              <div className="relative mt-20">
-                <div className="flex flex-col gap-24 lg:pl-32">
-                  <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-y-32 gap-x-8 relative">
-                    <SolutionItem type="top" tag="업무에 필요한 Agent를 3분만에 만들고 싶다면" title="AI:ON-U" desc="엔터프라이즈 맞춤형 AI Agent를 빠르게 구축하는 No-Code 기반 Agent Builder (비개발자 생성 가능)" icon={<Store className="text-chart-1" />} />
-                    <SolutionItem type="top" tag="전사 AI Agent 도입을 고려하고 있다면" title="Works AI" desc="AI Agent 기반으로 다양한 업무처리를 지원하는 사내 AI Agent Portal" icon={<Utensils className="text-chart-1" />} />
-                    <SolutionItem type="top" tag="회의록 작성을 1분 만에 하고 싶다면" title="AI 회의록" desc="음성 기반 회의 자동 기록 · 요약 · 업무 추출 AI 서비스" icon={<Monitor className="text-chart-1" />} />
-                    <SolutionItem type="bottom" tag="멀티 클라우드 환경에 AI를 도입해서 비용을 30% 줄이고 싶다면" title="CloudWiz" desc="클라우드 운영 효율화와 자동화를 지원하는 관리 서비스" icon={<Car className="text-chart-1" />} />
-                    <SolutionItem type="bottom" tag="기업 내부 시스템과 AI 기능을 효율적으로 표준화하고 싶다면" title="Beast AI Gateway" desc="엔터프라이즈용 AI 기술, API를 통합 관리하는 서비스" icon={<HeartPulse className="text-chart-1" />} />
-                    <SolutionItem type="bottom" tag="보안이 중요한 폐쇄형 환경에서도 AI를 개발하고 싶다면" title="Codebox" desc="폐쇄형 설치형 AI 코드 개발 어플라이언스" icon={<ShoppingBag className="text-chart-1" />} />
-                  </div>
+          <motion.div
+            className="bg-white relative z-20 origin-bottom overflow-hidden"
+            animate={contentControls}
+          >
+            <section id="solution" className="py-32 px-6">
+              <div className="max-w-[1240px] mx-auto">
+                <div className="text-center mb-24">
+                  <h2 className="text-[54px] font-black text-gray-900 mb-6 tracking-tight leading-tight">
+                    AI Solutions by kt ds
+                  </h2>
+                  <p className="text-gray-500 text-[15px] max-w-2xl mx-auto font-medium">
+                    기업의 AI 도입부터 클라우드 인프라 관리까지 전 과정을 표준화하고 안정적으로 지원합니다
+                  </p>
                 </div>
-              </div>
-            </div>
-          </section>
-        </motion.div>
 
-        {/* Domain Multi-Agent Section - Black bg */}
-        <section id="domain" className="py-24 px-6 relative overflow-hidden bg-black">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-20">
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">도메인별 Multi-Agent</h2>
-              <p className="text-white/60 text-lg">공공/금융 등 도메인별로 KTDS의 Multi-Agent를 활용해 보세요.</p>
-            </div>
-            <div className="relative max-w-5xl mx-auto flex justify-center">
-              <Card className="relative rounded-full aspect-square w-[min(90vw,600px)] flex items-center justify-center bg-white/5 backdrop-blur border-white/10 overflow-visible">
-                <div className="absolute inset-0">
-                  <DomainNodeCircle title="금융" agents={['Audit Agent', 'SQL Agent', 'RFP Agent']} angle={-90} />
-                  <DomainNodeCircle title="공공기관" agents={['Audit Agent', 'RFP Agent', 'SQL Agent']} angle={-18} />
-                  <DomainNodeCircle title="미디어" agents={['SQL Agent', 'TA Agent']} angle={54} />
-                  <DomainNodeCircle title="일반기업" agents={['SQL Agent', 'RFP Agent', 'Codebox', 'beast AI Gateway']} angle={126} />
-                  <DomainNodeCircle title="통신/네트워크" agents={['SQL Agent', 'beast AI Gateway', 'Codebox']} angle={198} />
-                </div>
-              </Card>
-            </div>
-          </div>
-        </section>
-
-        {/* Use Cases Section - Framer Style Sticky Scroll */}
-        <section id="use-cases" className="py-32 px-6 bg-black border-b border-white/10 overflow-visible relative">
-          <div className="max-w-7xl mx-auto">
-            <div className="grid lg:grid-cols-[0.8fr_1.2fr] gap-20 items-start">
-              {/* Left Column (Sticky Sidebar) */}
-              <div className="hidden lg:block">
-                <div className="sticky top-48 h-fit">
-                  <div className="mb-24">
-                    <h2 className="text-4xl font-bold text-white mb-4 tracking-tight leading-tight">
-                      Solution, <br />
-                      <span className="text-white/30">Multi Agent Use Cases</span>
-                    </h2>
-                  </div>
-
-                  <nav className="flex flex-col border-t border-white/10">
-                    <StickyNavCase
-                      id="case-1"
+                <div className="mb-24">
+                  <h3 className="text-[18px] font-bold text-gray-900 mb-10 text-left">
+                    전사 공통 (General Business)
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <SolutionCard
+                      image="/sphere.png"
+                      title="AI:ON-U"
+                      desc="엔터프라이즈 맞춤형 AI Agent를 빠르게 구축하는 No-Code 기반 Agent Builder"
+                      tag="#3분 완성 Agent"
+                    />
+                    <SolutionCard
+                      image="/stack.png"
                       title="Works AI"
-                      subtitle="AI Portal"
-                      desc="AI 챗봇 기반으로 다양한 업무 처리를 지원하는 AI Agent 포털 서비스로 기업 전체 AI 서비스를 통합 관리하고 접근할 수 있는 중앙 플랫폼입니다."
-                      tags={["AI 비서+그룹웨어", "맞춤형", "사내 데이터 연동"]}
-                      isActive={activeCase === 0}
-                      onClick={() => scrollToCase(0)}
+                      desc="AI Agent 기반으로 다양한 업무처리를 지원하는 사내 AI Agent Portal"
+                      tag="사내 AI Agent Portal"
                     />
-                    <StickyNavCase
-                      id="case-2"
-                      title="Audit Agent"
-                      subtitle="Compliance"
-                      desc="복잡한 법규와 컴플라이언스를 자동 분석하는 규제 대응 에이전트. 대량 문서를 요약하고 핵심 리스크를 추출합니다."
-                      tags={["컴플라이언스", "법규 분석", "AI 감사"]}
-                      isActive={activeCase === 1}
-                      onClick={() => scrollToCase(1)}
+                    <SolutionCard
+                      image="/cube.png"
+                      title="AI 회의록"
+                      desc="음성 기반 회의 자동 기록 요약 및 업무 추출 AI 서비스"
+                      tag="업무 추출 AI 서비스"
                     />
-                    <StickyNavCase
-                      id="case-3"
-                      title="지능형 회의록 Agent"
-                      subtitle="Productivity"
-                      desc="음성 인식부터 요약, 액션 아이템 추출까지 자동화한 회의 솔루션으로 업무 효율을 극대화합니다."
-                      tags={["STT / NLP", "업무 생산성", "회의 자동화"]}
-                      isActive={activeCase === 2}
-                      onClick={() => scrollToCase(2)}
-                    />
-                  </nav>
-                </div>
-              </div>
-
-              {/* Right Scrolling Column */}
-              <div className="space-y-[60vh] pb-[60vh] pt-[20vh]">
-                <UseCaseVisual
-                  index={0}
-                  innerRef={caseRefs[0]}
-                  onInView={() => setActiveCase(0)}
-                  icon={<Utensils size={60} className="text-white/10" />}
-                />
-                <UseCaseVisual
-                  index={1}
-                  innerRef={caseRefs[1]}
-                  onInView={() => setActiveCase(1)}
-                  icon={<Search size={60} className="text-white/10" />}
-                />
-                <UseCaseVisual
-                  index={2}
-                  innerRef={caseRefs[2]}
-                  onInView={() => setActiveCase(2)}
-                  icon={<Monitor size={60} className="text-white/10" />}
-                />
-              </div>
-            </div>
-
-            <div className="mt-20 flex justify-center border-t border-white/5 pt-20">
-              <Button variant="outline" size="lg" className="px-12 py-3.5 text-lg font-bold border-white/20 text-white hover:bg-white/10 rounded-full">
-                AI Agent 활용 사례 더보기
-              </Button>
-            </div>
-          </div>
-        </section>
-
-        {/* Customer Testimonials - Black bg */}
-        <section id="testimonials" className="py-24 px-6 bg-black border-b border-white/10">
-          <div className="max-w-6xl mx-auto space-y-16">
-            <div className="flex flex-col items-start">
-              <div className="flex items-center gap-3 mb-6 px-4">
-                <div className="p-2 bg-white/5 rounded-lg border border-white/10 shadow-sm"><Building2 className="text-white/80" size={32} /></div>
-                <span className="text-xl font-bold text-white">한국기계산업진흥회</span>
-              </div>
-              <Card className="w-full rounded-2xl p-10 md:p-14 bg-white/5 border-white/10 shadow-xl">
-                <CardContent className="p-0 text-center">
-                  <p className="text-lg md:text-2xl font-medium text-white/70 leading-relaxed">&quot; 정책 의사결정과 실무자의 분석. 예측 업무를 지원하는 정책 지원형 AI 서비스 구축으로 업무 생산성 강화에 도움이 되었습니다. &quot;</p>
-                </CardContent>
-              </Card>
-            </div>
-            <div className="flex flex-col items-end">
-              <div className="flex items-center gap-3 mb-6 px-4">
-                <span className="text-xl font-bold text-white">경기도</span>
-                <div className="p-2 bg-white/5 rounded-lg border border-white/10 shadow-sm"><Map className="text-white/80" size={32} /></div>
-              </div>
-              <Card className="w-full rounded-2xl p-10 md:p-14 bg-white/5 border-white/10 shadow-xl">
-                <CardContent className="p-0 text-center">
-                  <p className="text-lg md:text-2xl font-medium text-white/70 leading-relaxed">&quot; 경기도가 보유한 공공데이터를 체계화하고 통합/개방 데이터 플랫폼을 안정적으로 구축하여, 도민들이 손쉽게 공공데이터에 접근/활용할 수 있는 기반을 마련해 주었습니다. &quot;</p>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </section>
-
-        {/* Why KT DS & Stats - Black bg */}
-        <section id="why" className="py-24 px-6 bg-black border-b border-white/10">
-          <div className="max-w-5xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold text-center mb-20 text-white">왜 KT DS와 함께 해야 할까요?</h2>
-            <div className="flex flex-col gap-6 mb-32">
-              <div className="flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-12">
-                <div className="w-full md:w-64 h-20 rounded-full flex items-center justify-center shrink-0 bg-white/10 text-white border border-white/20 shadow-lg">
-                  <div className="text-center">
-                    <div className="text-lg font-bold">Retriever / Analyst</div>
-                    <div className="text-xs opacity-70 font-medium">분석 · 설계</div>
                   </div>
                 </div>
-                <div className="flex flex-col gap-1 pt-2">
-                  <h4 className="font-bold text-white">데이터 협의체를 통해 데이터 분석 및 선별</h4>
-                  <p className="text-sm text-white/50 leading-relaxed">이를 기반으로 RAG 및 Agent 구현에 최적화된 체계 구축<br />원인 분석, 옵션 비교, 리스크/영향 평가, 계획 수립</p>
-                </div>
-              </div>
-              <div className="flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-12 md:ml-24">
-                <div className="w-full md:w-64 h-20 rounded-full flex items-center justify-center shrink-0 bg-white/10 text-white border border-white/20 shadow-lg">
-                  <div className="text-center">
-                    <div className="text-lg font-bold">Writer/Executor</div>
-                    <div className="text-xs opacity-70 font-medium">구축</div>
+
+                <div>
+                  <h3 className="text-[18px] font-bold text-gray-900 mb-10 text-left">
+                    IT 서비스/개발 직군 (IT Service & Dev)
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <SolutionCard
+                      image="/sphere.png"
+                      title="CloudWiz"
+                      desc="클라우드 운영 효율화와 자동화를 지원하는 관리 서비스"
+                      tag="지원하는 관리 서비스"
+                    />
+                    <SolutionCard
+                      image="/stack.png"
+                      title="Beast AI Gateway"
+                      desc="엔터프라이즈용 AI 기술, API를 통합 관리하는 서비스"
+                      tag="통합 관리하는 서비스"
+                    />
+                    <SolutionCard
+                      image="/cube.png"
+                      title="CodeBox"
+                      desc="폐쇄형 설치형 AI 코드 개발 어플라이언스"
+                      tag="어플라이언스"
+                    />
                   </div>
                 </div>
-                <div className="flex flex-col gap-1 pt-2">
-                  <h4 className="font-bold text-white"><span className="text-brand">17년 업력</span>으로 안정성 및 보안성을 갖춘 시스템 구축</h4>
-                  <p className="text-sm text-white/50 leading-relaxed">답변/문서/코드/보고서 작성<br /><span className="font-bold text-white/80">유연한 워크플로우</span> 생성 기능으로 다양한 비즈니스에 최적화</p>
+              </div>  {/* max-w-[1240px] closing */}
+            </section>
+          </motion.div>
+        </div>
+
+        <section id="domain" className="py-32 px-6 relative overflow-hidden bg-black pb-48">
+          <div className="max-w-[1200px] mx-auto">
+            <div className="text-left mb-16">
+              <h2 className="text-[44px] font-black text-white mb-4 tracking-tight">도메인별 Multi-Agent</h2>
+              <p className="text-gray-400 text-sm font-medium">공공/금융 등 도메인별로 KTDS의 Multi-Agent를 활용해 보세요.</p>
+            </div>
+
+            <div className="flex gap-4 w-full">
+              <DomainAccordionItem
+                title="금융"
+                agents={['Audit Agent', 'SQL Agent', 'RFP Agent']}
+                image="https://images.unsplash.com/photo-1643258367012-1e1a983489e5?auto=format&fit=crop&q=80&w=1200"
+                isActive={activeDomain === 0}
+                onMouseEnter={() => setActiveDomain(0)}
+              />
+              <DomainAccordionItem
+                title="공공기관"
+                agents={['Audit Agent', 'RFP Agent', 'SQL Agent']}
+                image="https://images.unsplash.com/photo-1665865298238-ec7a85eb3f9a?auto=format&fit=crop&q=80&w=1200"
+                isActive={activeDomain === 1}
+                onMouseEnter={() => setActiveDomain(1)}
+              />
+              <DomainAccordionItem
+                title="일반기업"
+                agents={['SQL Agent', 'RFP Agent', 'Codebox', 'beast AI Gateway']}
+                image="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1200"
+                isActive={activeDomain === 2}
+                onMouseEnter={() => setActiveDomain(2)}
+              />
+              <DomainAccordionItem
+                title="미디어"
+                agents={['SQL Agent', 'TA Agent']}
+                image="https://images.unsplash.com/photo-1652166553819-f892e61fc12c?auto=format&fit=crop&q=80&w=1200"
+                isActive={activeDomain === 3}
+                onMouseEnter={() => setActiveDomain(3)}
+              />
+              <DomainAccordionItem
+                title="통신/네트워크"
+                agents={['SQL Agent', 'beast AI Gateway', 'Codebox']}
+                image="https://images.unsplash.com/photo-1680992044138-ce4864c2b962?auto=format&fit=crop&q=80&w=1200"
+                isActive={activeDomain === 4}
+                onMouseEnter={() => setActiveDomain(4)}
+              />
+            </div>
+          </div>
+        </section>
+
+        <section id="use-cases" className="py-32 bg-black relative">
+          <div className="max-w-[1200px] mx-auto w-full min-h-[150vh] relative flex flex-col items-start">
+            <div className="w-full mb-12">
+              <h2 className="text-[50px] font-black bg-gradient-to-r from-white to-[#ABBBE7] bg-clip-text text-transparent tracking-tight leading-tight">
+                Solution, <br />
+                Multi Agent <br />
+                Use Cases
+              </h2>
+            </div>
+
+            <div className="w-full flex flex-col lg:flex-row items-start relative gap-0">
+              <div className="w-full lg:w-1/2 lg:sticky lg:top-0 lg:h-screen flex flex-col justify-start pt-[140px] z-20 pr-12 lg:pr-16">
+                <div className="flex flex-col">
+                  {useCaseItems.map((item, index) => {
+                    const isActive = index === activeUseCase;
+                    return (
+                      <div key={item.id} className="group py-[23px] border-b border-white/10">
+                        <h3
+                          className={`text-[28px] tracking-tight transition-all duration-500 cursor-pointer flex items-center gap-4 ${isActive ? 'text-white' : 'text-white/30 hover:text-white/50'}`}
+                          onClick={() => setActiveUseCase(index)}
+                        >
+                          <span className="font-bold">{item.titlePrefix}</span>
+                          {item.titleSuffix && <span className="font-light">{item.titleSuffix}</span>}
+                        </h3>
+
+                        <AnimatePresence mode="wait">
+                          {isActive && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: "auto", opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                              className="overflow-hidden"
+                            >
+                              <div className="mt-2.5">
+                                <motion.p
+                                  initial={{ y: 10, opacity: 0 }}
+                                  animate={{ y: 0, opacity: 1 }}
+                                  transition={{ duration: 0.3 }}
+                                  className="text-[16px] text-white/70 leading-relaxed max-w-lg mb-6 whitespace-pre-line"
+                                >
+                                  {item.desc}
+                                </motion.p>
+
+                                {item.tags && (
+                                  <motion.div
+                                    initial={{ y: 20, opacity: 0 }}
+                                    animate={{ y: 0, opacity: 1 }}
+                                    transition={{ delay: 0.2 }}
+                                    className="flex flex-wrap gap-2 mb-8"
+                                  >
+                                    {item.tags.map((tag: string, i: number) => {
+                                      const colorClass = item.themeColor === 'blue' ? 'text-blue-400 bg-blue-400/10' :
+                                        item.themeColor === 'sky' ? 'text-sky-400 bg-sky-400/10' :
+                                          'text-emerald-400 bg-emerald-400/10';
+                                      return (
+                                        <span key={i} className={`px-4 py-1.5 rounded-full text-[14px] font-medium ${colorClass}`}>
+                                          {tag}
+                                        </span>
+                                      );
+                                    })}
+                                  </motion.div>
+                                )}
+
+                                {item.features && (
+                                  <motion.div
+                                    initial={{ y: 20, opacity: 0 }}
+                                    animate={{ y: 0, opacity: 1 }}
+                                    transition={{ delay: 0.3 }}
+                                    className="border border-white/10 rounded-[16px] p-6 mb-4"
+                                  >
+                                    <ul className="space-y-3">
+                                      {item.features.map((feature: string, i: number) => (
+                                        <motion.li
+                                          key={i}
+                                          initial={{ x: -10, opacity: 0 }}
+                                          animate={{ x: 0, opacity: 1 }}
+                                          transition={{ delay: 0.4 + i * 0.1 }}
+                                          className="flex items-start gap-3 text-white/90 text-[16px] leading-snug font-light"
+                                        >
+                                          <div className="w-1 h-1 rounded-full bg-white/50 mt-2.5 shrink-0" />
+                                          <span>{feature}</span>
+                                        </motion.li>
+                                      ))}
+                                    </ul>
+                                  </motion.div>
+                                )}
+
+                                <motion.a
+                                  href="#"
+                                  initial={{ opacity: 0 }}
+                                  animate={{ opacity: 1 }}
+                                  transition={{ delay: 0.6 }}
+                                  className="text-white/80 text-[15px] font-normal hover:text-white transition-colors flex items-center gap-1 mt-4"
+                                >
+                                  더보기 &gt;
+                                </motion.a>
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div className="w-full lg:w-1/2 flex flex-col gap-[70vh] pb-[50vh] pt-[140px] items-center lg:items-end overflow-visible">
+                {useCaseItems.map((item, index) => (
+                  <UseCaseVisual key={index} image={item.image} index={index} setActive={setActiveUseCase} />
+                ))}
+              </div>
+            </div>
+
+            <div className="w-full flex justify-center -mt-16 relative z-30">
+              <Button
+                className="h-10 w-[240px] text-[15px] font-normal bg-white/5 backdrop-blur-md text-white hover:bg-white/10 rounded-full transition-all duration-300 hover:scale-105 active:scale-95 group flex items-center justify-center relative overflow-hidden"
+              >
+                <span className="transition-transform duration-300 group-hover:-translate-x-2">
+                  AI Agent / Solution 더보기
+                </span>
+                <ArrowUp
+                  size={16}
+                  className="absolute right-8 opacity-0 group-hover:opacity-100 group-hover:right-6 transition-all duration-300 rotate-45"
+                />
+              </Button>
+            </div>
+          </div>
+        </section>
+
+        <section id="process" className="py-40 px-6 bg-black relative overflow-hidden">
+          <div className="max-w-[1200px] mx-auto relative z-10">
+            <div className="text-center mb-24">
+              <h2 className="text-[50px] font-black bg-gradient-to-r from-white to-[#ABBBE7] bg-clip-text text-transparent mb-6 tracking-tighter leading-tight">
+                Built for Enterprise.<br />
+                Proven by Scale.
+              </h2>
+              <p className="text-white/50 text-xl max-w-2xl mx-auto">
+                기업의 복잡한 요구사항을 분석부터 안정화까지,<br className="hidden md:block" />
+                표준화된 프로세스로 완벽하게 해결합니다.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {[
+                { title: "분석/설계", subtitle: "Retriever / Analyst", desc: "데이터 협의체를 통해 도메인 분석 및 선별, Agent 구현에 최적화된 체계 구축", icon: <Search className="text-blue-400" /> },
+                { title: "개발/구현", subtitle: "Writer / Executor", desc: "Enterprise 맞춤형 워크플로우 생성 및 RAG 엔진 기반 지식 증강 최적화", icon: <Zap className="text-emerald-400" /> },
+                { title: "검증/테스트", subtitle: "Validator / Quality", desc: "답변 정확도 및 안정성 검증을 위한 자동화 테스트와 멀티 레벨 QA 수행", icon: <Target className="text-purple-400" /> },
+                { title: "운영/안정화", subtitle: "Maintainer / SRE", desc: "실시간 모니터링 및 성능 최적화를 통해 멈춤 없는 엔터프라이즈 AI 환경 제공", icon: <ShieldCheck className="text-rose-400" /> }
+              ].map((step, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ y: 20, opacity: 0 }}
+                  whileInView={{ y: 0, opacity: 1 }}
+                  transition={{ delay: i * 0.1 }}
+                  viewport={{ once: true }}
+                  className="bg-white/[0.03] backdrop-blur-xl border border-white/10 rounded-[28px] p-8 hover:border-blue-500/30 transition-all duration-500 group"
+                >
+                  <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500">
+                    {step.icon}
+                  </div>
+                  <div className="mb-4">
+                    <div className="text-blue-400 text-xs font-bold tracking-widest uppercase mb-1">{step.subtitle}</div>
+                    <h3 className="text-2xl font-bold text-white">{step.title}</h3>
+                  </div>
+                  <p className="text-white/40 text-[15px] leading-relaxed font-light">
+                    {step.desc}
+                  </p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="stats" className="py-40 px-6 bg-black border-y border-white/5">
+          <div className="max-w-[1200px] mx-auto">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 md:gap-20">
+              {[
+                { label: "IT Engineer", value: 1700, suffix: "+", color: "text-blue-400" },
+                { label: "Client", value: 150, suffix: "+", color: "text-emerald-400" },
+                { label: "Solution", value: 18, suffix: "", color: "text-purple-400" },
+                { label: "AI Agent", value: 600, suffix: "+", color: "text-rose-400" }
+              ].map((stat, i) => (
+                <div key={i} className="flex flex-col items-center lg:items-start group">
+                  <span className={`${stat.color} text-[13px] font-bold tracking-[0.2em] uppercase mb-6`}>{stat.label}</span>
+                  <div className="text-6xl md:text-8xl font-black text-white tracking-tighter mb-4">
+                    <AnimatedCounter from={0} to={stat.value} />
+                    <span className="text-white/20 font-light">{stat.suffix}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="logos" className="py-40 px-6 bg-black relative">
+          <div className="max-w-[1200px] mx-auto">
+            <div className="text-center mb-20">
+              <span className="text-blue-400 font-bold tracking-widest text-xs uppercase block mb-4">Trusted by Market Leaders</span>
+              <h2 className="text-[40px] font-bold text-white tracking-tight">이미 수많은 기업들이 KT DS와 함께하고 있습니다</h2>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-12 items-center opacity-40 grayscale group-hover:opacity-100 transition-all duration-1000">
+              {Array.from({ length: 12 }).map((_, i) => (
+                <div key={i} className="flex justify-center group/logo cursor-pointer">
+                  <div className="text-3xl font-black text-white/50 group-hover/logo:text-white transition-colors tracking-tighter">kt ds</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="testimonials" className="py-40 px-6 bg-[#050505] relative overflow-hidden">
+          <div className="max-w-[1200px] mx-auto relative z-10">
+            <div className="text-center mb-32">
+              <h2 className="text-[50px] font-black bg-gradient-to-r from-white to-[#ABBBE7] bg-clip-text text-transparent mb-6 tracking-tighter leading-tight">
+                고객의 목소리가 증명하는<br />KT DS의 가치
+              </h2>
+            </div>
+            <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+              {[
+                { user: "Conor", handle: "@cnrstvns", quote: "KT DS의 AI 포털은 우리가 사용해 본 최고의 솔루션 중 하나입니다. 단 15분 만에 업무 환경에 완전히 녹아들었습니다. 놀랍네요!", avatar: "https://i.pravatar.cc/150?u=a1" },
+                { user: "경기도청", handle: "@gg_korea", quote: "방대한 공공데이터를 체계화하고 통합 개방 플랫폼을 완벽하게 구축하여, 도민들의 데이터 접근성을 혁신적으로 끌어올리는 데 성공했습니다.", avatar: "https://i.pravatar.cc/150?u=a2" },
+                { user: "한기산", handle: "@kamea_org", quote: "정책 의사결정과 실무자의 분석, 예측 업무를 지원하는 정책 지원형 AI 서비스 구축으로 업무 생산성 타파에 압도적인 도움이 되었습니다.", avatar: "https://i.pravatar.cc/150?u=a3" },
+                { user: "John", handle: "@johncjago", quote: "원인 분석부터 리스크 평가까지 설계의 빈틈을 완벽히 메워주는 모습이 인상적이었습니다. UI/UX 역시 사용성 면에서 훌륭합니다.", avatar: "https://i.pravatar.cc/150?u=a4" },
+                { user: "Darren Pinder", handle: "@dmpinder", quote: "놀라울 정도로 효율적입니다! 이제 모든 엔터프라이즈 업무를 AI가 미리 감지하고 알림을 보내주어 위험 대응이 가능해졌습니다. 😍", avatar: "https://i.pravatar.cc/150?u=a5" },
+                { user: "금융권 A사", handle: "@bank_a", quote: "RAG 엔진 기반 지식 증강 최적화 덕분에 고객 응대 효율이 200% 이상 향상되었습니다. 강력 추천합니다.", avatar: "https://i.pravatar.cc/150?u=a6" }
+              ].map((post, i) => (
+                <div key={i} className="break-inside-avoid bg-white/[0.03] backdrop-blur-xl border border-white/5 rounded-[24px] p-8 hover:border-white/20 transition-all duration-300 group">
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="flex items-center gap-3">
+                      <img src={post.avatar} className="w-10 h-10 rounded-full border border-white/10" alt="" />
+                      <div>
+                        <div className="text-white font-bold text-[15px]">{post.user}</div>
+                        <div className="text-white/30 text-[13px]">{post.handle}</div>
+                      </div>
+                    </div>
+                    <div className="text-blue-500/50">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.84 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" />
+                      </svg>
+                    </div>
+                  </div>
+                  <p className="text-white/80 text-[16px] leading-[1.6] font-light">{post.quote}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="studio-v2" className="py-32 px-6 bg-black">
+          <div className="max-w-[1240px] mx-auto">
+            {/* Main CTA Card */}
+            <div className="relative rounded-[40px] overflow-hidden bg-[#0A0A0A] border border-white/5 mb-16 h-[500px] flex items-center group">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_50%,rgba(37,99,235,0.15)_0%,transparent_60%)]" />
+
+              {/* Visual Background (Particle-like dots) */}
+              <div className="absolute inset-0 opacity-40 pointer-events-none overflow-hidden">
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[length:24px_24px]" />
+                <div className="absolute top-0 right-0 w-[600px] h-full bg-gradient-to-l from-blue-500/10 to-transparent" />
+                <div className="absolute top-20 right-40 w-4 h-4 rounded-full bg-blue-500/20 blur-xl animate-pulse" />
+                <div className="absolute bottom-20 right-60 w-8 h-8 rounded-full bg-blue-400/10 blur-2xl animate-pulse" />
+              </div>
+
+              <div className="relative z-10 pl-16 md:pl-24 max-w-2xl">
+                <h2 className="text-[52px] font-black text-white mb-6 tracking-tight leading-tight">
+                  AI Agent 스튜디오
+                </h2>
+                <p className="text-white/60 text-lg mb-4 leading-relaxed break-keep font-medium">
+                  필요한 Agent, Tool, MCP를 빠르게 확인하고 시작하세요.<br />
+                  쉽게 개발 가능한 AI 아키텍처와 Delivery 가이드를 제공합니다.
+                </p>
+
+                <button className="mt-8 flex items-center gap-2 px-8 py-3.5 rounded-full border border-white/20 text-white/90 font-bold text-sm hover:bg-white/5 transition-all group/btn">
+                  더보기 &gt;
+                </button>
+              </div>
+
+              {/* Particle Visual Representation */}
+              <div className="absolute right-0 top-0 h-full w-1/2 pointer-events-none opacity-80 hidden lg:block">
+                <div className="relative w-full h-full">
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full bg-blue-500/5 blur-[100px]" />
+                  {/* Simulated particles */}
+                  {[...Array(20)].map((_, i) => (
+                    <div
+                      key={i}
+                      className="absolute rounded-full bg-white/20"
+                      style={{
+                        width: Math.random() * 4 + 1 + 'px',
+                        height: Math.random() * 4 + 1 + 'px',
+                        top: Math.random() * 80 + 10 + '%',
+                        left: Math.random() * 80 + 10 + '%',
+                        opacity: Math.random() * 0.5,
+                        animation: `float ${Math.random() * 3 + 2}s infinite ease-in-out`
+                      }}
+                    />
+                  ))}
                 </div>
               </div>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-12 text-center border-t border-white/10 pt-24">
-              <div className="flex flex-col items-center">
-                <span className="text-white/40 text-sm font-medium mb-4 italic">IT Engineer</span>
-                <div className="text-5xl md:text-7xl font-black text-white mb-6 tracking-tighter">1700</div>
-                <p className="text-white/50 text-xs md:text-sm leading-relaxed">IT 신화의 주역<br />Cloud와 AI 기술의 리더</p>
-              </div>
-              <div className="flex flex-col items-center">
-                <span className="text-white/40 text-sm font-medium mb-4 italic">Client</span>
-                <div className="text-5xl md:text-7xl font-black text-white mb-6 tracking-tighter">150</div>
-                <p className="text-white/50 text-xs md:text-sm leading-relaxed">다양한 분야의<br />글로벌 고객사</p>
-              </div>
-              <div className="flex flex-col items-center">
-                <span className="text-white/40 text-sm font-medium mb-4 italic">Solution</span>
-                <div className="text-5xl md:text-7xl font-black text-white mb-6 tracking-tighter">18</div>
-                <p className="text-white/50 text-xs md:text-sm leading-relaxed">AX를 리딩할<br />자체 개발 솔루션</p>
-              </div>
-              <div className="flex flex-col items-center">
-                <span className="text-white/40 text-sm font-medium mb-4 italic">AI Agent</span>
-                <div className="text-5xl md:text-7xl font-black text-white mb-6 font-mono tracking-tighter">600+</div>
-                <p className="text-white/50 text-xs md:text-sm leading-relaxed">분야별 최적화된<br />자체 개발 에이전트</p>
-              </div>
+            {/* Three Feature Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {[
+                {
+                  title: "Agent 개발",
+                  desc: "AI Agent 개발을 위한 통합 개발 환경과 도구를 제공합니다.",
+                  icon: <Code className="text-white/80" strokeWidth={1.5} size={20} />
+                },
+                {
+                  title: "Core Agent",
+                  desc: "사전 개발된 Core Agent를 활용하여 빠른 프로토타이핑이 가능합니다.",
+                  icon: <Cpu className="text-white/80" strokeWidth={1.5} size={20} />
+                },
+                {
+                  title: "Core Agent",
+                  desc: "사전 개발된 Core Agent를 활용하여 빠른 프로토타이핑이 가능합니다.",
+                  icon: <Cpu className="text-white/80" strokeWidth={1.5} size={20} />
+                }
+              ].map((item, i) => (
+                <div key={i} className="bg-[#0A0A0A] border border-white/5 rounded-[32px] p-10 hover:border-white/10 transition-all duration-300">
+                  <div className="size-10 rounded-full bg-white/5 flex items-center justify-center mb-8">
+                    {item.icon}
+                  </div>
+                  <h3 className="text-white text-xl font-bold mb-4">{item.title}</h3>
+                  <p className="text-white/40 text-[15px] leading-relaxed break-keep font-medium">
+                    {item.desc}
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
         </section>
 
-        {/* AI Agent Studio - Black bg */}
-        <section id="studio" className="py-24 px-6 bg-black">
-          <div className="max-w-7xl mx-auto text-center">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-10">AI Agent 스튜디오</h2>
-            <p className="text-lg md:text-xl text-white/50 mb-10 max-w-3xl mx-auto leading-relaxed">
-              필요한 Agent, Tool, MCP를 빠르게 확인하고 시작하세요.<br className="hidden md:block" />
-              쉽게 개발 가능한 AI 아키텍처와 Delivery 가이드를 제공합니다.
-            </p>
-            <Button variant="outline" size="lg" className="mb-20 border-white/20 text-white hover:bg-white/10">
-              더보기 <ChevronRight size={18} />
-            </Button>
-
-            <div className="grid md:grid-cols-4 gap-8">
-              <StudioCard icon={<Settings className="text-white/60" />} title="Agent 개발" desc="AI Agent 개발을 위한 통합 개발 환경과 도구를 제공합니다." />
-              <StudioCard icon={<Box className="text-white/60" />} title="Core Agent" desc="사전 개발된 Core Agent를 활용하여 빠른 프로토타이핑이 가능합니다." />
-              <StudioCard icon={<Rocket className="text-white/60" />} title="Use Case 패키징" desc="Use case 단위로 패키징된 솔루션을 통해 즉시 배포할 수 있습니다." />
-              <StudioCard icon={<BookOpen className="text-white/60" />} title="Delivery 가이드" desc="AI 아키텍처 소개 및 배포 가이드를 통해 안정적인 운영을 지원합니다." />
-            </div>
-          </div>
-        </section>
-
-        {/* Call To Action (Bottom) */}
-        <section className="relative overflow-hidden bg-black py-40 flex items-center justify-center border-t border-white/10">
-          {/* Dot grid pattern */}
-          <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:60px_60px]" />
-
-          {/* Particle Engine */}
-          <div className="absolute inset-0 top-20 z-0 opacity-60 pointer-events-none">
-            <ParticleEngine mode="logo" />
-          </div>
-
-          <div className="relative z-10 flex flex-col items-center justify-center max-w-4xl mx-auto px-6 text-center">
-            <h2 className="text-4xl md:text-[60px] font-black text-white mb-10 tracking-tight leading-tight">
-              Intelligence. <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-white/40">In Action.</span>
-            </h2>
-            <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
-              <Button className="group bg-white text-[#0a0a0f] hover:bg-white/90 w-[140px] h-[37px] py-0 text-[14px] font-semibold rounded-full transition-all flex items-center justify-center gap-0">
-                무료체험 신청
-                <ChevronRight size={16} className="max-w-0 opacity-0 group-hover:max-w-[24px] group-hover:opacity-100 group-hover:ml-1 transition-all duration-300 overflow-hidden" />
-              </Button>
-              <Button className="group bg-white/10 text-white border border-white/10 backdrop-blur-md hover:bg-white/20 w-[140px] h-[37px] py-0 text-[14px] font-semibold rounded-full transition-all flex items-center justify-center gap-0">
-                솔루션 문의
-                <ChevronRight size={16} className="max-w-0 opacity-0 group-hover:max-w-[24px] group-hover:opacity-100 group-hover:ml-1 transition-all duration-300 overflow-hidden" />
-              </Button>
-            </div>
-          </div>
-        </section>
-
-        {/* Footer */}
-        <footer className="bg-black text-white py-20 px-6 border-t border-white/10">
-          <div className="max-w-7xl mx-auto">
-            <div className="grid md:grid-cols-5 gap-12 mb-20">
-              <div className="col-span-2">
-                <div className="flex items-center gap-2 mb-8"><span className="text-3xl font-black text-white tracking-tighter uppercase">kt ds</span></div>
-                <p className="text-sm text-white/80 leading-relaxed mb-8 max-w-xs">비즈니스를 위한 엔터프라이즈급 AI Agent 플랫폼<br />Biz.AI와 함께 데이터 혁신을 시작하세요.</p>
-                <div className="flex gap-4">
-                  <a href="#" className="size-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"><Linkedin size={18} /></a>
-                  <a href="#" className="size-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"><Youtube size={18} /></a>
-                  <a href="#" className="size-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"><Mail size={18} /></a>
+        <footer className="bg-black pt-32 pb-16 px-6 border-t border-white/5">
+          <div className="max-w-[1200px] mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-12 mb-24">
+              <div className="flex flex-col">
+                <div className="mb-8">
+                  <h4 className="text-[22px] font-bold text-white tracking-tight">kt ds</h4>
+                </div>
+                <p className="text-white/60 text-[14px] leading-relaxed mb-10 break-keep font-medium">
+                  비즈니스를 위한 엔터프라이즈급<br />
+                  AI Agent 플랫폼
+                </p>
+                <div className="flex gap-4 mt-auto">
+                  <a href="#" className="text-white/40 hover:text-white transition-all">
+                    <Linkedin size={22} strokeWidth={1.5} />
+                  </a>
+                  <a href="#" className="text-white/40 hover:text-white transition-all">
+                    <Youtube size={22} strokeWidth={1.5} />
+                  </a>
+                  <a href="#" className="text-white/40 hover:text-white transition-all">
+                    <Mail size={22} strokeWidth={1.5} />
+                  </a>
                 </div>
               </div>
+
               <div>
-                <h5 className="text-white font-bold mb-8 uppercase text-xs tracking-widest">AI 솔루션</h5>
-                <ul className="space-y-4 text-sm font-medium text-white/80">
+                <h5 className="text-white font-bold mb-8 text-[15px]">AI 솔루션</h5>
+                <ul className="space-y-4 text-[14px] font-medium text-white/40">
                   <li><a href="#" className="hover:text-white transition-colors">고객지원·VOC 자동화</a></li>
                   <li><a href="#" className="hover:text-white transition-colors">데이터 기반 의사결정</a></li>
                   <li><a href="#" className="hover:text-white transition-colors">내부 운영·업무 자동화</a></li>
@@ -409,9 +887,10 @@ const App = () => {
                   <li><a href="#" className="hover:text-white transition-colors">리스크·품질 관리</a></li>
                 </ul>
               </div>
+
               <div>
-                <h5 className="text-white font-bold mb-8 uppercase text-xs tracking-widest">제품</h5>
-                <ul className="space-y-4 text-sm font-medium text-white/80">
+                <h5 className="text-white font-bold mb-8 text-[15px]">제품</h5>
+                <ul className="space-y-4 text-[14px] font-medium text-white/40">
                   <li><a href="#" className="hover:text-white transition-colors">데이터 Agent</a></li>
                   <li><a href="#" className="hover:text-white transition-colors">분류·분석 Agent</a></li>
                   <li><a href="#" className="hover:text-white transition-colors">리포트·문서 Agent</a></li>
@@ -419,9 +898,10 @@ const App = () => {
                   <li><a href="#" className="hover:text-white transition-colors">AI Agent 스튜디오</a></li>
                 </ul>
               </div>
+
               <div>
-                <h5 className="text-white font-bold mb-8 uppercase text-xs tracking-widest">회사</h5>
-                <ul className="space-y-4 text-sm font-medium text-white/80">
+                <h5 className="text-white font-bold mb-8 text-[15px]">회사</h5>
+                <ul className="space-y-4 text-[14px] font-medium text-white/40">
                   <li><a href="#" className="hover:text-white transition-colors">우수 사례</a></li>
                   <li><a href="#" className="hover:text-white transition-colors">가격 안내</a></li>
                   <li><a href="#" className="hover:text-white transition-colors">문서</a></li>
@@ -430,7 +910,8 @@ const App = () => {
                 </ul>
               </div>
             </div>
-            <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6 text-[11px] font-bold uppercase tracking-wider text-white/70">
+
+            <div className="pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-[13px] text-white/30 font-medium">
               <p>© 2026 AI Biz Portal. All rights reserved.</p>
               <div className="flex gap-8">
                 <a href="#" className="hover:text-white transition-colors">개인정보처리방침</a>
@@ -440,172 +921,27 @@ const App = () => {
             </div>
           </div>
         </footer>
-      </div >
-    </div >
-  );
-};
-
-// Studio Card Component
-const StudioCard = ({ icon, title, desc }: { icon: React.ReactElement; title: string; desc: string }) => (
-  <Card className="p-10 rounded-xl bg-white/5 border-white/10 hover:bg-white/10 hover:-translate-y-1 transition-all duration-300 group flex flex-col items-center md:items-start text-center md:text-left shadow-lg">
-    <div className="size-14 bg-white/5 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-      {React.cloneElement(icon, { size: 28 })}
-    </div>
-    <h4 className="text-xl font-bold text-white mb-4">{title}</h4>
-    <p className="text-sm text-white/50 leading-relaxed">{desc}</p>
-  </Card>
-);
-
-const SolutionItem = ({ type, tag, title, desc, icon }: { type: 'top' | 'bottom'; tag: string; title: string; desc: string; icon: React.ReactElement }) => (
-  <div className={`flex flex-col items-center relative ${type === 'bottom' ? 'md:mt-12' : ''}`}>
-    {type === 'top' && (
-      <div className="text-center mb-10 min-h-[120px] flex flex-col justify-end">
-        <p className="text-chart-1 text-xs md:text-sm font-medium mb-2 px-4">{tag}</p>
-        <h4 className="text-2xl md:text-3xl font-bold text-foreground">{title}</h4>
-        <p className="text-[11px] md:text-[13px] text-muted-foreground mt-2 px-6 leading-relaxed max-w-[280px] mx-auto">{desc}</p>
-      </div>
-    )}
-    <div className="relative group">
-      <div className="w-24 h-28 bg-card shadow-md flex items-center justify-center relative transition-transform duration-300 group-hover:scale-110 border-2 border-border rounded-lg" style={{ clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)' }}>
-        <div className="w-20 h-24 bg-card flex items-center justify-center border-4 border-chart-1" style={{ clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)' }}>{icon}</div>
-      </div>
-    </div>
-    {type === 'bottom' && (
-      <div className="text-center mt-10 min-h-[120px] flex flex-col justify-start">
-        <p className="text-chart-1 text-xs md:text-sm font-medium mb-2 px-4">{tag}</p>
-        <h4 className="text-2xl md:text-3xl font-bold text-foreground">{title}</h4>
-        <p className="text-[11px] md:text-[13px] text-muted-foreground mt-2 px-6 leading-relaxed max-w-[280px] mx-auto">{desc}</p>
-      </div>
-    )}
-  </div>
-);
-
-/** Sticky Nav Case Component */
-const StickyNavCase = ({ id, title, subtitle, desc, tags, isActive, onClick, className }: { id: string; title: string; subtitle?: string; desc: string; tags: string[]; isActive: boolean; onClick: () => void; className?: string }) => (
-  <button
-    onClick={onClick}
-    className={`w-full text-left py-10 border-b border-white/10 transition-all duration-700 outline-none group ${isActive ? 'opacity-100' : 'opacity-30 hover:opacity-100'} ${className}`}
-  >
-    <div className="flex flex-col gap-4">
-      <div className={`text-3xl font-bold tracking-tight transition-all duration-700 ${isActive ? 'text-white' : 'text-white/60'}`}>
-        {title} {subtitle && <span className={`font-light ml-2 ${isActive ? 'text-white/40' : 'text-white/20'}`}>{subtitle}</span>}
       </div>
 
-      <AnimatePresence mode="wait">
-        {isActive && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="overflow-hidden"
+      {/* Scroll to Top FAB */}
+      <AnimatePresence>
+        {showTopBtn && (
+          <motion.button
+            initial={{ opacity: 0, y: 20, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.9 }}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={scrollToTop}
+            className="fixed bottom-8 right-8 z-[100] p-4 bg-white text-black hover:bg-gray-100/90 rounded-full shadow-[0_10px_40px_rgba(255,255,255,0.2)] transition-all backdrop-blur-md"
+            aria-label="맨 위로 가기"
           >
-            <div className="pt-4 space-y-8">
-              <p className="text-lg text-white/50 leading-relaxed font-light max-w-md">
-                {desc}
-              </p>
-
-              <div className="flex flex-wrap gap-2">
-                {tags.map((tag, idx) => (
-                  <span key={idx} className="px-3 py-1.5 rounded-full border border-white/10 bg-white/5 text-[11px] font-medium text-white/40 whitespace-nowrap">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-
-              <div className="pt-4">
-                <span className="text-white font-medium flex items-center gap-2 group/link cursor-pointer">
-                  더보기
-                  <span className="text-white/40 group-hover/link:translate-x-1 transition-transform inline-block"> &gt; </span>
-                </span>
-              </div>
-            </div>
-          </motion.div>
+            <ArrowUp size={24} strokeWidth={2.5} />
+          </motion.button>
         )}
       </AnimatePresence>
     </div>
-  </button>
-);
-
-/** Use Case Visual Card Component - Simplified for Images Only */
-const UseCaseVisual = ({ index, onInView, icon, innerRef }: any) => {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(scrollRef, { amount: 0.5, margin: "-10% 0px -10% 0px" });
-
-  useEffect(() => {
-    if (isInView) {
-      onInView(index);
-    }
-  }, [isInView, index, onInView]);
-
-  return (
-    <div
-      ref={(node) => {
-        if (node) {
-          (scrollRef as any).current = node;
-          if (innerRef) innerRef.current = node;
-        }
-      }}
-      className="w-full scroll-mt-[50vh]"
-    >
-      <Card className="bg-white/[0.03] border-white/10 overflow-hidden group/card aspect-video flex items-center justify-center relative rounded-3xl border border-white/10 shadow-2xl">
-        <div className="absolute inset-0 bg-gradient-to-br from-brand/5 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-700" />
-
-        {/* Placeholder for Screen Image */}
-        <div className="relative z-10 flex flex-col items-center gap-6">
-          <div className="p-10 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-xl">
-            {icon}
-          </div>
-          <div className="text-white/20 font-mono tracking-widest text-[10px] uppercase">
-            Service UI Visualization
-          </div>
-        </div>
-
-        {/* Decorative elements */}
-        <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-black/40 to-transparent" />
-      </Card>
-    </div>
   );
 };
-/** 원형 배치용 Domain 노드 - angle: 0=오른쪽, 90=아래, -90=위 (도) */
-const DomainNodeCircle = ({ title, agents, angle }: { title: string; agents: string[]; angle: number }) => {
-  const radius = 0.38; // 원의 반지름 (컨테이너 대비 비율)
-  const rad = (angle * Math.PI) / 180;
-  const x = 50 + radius * 100 * Math.cos(rad);
-  const y = 50 + radius * 100 * Math.sin(rad);
-  const badgeDist = 72;
-  const badgeX = Math.cos(rad) * badgeDist;
-  const badgeY = Math.sin(rad) * badgeDist;
-
-  return (
-    <div
-      className="absolute size-32 md:size-40 -ml-16 md:-ml-20 -mt-16 md:-mt-20 flex items-center justify-center transition-all duration-700 hover:scale-110 group z-20"
-      style={{ left: `${x}%`, top: `${y}%` }}
-    >
-      <div className="absolute inset-0 bg-brand/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
-      <div className="relative size-24 md:size-32 rounded-full bg-white/10 backdrop-blur border border-white/20 flex items-center justify-center text-center p-4">
-        <span className="text-white text-xs md:text-sm font-bold leading-tight">{title}</span>
-      </div>
-
-      <div className="absolute opacity-0 group-hover:opacity-100 transition-all duration-500 pointer-events-none whitespace-nowrap"
-        style={{ transform: `translate(${badgeX}px, ${badgeY}px)` }}>
-        <div className="flex flex-col gap-1.5 p-3 rounded-xl bg-black/80 backdrop-blur border border-white/10 shadow-2xl">
-          {agents.map((agent, i) => (
-            <div key={i} className="flex items-center gap-2">
-              <div className="size-1 rounded-full bg-brand" />
-              <span className="text-white/80 text-[10px] md:text-xs font-medium uppercase tracking-wider">{agent}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const Tag = ({ text }: { text: string }) => (
-  <Badge variant="outline" className="border-brand text-brand rounded-full px-4 py-1.5 font-medium whitespace-nowrap">
-    {text}
-  </Badge>
-);
 
 export default App;

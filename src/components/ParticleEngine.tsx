@@ -1,8 +1,8 @@
 import { useRef, useMemo, useEffect } from 'react';
-import { motion, useTransform, useMotionValue } from 'motion/react';
+import { motion, useTransform, useMotionValue, useInView } from 'motion/react';
 import type { MotionValue } from 'motion/react';
 
-const PARTICLE_COUNT = 30000;
+const PARTICLE_COUNT = 25000;
 const RING_CENTER = 0.72; // Larger overall shape
 const RING_SIGMA = 0.12; // Tighter core density
 const MOUSE_INFLUENCE = 0.01;
@@ -163,9 +163,11 @@ export default function ParticleEngine({ scrollYProgress, className = '', mode =
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
+  const isInView = useInView(canvasRef);
+
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas || !isInView) return;
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
@@ -266,7 +268,7 @@ export default function ParticleEngine({ scrollYProgress, className = '', mode =
       cancelAnimationFrame(rafId);
       window.removeEventListener('resize', resize);
     };
-  }, [particles]);
+  }, [particles, isInView]);
 
   // If mode is logo, no fade. Otherwise, fade according to scrollYProgress
   // We handle the hook unconditionally so React is happy, but return a static value if no scroll progress exists
