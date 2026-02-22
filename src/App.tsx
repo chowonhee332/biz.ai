@@ -428,7 +428,7 @@ const App = () => {
             <section id="solution" className="py-20 px-6">
               <div className="max-w-[1240px] mx-auto">
                 <div className="text-center mb-14">
-                  <h2 className="text-[54px] font-black bg-gradient-to-r from-black to-slate-300 bg-clip-text text-transparent mb-4 tracking-tight leading-tight" style={{ fontFamily: '"Pretendard Variable", Pretendard, sans-serif' }}>
+                  <h2 className="text-[52px] font-black bg-gradient-to-r from-black to-slate-300 bg-clip-text text-transparent mb-4 tracking-tight leading-tight" style={{ fontFamily: '"Pretendard Variable", Pretendard, sans-serif' }}>
                     kt ds의 AI 솔루션
                   </h2>
                   <p className="text-gray-500 text-[15px] max-w-2xl mx-auto font-medium">
@@ -507,7 +507,7 @@ const App = () => {
         <section id="domain" className="py-32 px-6 relative overflow-hidden bg-black pb-16">
           <div className="max-w-[1200px] mx-auto">
             <div className="text-left mb-16">
-              <h2 className="text-[48px] font-black text-white mb-4 tracking-tight" style={{ fontFamily: '"Pretendard Variable", Pretendard, sans-serif' }}>도메인별<br />Multi Agent</h2>
+              <h2 className="text-[52px] font-black text-white mb-4 tracking-tight" style={{ fontFamily: '"Pretendard Variable", Pretendard, sans-serif' }}>도메인별<br />Multi Agent</h2>
               <p className="text-gray-400 text-sm font-medium">공공/금융 등 도메인별로 KTDS의 Multi-Agent를 활용해 보세요.</p>
             </div>
 
@@ -690,7 +690,7 @@ const App = () => {
             <section id="process" className="py-32 px-6 relative overflow-hidden">
               <div className="max-w-[1200px] mx-auto relative z-10">
                 <div className="text-center mb-24">
-                  <h2 className="text-[50px] font-black bg-gradient-to-r from-black to-slate-300 bg-clip-text text-transparent mb-6 tracking-tight leading-tight">
+                  <h2 className="text-[52px] font-black bg-gradient-to-r from-black to-slate-300 bg-clip-text text-transparent mb-6 tracking-tight leading-tight">
                     왜 KT DS와 함께 해야 할까요?
                   </h2>
                   <p className="text-gray-500 text-lg max-w-2xl mx-auto">
