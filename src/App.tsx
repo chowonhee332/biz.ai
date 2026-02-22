@@ -18,6 +18,7 @@ import {
   ShieldCheck,
   CheckCircle2,
   ChevronRight,
+  ChevronDown,
   ArrowRight,
   Code,
   Brain,
@@ -54,7 +55,7 @@ const StudioCard = ({ icon, title, desc }: { icon: React.ReactElement; title: st
 
 const AnimatedCounter = ({ from, to }: { from: number; to: number }) => {
   const nodeRef = useRef<HTMLSpanElement>(null);
-  const isInView = useInView(nodeRef, { once: true, margin: "-100px" });
+  const isInView = useInView(nodeRef, { once: false, margin: "-100px" });
 
   useEffect(() => {
     if (!isInView || !nodeRef.current) return;
@@ -152,7 +153,7 @@ const DomainAccordionItem = ({
       className="relative h-[600px] overflow-hidden cursor-pointer rounded-2xl"
       style={{ willChange: 'flex, width' }}
       animate={{
-        flex: isActive ? 3 : 0.7,
+        flex: isActive ? 3 : 0.5,
       }}
       transition={{
         type: "spring",
@@ -168,7 +169,7 @@ const DomainAccordionItem = ({
           loading="eager"
           className="w-full h-full object-cover"
           animate={{
-            filter: isActive ? 'brightness(0.8) contrast(1.1)' : 'grayscale(0.3) brightness(0.6)',
+            filter: isActive ? 'grayscale(0) brightness(0.9) contrast(1.1)' : 'grayscale(1) brightness(0.5)',
             scale: isActive ? 1.05 : 1
           }}
           transition={{
@@ -177,16 +178,16 @@ const DomainAccordionItem = ({
             damping: 20
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/60" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60" />
       </div>
 
-      <div className="absolute inset-x-0 bottom-0 p-8 flex flex-col justify-end h-full">
-        <div className="flex flex-col items-start gap-4">
+      <div className={`absolute inset-x-0 top-0 p-8 flex flex-col justify-start h-full ${isActive ? 'text-left' : 'text-center'}`}>
+        <div className={`flex flex-col gap-4 ${isActive ? 'items-start' : 'items-center'}`}>
           <motion.div
             layout
             initial={false}
           >
-            <h4 className={`text-white font-bold transition-colors duration-500 whitespace-nowrap ${isActive ? 'text-3xl mb-4' : 'text-xl'}`}>
+            <h4 className={`text-white font-medium transition-colors duration-500 whitespace-nowrap ${isActive ? 'text-3xl mb-4' : 'text-xl'}`}>
               {title}
             </h4>
           </motion.div>
@@ -200,7 +201,7 @@ const DomainAccordionItem = ({
             >
               {agents.map((agent, i) => (
                 <div key={i} className="flex items-center">
-                  <span className="text-gray-300 text-sm font-medium">{agent}</span>
+                  <span className="text-gray-100 text-[16px] font-medium">{agent}</span>
                 </div>
               ))}
             </motion.div>
@@ -222,44 +223,44 @@ const App = () => {
   const [showTopBtn, setShowTopBtn] = useState(false);
   const [activeDomain, setActiveDomain] = useState<number>(0);
   const { scrollY, scrollYProgress } = useScroll();
-  const [navVisible, setNavVisible] = useState(true);
 
-  useMotionValueEvent(scrollY, "change", (latest) => {
-    const previous = scrollY.getPrevious() ?? 0;
-    if (latest > previous && latest > 100) {
-      setNavVisible(false); // 스크롤 내릴 때 숨김
-    } else {
-      setNavVisible(true); // 스크롤 올릴 때 보임
-    }
-  });
 
   const contentRef = useRef<HTMLDivElement>(null);
   const contentControls = useAnimation();
-  const contentInView = useInView(contentRef, { margin: "0px 0px -20% 0px" });
+  const contentInView = useInView(contentRef, { once: false, margin: "0px 0px -20% 0px" });
+
+  // 프로세스 섹션용 clip-path 애니메이션
+  const processRef = useRef<HTMLDivElement>(null);
+  const processControls = useAnimation();
+  const processInView = useInView(processRef, { once: false, margin: "0px 0px -20% 0px" });
 
   useEffect(() => {
     if (contentInView) {
       contentControls.start({
         clipPath: "inset(0% 1% round 28px)",
-        transition: {
-          type: "spring",
-          stiffness: 80,
-          damping: 12,
-          mass: 0.5
-        }
+        transition: { duration: 0.8, ease: "easeOut" }
       });
     } else {
       contentControls.start({
         clipPath: "inset(15% 15% round 60px)",
-        transition: {
-          type: "spring",
-          stiffness: 80,
-          damping: 12,
-          mass: 0.5
-        }
+        transition: { duration: 0.8, ease: "easeOut" }
       });
     }
   }, [contentInView, contentControls]);
+
+  useEffect(() => {
+    if (processInView) {
+      processControls.start({
+        clipPath: "inset(0% 1% round 28px)",
+        transition: { duration: 0.8, ease: "easeOut" }
+      });
+    } else {
+      processControls.start({
+        clipPath: "inset(15% 15% round 60px)",
+        transition: { duration: 0.8, ease: "easeOut" }
+      });
+    }
+  }, [processInView, processControls]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -270,7 +271,10 @@ const App = () => {
   }, []);
 
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
   };
 
   const [activeUseCase, setActiveUseCase] = useState(0);
@@ -323,11 +327,8 @@ const App = () => {
   return (
     <div className="min-h-screen bg-black text-white font-sans">
       {/* GNB - Global Navigation Bar */}
-      <motion.nav
-        initial={{ y: 0 }}
-        animate={{ y: navVisible ? 0 : -100 }}
-        transition={{ duration: 0.3, ease: "easeInOut" }}
-        className="fixed w-full z-50 bg-black/10 backdrop-blur-xl py-4 px-6 md:px-10 border-b border-white/5"
+      <nav
+        className="fixed w-full z-50 bg-black/80 backdrop-blur-xl py-4 px-6 md:px-10 border-b border-white/5"
       >
         <div className="max-w-[1200px] mx-auto flex justify-between items-center">
           {/* Logo */}
@@ -384,10 +385,10 @@ const App = () => {
             </motion.div>
           )}
         </AnimatePresence>
-      </motion.nav>
+      </nav>
 
       {/* Hero Section */}
-      <section className="relative z-20 h-screen flex items-center justify-center overflow-clip bg-black">
+      <section id="hero" className="relative z-20 h-screen flex items-center justify-center overflow-clip bg-black">
         <div className="absolute inset-0 z-0 pointer-events-none">
           <ParticleEngine scrollYProgress={scrollYProgress} />
         </div>
@@ -395,6 +396,24 @@ const App = () => {
         <div className="relative z-10 flex items-center justify-center w-full">
           <HeroContent />
         </div>
+
+        {/* 스크롤 다운 인디케이터 */}
+        <motion.div
+          className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 cursor-pointer"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.5, duration: 1 }}
+          onClick={() => document.getElementById('solution')?.scrollIntoView({ behavior: 'smooth' })}
+        >
+          <motion.div
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <ChevronDown size={28} className="text-white/60" strokeWidth={1.5} />
+            <ChevronDown size={28} className="text-white/30 -mt-4" strokeWidth={1.5} />
+          </motion.div>
+          <span className="text-white/40 text-sm font-medium tracking-wider">Scroll down</span>
+        </motion.div>
       </section>
 
       {/* Main Content Area */}
@@ -406,81 +425,93 @@ const App = () => {
             className="bg-white relative z-20 origin-bottom overflow-hidden"
             animate={contentControls}
           >
-            <section id="solution" className="py-32 px-6">
+            <section id="solution" className="py-20 px-6">
               <div className="max-w-[1240px] mx-auto">
-                <div className="text-center mb-24">
-                  <h2 className="text-[54px] font-black text-gray-900 mb-6 tracking-tight leading-tight">
-                    AI Solutions by kt ds
+                <div className="text-center mb-14">
+                  <h2 className="text-[54px] font-black bg-gradient-to-r from-black to-slate-300 bg-clip-text text-transparent mb-4 tracking-tight leading-tight" style={{ fontFamily: '"Pretendard Variable", Pretendard, sans-serif' }}>
+                    kt ds의 AI 솔루션
                   </h2>
                   <p className="text-gray-500 text-[15px] max-w-2xl mx-auto font-medium">
                     기업의 AI 도입부터 클라우드 인프라 관리까지 전 과정을 표준화하고 안정적으로 지원합니다
                   </p>
                 </div>
 
-                <div className="mb-24">
-                  <h3 className="text-[18px] font-bold text-gray-900 mb-10 text-left">
+                <div className="mb-14">
+                  <h3 className="text-[18px] font-bold bg-gradient-to-r from-black to-slate-400 bg-clip-text text-transparent mb-6 text-left">
                     전사 공통 (General Business)
                   </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <SolutionCard
-                      image="/sphere.png"
-                      title="AI:ON-U"
-                      desc="엔터프라이즈 맞춤형 AI Agent를 빠르게 구축하는 No-Code 기반 Agent Builder"
-                      tag="#3분 완성 Agent"
-                    />
-                    <SolutionCard
-                      image="/stack.png"
-                      title="Works AI"
-                      desc="AI Agent 기반으로 다양한 업무처리를 지원하는 사내 AI Agent Portal"
-                      tag="사내 AI Agent Portal"
-                    />
-                    <SolutionCard
-                      image="/cube.png"
-                      title="AI 회의록"
-                      desc="음성 기반 회의 자동 기록 요약 및 업무 추출 AI 서비스"
-                      tag="업무 추출 AI 서비스"
-                    />
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                    {[
+                      {
+                        image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=600",
+                        title: "AI:ON-U",
+                        desc: "엔터프라이즈 맞춤형 AI Agent를 빠르게 구축하는 No-Code 기반 Agent Builder",
+                        tag: "#3분 완성 Agent"
+                      },
+                      {
+                        image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=600",
+                        title: "Works AI",
+                        desc: "AI Agent 기반으로 다양한 업무처리를 지원하는 사내 AI Agent Portal",
+                        tag: "#업무 자동화"
+                      },
+                      {
+                        image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=600",
+                        title: "D-Ant",
+                        desc: "데이터 분석부터 예측까지, 데이터 기반의 현명한 의사결정을 돕는 분석 솔루션",
+                        tag: "#데이터 사이언스"
+                      }
+                    ].map((card, i) => (
+                      <motion.div
+                        key={i}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: false }}
+                        transition={{ delay: i * 0.1, duration: 0.5 }}
+                      >
+                        <SolutionCard {...card} />
+                      </motion.div>
+                    ))}
                   </div>
                 </div>
 
                 <div>
-                  <h3 className="text-[18px] font-bold text-gray-900 mb-10 text-left">
+                  <h3 className="text-[18px] font-bold bg-gradient-to-r from-black to-slate-400 bg-clip-text text-transparent mb-6 text-left">
                     IT 서비스/개발 직군 (IT Service & Dev)
                   </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                     <SolutionCard
-                      image="/sphere.png"
+                      image="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=600"
                       title="CloudWiz"
                       desc="클라우드 운영 효율화와 자동화를 지원하는 관리 서비스"
                       tag="지원하는 관리 서비스"
                     />
                     <SolutionCard
-                      image="/stack.png"
+                      image="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&q=80&w=600"
                       title="Beast AI Gateway"
                       desc="엔터프라이즈용 AI 기술, API를 통합 관리하는 서비스"
                       tag="통합 관리하는 서비스"
                     />
                     <SolutionCard
-                      image="/cube.png"
+                      image="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=600"
                       title="CodeBox"
                       desc="폐쇄형 설치형 AI 코드 개발 어플라이언스"
                       tag="어플라이언스"
                     />
                   </div>
                 </div>
-              </div>  {/* max-w-[1240px] closing */}
+              </div>
             </section>
           </motion.div>
         </div>
 
-        <section id="domain" className="py-32 px-6 relative overflow-hidden bg-black pb-48">
+        <section id="domain" className="py-32 px-6 relative overflow-hidden bg-black pb-16">
           <div className="max-w-[1200px] mx-auto">
             <div className="text-left mb-16">
-              <h2 className="text-[44px] font-black text-white mb-4 tracking-tight">도메인별 Multi-Agent</h2>
+              <h2 className="text-[48px] font-black text-white mb-4 tracking-tight" style={{ fontFamily: '"Pretendard Variable", Pretendard, sans-serif' }}>도메인별<br />Multi Agent</h2>
               <p className="text-gray-400 text-sm font-medium">공공/금융 등 도메인별로 KTDS의 Multi-Agent를 활용해 보세요.</p>
             </div>
 
-            <div className="flex gap-4 w-full">
+            <div className="flex gap-2 w-full">
               <DomainAccordionItem
                 title="금융"
                 agents={['Audit Agent', 'SQL Agent', 'RFP Agent']}
@@ -522,8 +553,8 @@ const App = () => {
 
         <section id="use-cases" className="py-32 bg-black relative">
           <div className="max-w-[1200px] mx-auto w-full min-h-[150vh] relative flex flex-col items-start">
-            <div className="w-full mb-12">
-              <h2 className="text-[50px] font-black bg-gradient-to-r from-white to-[#ABBBE7] bg-clip-text text-transparent tracking-tight leading-tight">
+            <div className="w-full mb-4 pt-[40px]">
+              <h2 className="text-[56px] font-black bg-gradient-to-r from-white to-[#ABBBE7] bg-clip-text text-transparent tracking-tight leading-tight">
                 Solution, <br />
                 Multi Agent <br />
                 Use Cases
@@ -531,7 +562,7 @@ const App = () => {
             </div>
 
             <div className="w-full flex flex-col lg:flex-row items-start relative gap-0">
-              <div className="w-full lg:w-1/2 lg:sticky lg:top-0 lg:h-screen flex flex-col justify-start pt-[140px] z-20 pr-12 lg:pr-16">
+              <div className="w-full lg:w-1/2 lg:sticky lg:top-0 lg:h-screen flex flex-col justify-start pt-[60px] z-20 pr-12 lg:pr-16">
                 <div className="flex flex-col">
                   {useCaseItems.map((item, index) => {
                     const isActive = index === activeUseCase;
@@ -636,7 +667,7 @@ const App = () => {
 
             <div className="w-full flex justify-center -mt-16 relative z-30">
               <Button
-                className="h-10 w-[240px] text-[15px] font-normal bg-white/5 backdrop-blur-md text-white hover:bg-white/10 rounded-full transition-all duration-300 hover:scale-105 active:scale-95 group flex items-center justify-center relative overflow-hidden"
+                className="h-12 w-[240px] text-[16px] font-normal bg-white/5 backdrop-blur-md text-white hover:bg-white/10 rounded-full transition-all duration-300 hover:scale-105 active:scale-95 group flex items-center justify-center relative overflow-hidden"
               >
                 <span className="transition-transform duration-300 group-hover:-translate-x-2">
                   AI Agent / Solution 더보기
@@ -650,138 +681,254 @@ const App = () => {
           </div>
         </section>
 
-        <section id="process" className="py-40 px-6 bg-black relative overflow-hidden">
-          <div className="max-w-[1200px] mx-auto relative z-10">
-            <div className="text-center mb-24">
-              <h2 className="text-[50px] font-black bg-gradient-to-r from-white to-[#ABBBE7] bg-clip-text text-transparent mb-6 tracking-tighter leading-tight">
-                Built for Enterprise.<br />
-                Proven by Scale.
-              </h2>
-              <p className="text-white/50 text-xl max-w-2xl mx-auto">
-                기업의 복잡한 요구사항을 분석부터 안정화까지,<br className="hidden md:block" />
-                표준화된 프로세스로 완벽하게 해결합니다.
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {[
-                { title: "분석/설계", subtitle: "Retriever / Analyst", desc: "데이터 협의체를 통해 도메인 분석 및 선별, Agent 구현에 최적화된 체계 구축", icon: <Search className="text-blue-400" /> },
-                { title: "개발/구현", subtitle: "Writer / Executor", desc: "Enterprise 맞춤형 워크플로우 생성 및 RAG 엔진 기반 지식 증강 최적화", icon: <Zap className="text-emerald-400" /> },
-                { title: "검증/테스트", subtitle: "Validator / Quality", desc: "답변 정확도 및 안정성 검증을 위한 자동화 테스트와 멀티 레벨 QA 수행", icon: <Target className="text-purple-400" /> },
-                { title: "운영/안정화", subtitle: "Maintainer / SRE", desc: "실시간 모니터링 및 성능 최적화를 통해 멈춤 없는 엔터프라이즈 AI 환경 제공", icon: <ShieldCheck className="text-rose-400" /> }
-              ].map((step, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ y: 20, opacity: 0 }}
-                  whileInView={{ y: 0, opacity: 1 }}
-                  transition={{ delay: i * 0.1 }}
-                  viewport={{ once: true }}
-                  className="bg-white/[0.03] backdrop-blur-xl border border-white/10 rounded-[28px] p-8 hover:border-blue-500/30 transition-all duration-500 group"
-                >
-                  <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500">
-                    {step.icon}
-                  </div>
-                  <div className="mb-4">
-                    <div className="text-blue-400 text-xs font-bold tracking-widest uppercase mb-1">{step.subtitle}</div>
-                    <h3 className="text-2xl font-bold text-white">{step.title}</h3>
-                  </div>
-                  <p className="text-white/40 text-[15px] leading-relaxed font-light">
-                    {step.desc}
+        <div ref={processRef} className="relative w-full pt-10">
+          <motion.div
+            className="bg-[#f0f2f7] relative z-20 origin-bottom overflow-hidden"
+            initial={{ clipPath: "inset(15% 15% round 60px)" }}
+            animate={processControls}
+          >
+            <section id="process" className="py-32 px-6 relative overflow-hidden">
+              <div className="max-w-[1200px] mx-auto relative z-10">
+                <div className="text-center mb-24">
+                  <h2 className="text-[50px] font-black bg-gradient-to-r from-black to-slate-300 bg-clip-text text-transparent mb-6 tracking-tight leading-tight">
+                    왜 KT DS와 함께 해야 할까요?
+                  </h2>
+                  <p className="text-gray-500 text-lg max-w-2xl mx-auto">
+                    기업의 복잡한 요구사항을 분석부터 안정화까지,<br className="hidden md:block" />
+                    표준화된 프로세스로 완벽하게 해결합니다.
                   </p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
+                </div>
 
-        <section id="stats" className="py-40 px-6 bg-black border-y border-white/5">
+                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-3">
+                  {[
+                    { num: "01", title: "분석/설계", subtitle: "Retriever,\nAnalyst", desc: "데이터 협의체를 통해 데이터 분석 및 선별 이를 기반으로 RAG 및 Agent 구현에 최적화된 체계 구축\n원인 분석, 옵션 비교, 리스크/영향 평가, 계획 수립", color: "text-red-500" },
+                    { num: "02", title: "개발/구현", subtitle: "Writer,\nExecutor", desc: "Enterprise 맞춤형 워크플로우 생성 및 RAG 엔진 기반 지식 증강 최적화\n원인 분석, 옵션 비교, 리스크/영향 평가, 계획 수립", color: "text-red-500" },
+                    { num: "03", title: "검증/테스트", subtitle: "Validator,\nQuality", desc: "답변 정확도 및 안정성 검증을 위한 자동화 테스트와 멀티 레벨 QA 수행\n원인 분석, 옵션 비교, 리스크/영향 평가, 계획 수립", color: "text-red-500" },
+                    { num: "04", title: "운영/안정화", subtitle: "Maintainer,\nSRE", desc: "실시간 모니터링 및 성능 최적화를 통해 멈춤 없는 엔터프라이즈 AI 환경 제공\n원인 분석, 옵션 비교, 리스크/영향 평가, 계획 수립", color: "text-red-500" }
+                  ].map((step, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{ y: 60, opacity: 0 }}
+                      whileInView={{ y: 0, opacity: 1 }}
+                      transition={{ delay: i * 0.15, duration: 0.6, ease: "easeOut" }}
+                      viewport={{ once: false, margin: "-50px" }}
+                      className="bg-white rounded-[20px] p-10 hover:shadow-lg transition-all duration-500 group flex flex-col min-h-[420px]"
+                    >
+                      {/* 상단: 번호 + 영문 타이틀 (고정 높이로 하단 정렬 맞춤) */}
+                      <div className="min-h-[130px]">
+                        <span className={`${step.color} text-lg font-black mb-4 block`}>{step.num}</span>
+                        <h3 className="text-[32px] font-black text-gray-900 leading-tight whitespace-pre-line">{step.subtitle}</h3>
+                      </div>
+
+                      {/* 여백 */}
+                      <div className="flex-1" />
+
+                      {/* 하단: 한글 타이틀 + 설명 (고정 높이로 라인 통일) */}
+                      <div className="min-h-[160px]">
+                        <h4 className="text-[18px] font-medium text-gray-900 mb-3">{step.title}</h4>
+                        <p className="text-gray-400 text-[14px] leading-[1.8] whitespace-pre-line">
+                          {step.desc}
+                        </p>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+
+          </motion.div>
+        </div>
+
+        <section id="stats" className="py-32 px-6 bg-black">
           <div className="max-w-[1200px] mx-auto">
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 md:gap-20">
               {[
-                { label: "IT Engineer", value: 1700, suffix: "+", color: "text-blue-400" },
-                { label: "Client", value: 150, suffix: "+", color: "text-emerald-400" },
-                { label: "Solution", value: 18, suffix: "", color: "text-purple-400" },
-                { label: "AI Agent", value: 600, suffix: "+", color: "text-rose-400" }
+                { label: "Clients", value: 150, suffix: "+", sub: "금융·공공·유통·미디어 등 다양한 산업 고객" },
+                { label: "Solution", value: 18, suffix: "", sub: "AX를 리딩하는 자체 개발 솔루션" },
+                { label: "AI Agent", value: 600, suffix: "+", sub: "도메인별 특화 AI 에이전트" },
+                { label: "IT Engineers", value: 1700, suffix: "+", sub: "Cloud & AI 기술을 선도하는 전문 인력" }
               ].map((stat, i) => (
-                <div key={i} className="flex flex-col items-center lg:items-start group">
-                  <span className={`${stat.color} text-[13px] font-bold tracking-[0.2em] uppercase mb-6`}>{stat.label}</span>
-                  <div className="text-6xl md:text-8xl font-black text-white tracking-tighter mb-4">
+                <div key={i} className="flex flex-col items-start group">
+                  <div className="text-[72px] font-bold text-white tracking-tighter leading-none mb-4">
                     <AnimatedCounter from={0} to={stat.value} />
-                    <span className="text-white/20 font-light">{stat.suffix}</span>
+                    <span className="text-white">{stat.suffix}</span>
                   </div>
+                  <span className="text-white text-[18px] font-bold mb-2">{stat.label}</span>
+                  <p className="text-white/40 text-[13px] leading-relaxed">{stat.sub}</p>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        <section id="logos" className="py-40 px-6 bg-black relative">
-          <div className="max-w-[1200px] mx-auto">
-            <div className="text-center mb-20">
-              <span className="text-blue-400 font-bold tracking-widest text-xs uppercase block mb-4">Trusted by Market Leaders</span>
-              <h2 className="text-[40px] font-bold text-white tracking-tight">이미 수많은 기업들이 KT DS와 함께하고 있습니다</h2>
-            </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-12 items-center opacity-40 grayscale group-hover:opacity-100 transition-all duration-1000">
-              {Array.from({ length: 12 }).map((_, i) => (
-                <div key={i} className="flex justify-center group/logo cursor-pointer">
-                  <div className="text-3xl font-black text-white/50 group-hover/logo:text-white transition-colors tracking-tighter">kt ds</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section id="testimonials" className="py-40 px-6 bg-[#050505] relative overflow-hidden">
-          <div className="max-w-[1200px] mx-auto relative z-10">
-            <div className="text-center mb-32">
-              <h2 className="text-[50px] font-black bg-gradient-to-r from-white to-[#ABBBE7] bg-clip-text text-transparent mb-6 tracking-tighter leading-tight">
-                고객의 목소리가 증명하는<br />KT DS의 가치
-              </h2>
-            </div>
-            <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+        <section id="logos" className="py-24 bg-black relative overflow-hidden border-y border-white/5 flex items-center">
+          <div className="flex overflow-hidden relative group">
+            <motion.div
+              className="flex items-center gap-24 py-4 px-12 shrink-0"
+              animate={{ x: ["0%", "-50%"] }}
+              transition={{
+                duration: 40,
+                ease: "linear",
+                repeat: Infinity
+              }}
+            >
               {[
-                { user: "Conor", handle: "@cnrstvns", quote: "KT DS의 AI 포털은 우리가 사용해 본 최고의 솔루션 중 하나입니다. 단 15분 만에 업무 환경에 완전히 녹아들었습니다. 놀랍네요!", avatar: "https://i.pravatar.cc/150?u=a1" },
-                { user: "경기도청", handle: "@gg_korea", quote: "방대한 공공데이터를 체계화하고 통합 개방 플랫폼을 완벽하게 구축하여, 도민들의 데이터 접근성을 혁신적으로 끌어올리는 데 성공했습니다.", avatar: "https://i.pravatar.cc/150?u=a2" },
-                { user: "한기산", handle: "@kamea_org", quote: "정책 의사결정과 실무자의 분석, 예측 업무를 지원하는 정책 지원형 AI 서비스 구축으로 업무 생산성 타파에 압도적인 도움이 되었습니다.", avatar: "https://i.pravatar.cc/150?u=a3" },
-                { user: "John", handle: "@johncjago", quote: "원인 분석부터 리스크 평가까지 설계의 빈틈을 완벽히 메워주는 모습이 인상적이었습니다. UI/UX 역시 사용성 면에서 훌륭합니다.", avatar: "https://i.pravatar.cc/150?u=a4" },
-                { user: "Darren Pinder", handle: "@dmpinder", quote: "놀라울 정도로 효율적입니다! 이제 모든 엔터프라이즈 업무를 AI가 미리 감지하고 알림을 보내주어 위험 대응이 가능해졌습니다. 😍", avatar: "https://i.pravatar.cc/150?u=a5" },
-                { user: "금융권 A사", handle: "@bank_a", quote: "RAG 엔진 기반 지식 증강 최적화 덕분에 고객 응대 효율이 200% 이상 향상되었습니다. 강력 추천합니다.", avatar: "https://i.pravatar.cc/150?u=a6" }
-              ].map((post, i) => (
-                <div key={i} className="break-inside-avoid bg-white/[0.03] backdrop-blur-xl border border-white/5 rounded-[24px] p-8 hover:border-white/20 transition-all duration-300 group">
-                  <div className="flex items-center justify-between mb-6">
-                    <div className="flex items-center gap-3">
-                      <img src={post.avatar} className="w-10 h-10 rounded-full border border-white/10" alt="" />
-                      <div>
-                        <div className="text-white font-bold text-[15px]">{post.user}</div>
-                        <div className="text-white/30 text-[13px]">{post.handle}</div>
+                { name: "Google", url: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" },
+                { name: "AWS", url: "https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg" },
+                { name: "Microsoft", url: "https://upload.wikimedia.org/wikipedia/commons/9/96/Microsoft_logo_%282012%29.svg" },
+                { name: "Nvidia", url: "https://upload.wikimedia.org/wikipedia/commons/2/21/Nvidia_logo.svg" },
+                { name: "OpenAI", url: "https://upload.wikimedia.org/wikipedia/commons/4/4d/OpenAI_Logo.svg" },
+                { name: "Meta", url: "https://upload.wikimedia.org/wikipedia/commons/7/7b/Meta_Platforms_Inc._logo.svg" },
+                { name: "kt ds", url: "https://www.ktds.com/images/common/logo.png" },
+                { name: "Samsung", url: "https://upload.wikimedia.org/wikipedia/commons/2/24/Samsung_Logo.svg" }
+              ].concat([
+                { name: "Google", url: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" },
+                { name: "AWS", url: "https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg" },
+                { name: "Microsoft", url: "https://upload.wikimedia.org/wikipedia/commons/9/96/Microsoft_logo_%282012%29.svg" },
+                { name: "Nvidia", url: "https://upload.wikimedia.org/wikipedia/commons/2/21/Nvidia_logo.svg" },
+                { name: "OpenAI", url: "https://upload.wikimedia.org/wikipedia/commons/4/4d/OpenAI_Logo.svg" },
+                { name: "Meta", url: "https://upload.wikimedia.org/wikipedia/commons/7/7b/Meta_Platforms_Inc._logo.svg" },
+                { name: "kt ds", url: "https://www.ktds.com/images/common/logo.png" },
+                { name: "Samsung", url: "https://upload.wikimedia.org/wikipedia/commons/2/24/Samsung_Logo.svg" }
+              ]).map((logo, i) => (
+                <div key={i} className="flex items-center justify-center h-8 w-auto px-4 group/logo">
+                  <img
+                    src={logo.url}
+                    alt={logo.name}
+                    className="h-full object-contain filter brightness-0 invert opacity-40 group-hover/logo:opacity-100 transition-all duration-500"
+                  />
+                </div>
+              ))}
+            </motion.div>
+          </div>
+        </section>
+
+        <section id="testimonials" className="py-24 px-6 bg-black relative">
+          <div className="max-w-[1240px] mx-auto relative group">
+            <div className="relative h-[600px] overflow-hidden">
+              <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+                {[
+                  { user: "Conor", handle: "@cnrstvns", quote: "KT DS의 AI 포털은 우리가 사용해 본 최고의 솔루션 중 하나입니다. 단 15분 만에 업무 환경에 완전히 녹아들었습니다. 놀랍네요! 인프라 구축부터 데브옵스 환경까지 한번에 해결되어 만족도가 매우 높습니다.", avatar: "https://i.pravatar.cc/150?u=a1" },
+                  { user: "경기도청", handle: "@gg_korea", quote: "방대한 공공데이터를 체계화하고 통합 개방 플랫폼을 완벽하게 구축하여, 도민들의 데이터 접근성을 혁신적으로 끌어올리는 데 성공했습니다. 데이터 기반 행정의 새로운 표준을 제시했다는 평가를 받고 있습니다.", avatar: "https://i.pravatar.cc/150?u=a2" },
+                  { user: "한기산", handle: "@kamea_org", quote: "정책 의사결정과 실무자의 분석, 예측 업무를 지원하는 정책 지원형 AI 서비스 구축으로 업무 생산성 타파에 압도적인 도움이 되었습니다.", avatar: "https://i.pravatar.cc/150?u=a3" },
+                  { user: "John", handle: "@johncjago", quote: "원인 분석부터 리스크 평가까지 설계의 빈틈을 완벽히 메워주는 모습이 인상적이었습니다. UI/UX 역시 사용성 면에서 훌륭합니다. 단순한 툴을 넘어 파트너 같은 느낌을 받았습니다.", avatar: "https://i.pravatar.cc/150?u=a4" },
+                  { user: "Darren Pinder", handle: "@dmpinder", quote: "놀라울 정도로 효율적입니다! 이제 모든 엔터프라이즈 업무를 AI가 미리 감지하고 알림을 보내주어 위험 대응이 가능해졌습니다. 😍", avatar: "https://i.pravatar.cc/150?u=a5" },
+                  { user: "금융권 A사", handle: "@bank_a", quote: "RAG 엔진 기반 지식 증강 최적화 덕분에 고객 응대 효율이 200% 이상 향상되었습니다. 보안이 중요한 금융권 환경에서도 안정적인 성능을 보여주어 신뢰가 갑니다.", avatar: "https://i.pravatar.cc/150?u=a6" },
+                  { user: "Samsung Electrics", handle: "@samsung_ai", quote: "복잡한 반도체 공정 데이터를 실시간으로 분석하여 수율 예측 정확도를 획기적으로 높였습니다. Biz.AI의 커스터마이징 능력에 놀랐습니다.", avatar: "https://i.pravatar.cc/150?u=a7" },
+                  { user: "Quentin", handle: "@q_dev", quote: "I tested Biz.AI for our enterprise cloud! So much easier to configure and the interface is better than any other options. The integration with Slack notifications is a game changer.", avatar: "https://i.pravatar.cc/150?u=a8" },
+                  { user: "NeverLand", handle: "@neverlandoff", quote: "Perfect support, answered my dms in a couple of minutes, and it's the first actual cool looking status page which allows custom domains.", avatar: "https://i.pravatar.cc/150?u=a9" },
+                ].map((post, i) => (
+                  <div key={i} className="break-inside-avoid bg-white/[0.03] backdrop-blur-xl border border-white/5 rounded-[24px] p-8 hover:border-white/20 transition-all duration-300 group/card">
+                    <div className="flex items-center justify-between mb-6">
+                      <div className="flex items-center gap-3">
+                        <img src={post.avatar} className="w-10 h-10 rounded-full border border-white/10" alt="" />
+                        <div>
+                          <div className="text-white font-bold text-[15px]">{post.user}</div>
+                          <div className="text-white/30 text-[13px]">{post.handle}</div>
+                        </div>
+                      </div>
+                      <div className="text-blue-500/30 group-hover/card:text-blue-500/60 transition-colors">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.84 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" />
+                        </svg>
                       </div>
                     </div>
-                    <div className="text-blue-500/50">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.84 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" />
-                      </svg>
-                    </div>
+                    <p className="text-white/80 text-[15px] leading-[1.6] font-light">{post.quote}</p>
                   </div>
-                  <p className="text-white/80 text-[16px] leading-[1.6] font-light">{post.quote}</p>
-                </div>
-              ))}
+                ))}
+              </div>
+
+              {/* 바닥 그라데이션 페이드 아웃 */}
+              <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-black via-black/80 to-transparent z-20 pointer-events-none" />
             </div>
           </div>
         </section>
 
+        {/* 새로운 소식 섹션 */}
+        <section id="news" className="py-32 px-6 bg-black relative">
+          <div className="max-w-[1200px] mx-auto">
+            {/* 헤더: 타이틀 + 버튼 */}
+            <div className="flex items-center justify-between mb-12">
+              <h2 className="text-[40px] font-bold text-white tracking-tight" style={{ fontFamily: '"Pretendard Variable", Pretendard, sans-serif' }}>
+                새로운 소식
+              </h2>
+              <button className="px-6 py-2.5 rounded-full border border-white/20 text-white text-[14px] font-medium hover:bg-white/10 transition-all">
+                View blog
+              </button>
+            </div>
+
+            {/* 뉴스 카드 그리드 */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
+              {[
+                { title: "AI Agent Builder\nAI:ON-U 정식 출시", date: "Feb 20, 2026", tag: "Product", image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800" },
+                { title: "Enterprise RAG\n엔진 2.0 업데이트", date: "Jan 15, 2026", tag: "Product", image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&q=80&w=800" },
+                { title: "KT DS, AI Agent\n도입 사례 공개", date: "Dec 22, 2025", tag: "Case Study", image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800" },
+                { title: "2025 AI Trends\nReport 발간", date: "Nov 30, 2025", tag: "Insight", image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800" }
+              ].map((news, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ y: 40, opacity: 0 }}
+                  whileInView={{ y: 0, opacity: 1 }}
+                  transition={{ delay: i * 0.1, duration: 0.5 }}
+                  viewport={{ once: false }}
+                  className="group cursor-pointer"
+                >
+                  {/* 썸네일 */}
+                  <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden mb-5 bg-zinc-900 border border-white/5 shadow-2xl">
+                    <motion.img
+                      src={news.image}
+                      alt={news.title}
+                      className="w-full h-full object-cover transition-all duration-700"
+                      whileHover={{ scale: 1.1 }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-40" />
+                  </div>
+
+                  {/* 텍스트 */}
+                  <h3 className="text-white text-[18px] font-bold leading-snug mb-3 whitespace-pre-line group-hover:text-blue-400 transition-colors">{news.title}</h3>
+                  <div className="flex items-center gap-3 mb-3">
+                    <span className="text-white/40 text-[13px]">{news.date}</span>
+                    <span className="text-white/40 text-[13px]">·</span>
+                    <span className="text-white/40 text-[13px]">{news.tag}</span>
+                  </div>
+                  <span className="text-white/60 text-[14px] font-medium group-hover:text-white transition-colors">
+                    Read more →
+                  </span>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* 네비게이션 화살표 */}
+            <div className="flex items-center gap-2">
+              <button className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center text-white/40 hover:text-white hover:border-white/40 transition-all">
+                <ChevronDown size={16} className="rotate-90" />
+              </button>
+              <button className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center text-white/40 hover:text-white hover:border-white/40 transition-all">
+                <ChevronDown size={16} className="-rotate-90" />
+              </button>
+            </div>
+          </div>
+        </section>
+
+
+        {/* AI Agent 스튜디오 섹션 */}
         <section id="studio-v2" className="py-32 px-6 bg-black">
           <div className="max-w-[1240px] mx-auto">
-            {/* Main CTA Card */}
-            <div className="relative rounded-[40px] overflow-hidden bg-[#0A0A0A] border border-white/5 mb-16 h-[500px] flex items-center group">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_50%,rgba(37,99,235,0.15)_0%,transparent_60%)]" />
-
-              {/* Visual Background (Particle-like dots) */}
-              <div className="absolute inset-0 opacity-40 pointer-events-none overflow-hidden">
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[length:24px_24px]" />
-                <div className="absolute top-0 right-0 w-[600px] h-full bg-gradient-to-l from-blue-500/10 to-transparent" />
-                <div className="absolute top-20 right-40 w-4 h-4 rounded-full bg-blue-500/20 blur-xl animate-pulse" />
-                <div className="absolute bottom-20 right-60 w-8 h-8 rounded-full bg-blue-400/10 blur-2xl animate-pulse" />
-              </div>
+            {/* 메인 CTA 카드 - 파티클 배경 */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: false }}
+              transition={{ duration: 0.8 }}
+              className="relative rounded-[40px] overflow-hidden bg-[#0A0A0A] border border-white/5 mb-8 h-[500px] flex items-center group"
+            >
+              <img
+                src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&q=80&w=1400"
+                alt="AI Agent Studio"
+                className="absolute inset-0 w-full h-full object-cover opacity-60"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-transparent z-[1]" />
 
               <div className="relative z-10 pl-16 md:pl-24 max-w-2xl">
                 <h2 className="text-[52px] font-black text-white mb-6 tracking-tight leading-tight">
@@ -796,31 +943,9 @@ const App = () => {
                   더보기 &gt;
                 </button>
               </div>
+            </motion.div>
 
-              {/* Particle Visual Representation */}
-              <div className="absolute right-0 top-0 h-full w-1/2 pointer-events-none opacity-80 hidden lg:block">
-                <div className="relative w-full h-full">
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full bg-blue-500/5 blur-[100px]" />
-                  {/* Simulated particles */}
-                  {[...Array(20)].map((_, i) => (
-                    <div
-                      key={i}
-                      className="absolute rounded-full bg-white/20"
-                      style={{
-                        width: Math.random() * 4 + 1 + 'px',
-                        height: Math.random() * 4 + 1 + 'px',
-                        top: Math.random() * 80 + 10 + '%',
-                        left: Math.random() * 80 + 10 + '%',
-                        opacity: Math.random() * 0.5,
-                        animation: `float ${Math.random() * 3 + 2}s infinite ease-in-out`
-                      }}
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Three Feature Cards */}
+            {/* 3개 기능 카드 */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {[
                 {
@@ -839,7 +964,14 @@ const App = () => {
                   icon: <Cpu className="text-white/80" strokeWidth={1.5} size={20} />
                 }
               ].map((item, i) => (
-                <div key={i} className="bg-[#0A0A0A] border border-white/5 rounded-[32px] p-10 hover:border-white/10 transition-all duration-300">
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: false }}
+                  transition={{ delay: i * 0.1, duration: 0.5 }}
+                  className="bg-[#0A0A0A] border border-white/5 rounded-[32px] p-10 hover:border-white/10 transition-all duration-300"
+                >
                   <div className="size-10 rounded-full bg-white/5 flex items-center justify-center mb-8">
                     {item.icon}
                   </div>
@@ -847,12 +979,36 @@ const App = () => {
                   <p className="text-white/40 text-[15px] leading-relaxed break-keep font-medium">
                     {item.desc}
                   </p>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>
         </section>
 
+        {/* CTA 배너 - 파티클 배경 */}
+        <section className="relative py-32 px-6 bg-black overflow-hidden">
+          <img
+            src="/banner.png"
+            alt="CTA Background"
+            className="absolute inset-0 w-full h-full object-cover opacity-40"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-black/90 pointer-events-none" />
+          <div className="relative z-10 max-w-[1200px] mx-auto text-center">
+            <h2 className="text-[48px] font-black text-white mb-10 tracking-tight">
+              Biz.AI와 함께 시작해보세요.
+            </h2>
+            <div className="flex items-center justify-center gap-4">
+              <button className="px-8 py-3.5 rounded-full border border-white/30 text-white font-bold text-sm hover:bg-white/10 transition-all">
+                무료체험 신청
+              </button>
+              <button className="px-8 py-3.5 rounded-full bg-white/10 backdrop-blur-md text-white font-bold text-sm hover:bg-white/20 transition-all">
+                솔루션 문의
+              </button>
+            </div>
+          </div>
+        </section>
+
+        {/* 풋터 */}
         <footer className="bg-black pt-32 pb-16 px-6 border-t border-white/5">
           <div className="max-w-[1200px] mx-auto">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-12 mb-24">
@@ -923,7 +1079,6 @@ const App = () => {
         </footer>
       </div>
 
-      {/* Scroll to Top FAB */}
       <AnimatePresence>
         {showTopBtn && (
           <motion.button
@@ -933,10 +1088,10 @@ const App = () => {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={scrollToTop}
-            className="fixed bottom-8 right-8 z-[100] p-4 bg-white text-black hover:bg-gray-100/90 rounded-full shadow-[0_10px_40px_rgba(255,255,255,0.2)] transition-all backdrop-blur-md"
+            className="fixed bottom-8 right-8 z-[100] w-[40px] h-[40px] flex items-center justify-center bg-black/60 text-white hover:bg-black/80 rounded-full transition-all border border-white/20"
             aria-label="맨 위로 가기"
           >
-            <ArrowUp size={24} strokeWidth={2.5} />
+            <ArrowUp size={16} strokeWidth={2.5} />
           </motion.button>
         )}
       </AnimatePresence>

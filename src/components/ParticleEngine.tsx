@@ -2,7 +2,7 @@ import { useRef, useMemo, useEffect } from 'react';
 import { motion, useTransform, useMotionValue, useInView } from 'motion/react';
 import type { MotionValue } from 'motion/react';
 
-const PARTICLE_COUNT = 25000;
+const PARTICLE_COUNT = 12000;
 const RING_CENTER = 0.72; // Larger overall shape
 const RING_SIGMA = 0.12; // Tighter core density
 const MOUSE_INFLUENCE = 0.01;
@@ -112,7 +112,7 @@ export default function ParticleEngine({ scrollYProgress, className = '', mode =
           opacity: 0.15 + Math.random() * 0.35,
           twinkleSpeed: 0.2 + Math.random() * 1.0,
           twinkleOffset: Math.random() * Math.PI * 2,
-          delay: Math.random() * 1.2,
+          delay: 0,
           color: `255, 255, 255`,
           // inject specific target pos to override
           targetX: endX,
@@ -139,10 +139,10 @@ export default function ParticleEngine({ scrollYProgress, className = '', mode =
         radius,
         orbitSpeed: (Math.random() - 0.5) * 0.02, // Majestic, slow rotation
         size: 0.5 + Math.random() * 0.7, // 0.5 ~ 1.2 range
-        opacity: isGlow ? 0.25 + Math.random() * 0.45 : 0.1 + Math.random() * 0.18,
+        opacity: 0.8 + Math.random() * 0.2, // 0.8 ~ 1.0 range
         twinkleSpeed: 0.4 + Math.random() * 1.4,
         twinkleOffset: Math.random() * Math.PI * 2,
-        delay: Math.random() * 0.8,
+        delay: 0,
         color: Math.random() < 0.85
           ? `190, 230, 255` // Bright vibrant blue
           : Math.random() < 0.5
@@ -239,12 +239,12 @@ export default function ParticleEngine({ scrollYProgress, className = '', mode =
         const dy = my - baseY;
         const dist = Math.sqrt(dx * dx + dy * dy) || 0.001;
 
-        // Subtle follow effect: gentle pull towards the mouse
-        const MAGNETIC_RANGE = 0.28;
+        // Sharp follow effect: only particles very close to the mouse follow it
+        const MAGNETIC_RANGE = 0.15;
         const falloff = Math.max(0, 1 - dist / MAGNETIC_RANGE);
 
-        // Lower power and multiplier for a "slight follow" feel
-        const attractionStrength = Math.pow(falloff, 2) * 0.18 * eased;
+        // Ultra-powerful pull: particles intensely follow the cursor
+        const attractionStrength = Math.pow(falloff, 3) * 5.0 * eased;
 
         x = baseX + dx * attractionStrength;
         y = baseY + dy * attractionStrength;
