@@ -425,8 +425,8 @@ const App = () => {
                   <span className="text-[#FF2D2D] font-semibold text-[20px] mb-3 tracking-wide">
                     Architecture
                   </span>
-                  <h2 className="text-[52px] font-black text-[#0f0f0f] mb-6 tracking-tight leading-tight">
-                    Kt ds AI <span className="bg-gradient-to-r from-[#0f0f0f] from-[40%] via-[#5A6A85] via-[75%] to-[#8FA2C6] bg-clip-text text-transparent">Solutions</span>
+                  <h2 className="text-[52px] font-black text-black mb-6 tracking-tight leading-tight">
+                    Kt ds AI Solutions
                   </h2>
                   <p className="text-black/80 text-[18px] max-w-2xl mx-auto font-medium">
                     AI 전략부터 운영까지, 기업 AI의 전 과정을 통합 지원합니다.
@@ -513,7 +513,7 @@ const App = () => {
           <div className="max-w-[1200px] mx-auto">
             <div className="text-left mb-16 font-pretendard">
               <span className="text-[#FF0000] font-bold text-[20px] mb-4 block tracking-tight">Multi Agent</span>
-              <h2 className="text-[52px] font-black text-white mb-6 tracking-tight">도메인별 Multi Agent</h2>
+              <h2 className="text-[52px] font-black bg-gradient-to-r from-white to-[#93C5FD] bg-clip-text text-transparent mb-6 tracking-tight">도메인별 Multi Agent</h2>
               <p className="text-white/80 text-[18px] font-normal tracking-tight">공공/금융 등 도메인별로 KTDS의 Multi-Agent를 활용해 보세요.</p>
             </div>
 
@@ -561,7 +561,7 @@ const App = () => {
           <div className="max-w-[1240px] mx-auto w-full min-h-[150vh] relative flex flex-col items-start px-6">
             <div className="w-full mb-12 pt-[40px]">
               <span className="text-[#FF2D2D] font-bold text-[20px] mb-4 block tracking-tight">Use Cases</span>
-              <h2 className="text-[64px] font-black text-white tracking-tight leading-[1.1] font-pretendard">
+              <h2 className="text-[64px] font-black bg-gradient-to-r from-white to-[#93C5FD] bg-clip-text text-transparent tracking-tight leading-[1.1] font-pretendard">
                 Solution, <br />
                 Multi Agent <br />
                 Use Cases
@@ -694,7 +694,7 @@ const App = () => {
               <div className="max-w-[1240px] mx-auto relative z-10">
                 <div className="text-center mb-24">
                   <span className="text-red-600 text-[20px] font-bold mb-4 block tracking-wider">Why kt ds</span>
-                  <h2 className="text-[52px] font-black bg-gradient-to-r from-black to-slate-600 bg-clip-text text-transparent mb-6 tracking-tight leading-tight">
+                  <h2 className="text-[52px] font-black text-black mb-6 tracking-tight leading-tight">
                     왜 KT DS와 함께 해야 할까요?
                   </h2>
                   <p className="text-black/80 text-[18px] max-w-2xl mx-auto font-medium">
@@ -788,7 +788,7 @@ const App = () => {
           <div className="max-w-[1240px] mx-auto">
             <div className="text-center mb-32">
               <span className="text-red-600 text-[20px] font-bold mb-4 block tracking-wider">Trust</span>
-              <h2 className="text-[52px] font-black text-white mb-8 tracking-tight">
+              <h2 className="text-[52px] font-black bg-gradient-to-r from-white to-[#93C5FD] bg-clip-text text-transparent mb-8 tracking-tight">
                 수치로 증명하는 Biz.AI
               </h2>
               <p className="text-white/80 text-[18px] max-w-3xl mx-auto font-normal">
@@ -871,7 +871,7 @@ const App = () => {
           <div className="max-w-[1200px] mx-auto">
             {/* 헤더: 타이틀 + 버튼 */}
             <div className="flex items-center justify-between mb-12">
-              <h2 className="text-[40px] font-bold text-white tracking-tight font-pretendard uppercase">
+              <h2 className="text-[40px] font-bold bg-gradient-to-r from-white to-[#93C5FD] bg-clip-text text-transparent tracking-tight font-pretendard uppercase">
                 News
               </h2>
               <button className="px-6 py-2.5 rounded-full border border-white/20 text-white text-[14px] font-medium hover:bg-white/10 transition-all">
@@ -938,7 +938,7 @@ const App = () => {
             <div className="flex flex-col lg:flex-row gap-20">
               {/* 왼쪽: 헤더 */}
               <div className="lg:w-1/3">
-                <h2 className="text-[52px] font-black text-white mb-8 tracking-tight leading-tight font-pretendard">
+                <h2 className="text-[52px] font-black bg-gradient-to-r from-white to-[#93C5FD] bg-clip-text text-transparent mb-8 tracking-tight leading-tight font-pretendard">
                   FAQ
                 </h2>
               </div>
@@ -1035,7 +1035,7 @@ const App = () => {
               <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-transparent z-[1]" />
 
               <div className="relative z-10 pl-16 md:pl-24 max-w-2xl font-pretendard">
-                <h2 className="text-[44px] font-black text-white mb-6 tracking-tight leading-tight">
+                <h2 className="text-[44px] font-black bg-gradient-to-r from-white to-[#93C5FD] bg-clip-text text-transparent mb-6 tracking-tight leading-tight">
                   AI Agent 스튜디오
                 </h2>
                 <p className="text-white/80 text-[20px] mb-4 leading-relaxed break-keep font-medium">
@@ -1098,7 +1098,7 @@ const App = () => {
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-black/90 pointer-events-none" />
           <div className="relative z-10 max-w-[1200px] mx-auto text-center font-pretendard">
-            <h2 className="text-[44px] font-black text-white mb-10 tracking-tight">
+            <h2 className="text-[44px] font-black bg-gradient-to-r from-white to-[#93C5FD] bg-clip-text text-transparent mb-10 tracking-tight">
               Biz.AI와 함께 시작해보세요.
             </h2>
             <div className="flex items-center justify-center gap-4">
