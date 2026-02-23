@@ -7,12 +7,25 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --font-sans: "Poppins", "Pretendard Variable", "Pretendard", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Pretendard Variable", "Pretendard", ui-sans-serif, system-ui, sans-serif;
+  --font-poppins: "Poppins", sans-serif;
 }
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 80px;
   overflow-x: clip;
+  -webkit-overflow-scrolling: touch;
+  /* iOS smooth scroll */
+}
+
+/* GPU Acceleration Utility */
+.smooth-gpu {
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
+  perspective: 1000px;
+  will-change: transform, opacity;
+  transform-style: preserve-3d;
 }
 
 body {

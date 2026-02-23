@@ -87,15 +87,15 @@ export default function HeroContent({ onSubmit, isAnalyzing = false }: HeroConte
             className="absolute inset-0 flex flex-col items-center justify-center text-center"
           >
             <h1
-              className="text-3xl md:text-5xl lg:text-[72px] font-bold mb-6 leading-[1.1] tracking-tight w-full max-w-5xl px-2 flex flex-col items-center bg-gradient-to-r from-white via-white to-sky-400 bg-clip-text text-transparent"
+              className="text-3xl md:text-5xl lg:text-[72px] font-bold mb-6 leading-[1.1] tracking-tight w-full max-w-5xl px-2 flex flex-col items-center bg-gradient-to-r from-white via-white to-blue-600 bg-clip-text text-transparent"
             >
               <span className="block whitespace-nowrap text-center">
                 {lines[0]}
-                {!done && lines.length === 1 && <span className="inline-block w-[3px] h-[0.85em] bg-sky-400 ml-1 align-middle animate-pulse" />}
+                {!done && lines.length === 1 && <span className="inline-block w-[3px] h-[0.85em] bg-blue-600 ml-1 align-middle animate-pulse" />}
               </span>
               <span className="block whitespace-nowrap text-center">
                 {lines[1] ?? ''}
-                {!done && lines.length === 2 && <span className="inline-block w-[3px] h-[0.85em] bg-sky-400 ml-1 align-middle animate-pulse" />}
+                {!done && lines.length === 2 && <span className="inline-block w-[3px] h-[0.85em] bg-blue-600 ml-1 align-middle animate-pulse" />}
               </span>
             </h1>
             <motion.p

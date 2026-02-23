@@ -206,25 +206,20 @@ export default function ParticleEngine({ scrollYProgress, className = '', mode =
       const mx = mouseRef.current.x;
       const my = mouseRef.current.y;
 
-      for (const p of particles) {
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
         const progress = Math.max(0, Math.min(1, (elapsed - p.delay * GATHER_DURATION) / GATHER_DURATION));
         const eased = easeInOutCubic(progress);
 
-        if (eased >= 1) {
-          // Increase orbit speed for more motion
-          p.angle += p.orbitSpeed * 0.03;
-        }
+        p.angle += p.orbitSpeed * (0.005 + 0.025 * eased);
 
-        // Add subtle radial oscillation for "breathing" effect
-        const radialPulse = eased >= 1 ? 1 + 0.05 * Math.sin(elapsed * 1.2 + p.twinkleOffset) : 1;
+        const radialPulse = 1 + (0.05 * Math.sin(elapsed * 1.2 + p.twinkleOffset)) * eased;
         const finalRadius = p.radius * radialPulse;
 
-        // If mode is logo, we override ringX/ringY with target pos + slow orbit
         let ringX = 0.5 + scaleX * finalRadius * Math.cos(p.angle);
         let ringY = 0.5 + scaleY * finalRadius * Math.sin(p.angle);
 
         if ((p as any).targetX !== undefined) {
-          // Instead of circling origin, we circle our specific clump center slightly
           ringX = 0.5 + scaleX * ((p as any).targetX + Math.cos(p.angle) * 0.015);
           ringY = 0.5 + scaleY * ((p as any).targetY + Math.sin(p.angle) * 0.015);
         }
@@ -234,30 +229,28 @@ export default function ParticleEngine({ scrollYProgress, className = '', mode =
 
         let x = baseX, y = baseY;
 
-        // Magnetic Attraction: Strongly pull particles towards the mouse
+        // Optimized Magnetic Attraction
         const dx = mx - baseX;
         const dy = my - baseY;
-        const dist = Math.sqrt(dx * dx + dy * dy) || 0.001;
+        const distSq = dx * dx + dy * dy;
+        const MAGNETIC_RANGE_SQ = 0.0225; // 0.15 * 0.15
 
-        // Sharp follow effect: only particles very close to the mouse follow it
-        const MAGNETIC_RANGE = 0.15;
-        const falloff = Math.max(0, 1 - dist / MAGNETIC_RANGE);
+        if (distSq < MAGNETIC_RANGE_SQ) {
+          const dist = Math.sqrt(distSq) || 0.001;
+          const falloff = 1 - dist / 0.15;
+          const attractionStrength = falloff * falloff * falloff * 5.0 * eased;
+          x = baseX + dx * attractionStrength;
+          y = baseY + dy * attractionStrength;
+        }
 
-        // Ultra-powerful pull: particles intensely follow the cursor
-        const attractionStrength = Math.pow(falloff, 3) * 5.0 * eased;
+        const gatherTwinkle = 0.3 + 0.7 * eased;
+        const activeTwinkle = 0.4 + 0.6 * Math.sin(elapsed * p.twinkleSpeed * 1.5 + p.twinkleOffset);
+        const twinkle = gatherTwinkle * (1 - eased) + activeTwinkle * eased;
 
-        x = baseX + dx * attractionStrength;
-        y = baseY + dy * attractionStrength;
+        const opacity = p.opacity * Math.max(0, Math.min(1, twinkle));
 
-        const twinkle = eased >= 1
-          ? 0.4 + 0.6 * Math.sin(elapsed * p.twinkleSpeed * 1.5 + p.twinkleOffset)
-          : 0.3 + 0.7 * eased;
-        const opacity = p.opacity * Math.min(1, twinkle);
-
-        ctx.beginPath();
-        ctx.arc(x * w, y * h, p.size, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(${p.color},${opacity})`;
-        ctx.fill();
+        ctx.fillRect(x * w, y * h, p.size * 2, p.size * 2); // fillRect is significantly faster than arc()
       }
 
       rafId = requestAnimationFrame(draw);
