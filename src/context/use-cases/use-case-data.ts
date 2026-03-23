@@ -100,6 +100,6 @@ export const USE_CASE_CATEGORY_COLORS: Record<string, { text: string; bg: string
     "데이터 분석": { text: "text-emerald", bg: "bg-emerald/10", border: "border-emerald/20" },
     "보고 / 의사결정 향상": { text: "text-brand-secondary", bg: "bg-brand-primary/10", border: "border-brand-primary/20" },
     "리스크 관리 효율화": { text: "text-sky", bg: "bg-sky/10", border: "border-sky/20" },
-    "강력한 보안": { text: "text-purple", bg: "bg-purple/10", border: "border-purple/20" },
+    "강력한 보안": { text: "text-orange-500", bg: "bg-orange-500/10", border: "border-orange-500/20" },
     "내부 업무 처리 향상": { text: "text-brand-primary", bg: "bg-brand-primary/10", border: "border-brand-primary/20" }
 };

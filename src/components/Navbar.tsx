@@ -52,7 +52,7 @@ export default function Navbar({ activePage, scrollLineProgress }: NavbarProps) 
             <Link
               key={link.id}
               to={link.path}
-              className={`transition-colors ${textColor} ${activePage === link.id ? 'font-bold' : 'font-medium'}`}
+              className={`${textColor} ${activePage === link.id ? 'font-bold' : 'font-medium'}`}
             >
               {link.name}
             </Link>
@@ -62,13 +62,13 @@ export default function Navbar({ activePage, scrollLineProgress }: NavbarProps) 
         {/* CTA Buttons */}
         <div className="hidden lg:flex items-center gap-[0.7rem] ml-auto">
           <a href="https://www.ktds.com/" target="_blank" rel="noopener noreferrer">
-            <Button variant="ghost" size="sm" className={`${textColor} hover:${textColor} hover:bg-bg-active group h-9`}>
-              <img src={ktdsLogo} alt="kt ds" className="h-5 w-auto object-contain transition-opacity" onError={(e) => { (e.target as HTMLImageElement).src = ktdsLogo; }} />
+            <Button variant="ghost" size="sm" className={`${textColor} hover:${textColor} hover:bg-transparent group h-9`}>
+              <img src={ktdsLogo} alt="kt ds" className="h-[17px] w-auto object-contain transition-opacity" onError={(e) => { (e.target as HTMLImageElement).src = ktdsLogo; }} />
               <ArrowUpRight size={28} className="-ml-1 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300" />
             </Button>
           </a>
           <a href="https://studio.abclab.ktds.com/auth/login" target="_blank" rel="noopener noreferrer">
-            <Button variant="ghost" size="sm" className={`px-4 py-0 h-9 rounded-[8px] font-bold hover:scale-100 group ${textColor}`} style={{ fontSize: '15px' }}>
+            <Button variant="ghost" size="sm" className={`px-4 py-0 h-9 rounded-[8px] font-bold hover:scale-100 hover:bg-transparent group ${textColor}`} style={{ fontSize: '15px' }}>
               AI Agent 스튜디오
               <ArrowUpRight size={28} stroke={isDark ? 'white' : 'black'} className="-ml-1 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </Button>
@@ -76,7 +76,7 @@ export default function Navbar({ activePage, scrollLineProgress }: NavbarProps) 
           <Button
             variant="ghost"
             size="icon"
-            className={`${textColor} hover:bg-bg-active h-9 w-9`}
+            className={`${textColor} hover:bg-transparent h-9 w-9`}
             onClick={toggleTheme}
             aria-label="테마 변경"
           >

@@ -5,8 +5,10 @@ import { motion } from 'motion/react';
 import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
 import { USE_CASES, USE_CASE_CATEGORY_COLORS } from '@/context/use-cases/use-case-data';
+import { useTheme } from './context/ThemeContext';
 
 export default function UseCaseDetailPage() {
+    const { isDark } = useTheme();
     const { id } = useParams();
 
     const caseIndex = id ? parseInt(id) - 1 : 0;
@@ -24,8 +26,11 @@ export default function UseCaseDetailPage() {
         window.scrollTo(0, 0);
     }, [item]);
 
+    const bodyTextColor = isDark ? '#CCCCCC' : '#333333';
+    const titleTextColor = isDark ? '#FFFFFF' : '#111111';
+
     return (
-        <div className="min-h-screen text-text-primary font-pretendard flex flex-col" style={{ backgroundColor: '#0A0A0A' }}>
+        <div className="min-h-screen text-text-primary font-pretendard flex flex-col" style={{ backgroundColor: isDark ? '#0A0A0A' : '#FFFFFF' }}>
             <Navbar activePage="use-cases" />
 
             {/* Header */}
@@ -40,10 +45,10 @@ export default function UseCaseDetailPage() {
                         <span className={`text-[16px] font-bold ${USE_CASE_CATEGORY_COLORS[item.카테고리]?.text || 'text-brand-primary'}`}>
                             {item.카테고리}
                         </span>
-                        <h1 className="text-[36px] md:text-[50px] font-bold text-white leading-snug break-keep tracking-tight">
+                        <h1 className="text-[36px] md:text-[50px] font-bold text-text-primary leading-snug break-keep tracking-tight">
                             {detail?.title || item.타이틀}
                         </h1>
-                        <p className="text-body-base md:text-body break-keep" style={{ color: '#CCCCCC' }}>
+                        <p className="text-body-base md:text-body break-keep" style={{ color: bodyTextColor }}>
                             {item.설명}
                         </p>
                     </motion.div>
@@ -52,7 +57,7 @@ export default function UseCaseDetailPage() {
 
             {/* Hero Image */}
             <div className="w-full mb-24 max-w-[1280px] mx-auto container-responsive">
-                <div className="w-full aspect-[21/9] sm:aspect-[24/9] md:aspect-[2.5/1] overflow-hidden rounded-[12px] bg-bg-surface border border-border-light shadow-2xl">
+                <div className="w-full aspect-[21/9] sm:aspect-[24/9] md:aspect-[2.5/1] overflow-hidden rounded-[12px] bg-bg-surface border border-border-light">
                     <img src={item.이미지} alt="Case Study Hero" className="w-full h-full object-cover brightness-90" />
                 </div>
             </div>
@@ -64,7 +69,7 @@ export default function UseCaseDetailPage() {
                         {sections.map((section: any) => (
                             <section key={section.id} id={section.id} className="flex flex-col scroll-mt-32 pb-[52px]">
                                 {section.title && (
-                                    <h2 className={`${section.subtitle_level === 1 ? 'text-[20px] text-text-secondary' : 'text-[24px] text-text-primary'} font-bold pt-[52px] border-t border-white/10 mb-4`}>
+                                    <h2 className={`${section.subtitle_level === 1 ? 'text-[20px] text-text-secondary' : 'text-[24px] text-text-primary'} font-bold pt-[52px] mb-4`} style={{ borderTop: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}` }}>
                                         {section.title.replace(/^\d+[\)\.]\s*/, '')}
                                     </h2>
                                 )}
@@ -83,7 +88,7 @@ export default function UseCaseDetailPage() {
                                         </div>
                                     </div>
                                 ) : section.content && (
-                                    <div className="leading-relaxed mb-6 break-keep whitespace-pre-line font-medium" style={{ fontSize: '16px', color: '#CCCCCC' }}>
+                                    <div className="leading-relaxed mb-6 break-keep whitespace-pre-line font-medium" style={{ fontSize: '16px', color: bodyTextColor }}>
                                         {section.content}
                                     </div>
                                 )}
@@ -97,10 +102,10 @@ export default function UseCaseDetailPage() {
                                                 const title = hasColon ? li.slice(0, colonIdx) : null;
                                                 const desc = hasColon ? li.slice(colonIdx + 1).trimStart() : li;
                                                 return (
-                                                    <li key={idx} className="flex items-start gap-3" style={{ color: '#CCCCCC' }}>
+                                                    <li key={idx} className="flex items-start gap-3" style={{ color: bodyTextColor }}>
                                                         <div className="w-0.5 h-4 rounded-full bg-brand-primary/60 shrink-0 mt-1" />
                                                         <div className="text-[15px] font-medium leading-relaxed break-keep">
-                                                            {hasColon && <span className="text-white font-bold">{title}: </span>}{desc}
+                                                            {hasColon && <span className="font-bold" style={{ color: titleTextColor }}>{title}: </span>}{desc}
                                                         </div>
                                                     </li>
                                                 );
@@ -123,8 +128,8 @@ export default function UseCaseDetailPage() {
                                                                 <div className="w-0.5 h-4 rounded-full bg-brand-primary/60 shrink-0 mt-1.5" />
                                                             )}
                                                             <div className="flex flex-col gap-0.5 break-keep">
-                                                                <span className="text-white text-[15px] font-bold leading-snug">{it.타이틀}</span>
-                                                                {it.설명 && <span className="text-[14px] font-medium leading-relaxed" style={{ color: '#CCCCCC' }}>{it.설명}</span>}
+                                                                <span className="text-[15px] font-bold leading-snug" style={{ color: titleTextColor }}>{it.타이틀}</span>
+                                                                {it.설명 && <span className="text-[14px] font-medium leading-relaxed" style={{ color: bodyTextColor }}>{it.설명}</span>}
                                                             </div>
                                                         </li>
                                                     ))}
@@ -142,8 +147,8 @@ export default function UseCaseDetailPage() {
                                                     <li key={idx} className="flex items-start gap-3">
                                                         <div className="w-0.5 h-4 rounded-full bg-brand-primary/60 shrink-0 mt-1.5" />
                                                         <div className="flex flex-col gap-0.5 break-keep">
-                                                            <span className="text-white text-[16px] font-bold leading-snug">{it.타이틀}</span>
-                                                            {it.설명 && <span className="text-[14px] font-medium leading-relaxed" style={{ color: '#CCCCCC' }}>{it.설명}</span>}
+                                                            <span className="text-[16px] font-bold leading-snug" style={{ color: titleTextColor }}>{it.타이틀}</span>
+                                                            {it.설명 && <span className="text-[14px] font-medium leading-relaxed" style={{ color: bodyTextColor }}>{it.설명}</span>}
                                                         </div>
                                                     </li>
                                                 ))}
@@ -157,7 +162,7 @@ export default function UseCaseDetailPage() {
                                                         <span className="text-brand-primary text-[13px] font-bold shrink-0 leading-none mt-0.5">{(idx + 1).toString().padStart(2, '0')}</span>
                                                     )}
                                                     <div className={`font-bold leading-tight ${section.id === 'results' ? 'text-body-base text-emerald-400' : 'text-body-base text-text-primary'}`}>{it.타이틀}</div>
-                                                    <p className="text-[14px] leading-relaxed break-keep font-medium" style={{ color: '#CCCCCC' }}>{it.설명}</p>
+                                                    <p className="text-[14px] leading-relaxed break-keep font-medium" style={{ color: bodyTextColor }}>{it.설명}</p>
                                                 </div>
                                             ))}
                                         </div>
@@ -168,7 +173,7 @@ export default function UseCaseDetailPage() {
                                     <div className="flex flex-col gap-4 mt-4">
                                         {section.quotes.map((q: any, idx: number) => (
                                             <div key={idx} className="p-6 rounded-[12px] bg-bg-surface/50 border border-border-light flex flex-col gap-4">
-                                                <div className="text-body-base font-medium leading-relaxed break-keep" style={{ color: '#CCCCCC' }}>
+                                                <div className="text-body-base font-medium leading-relaxed break-keep" style={{ color: bodyTextColor }}>
                                                     {q.text}
                                                 </div>
                                                 <div className="text-brand-primary text-[14px] font-bold">— {q.author}</div>
