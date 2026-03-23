@@ -78,7 +78,7 @@ export default function HeroContent({ onSubmit, isAnalyzing = false, align = 'ce
   const isLeft = align === 'left';
 
   return (
-    <div className={`relative z-10 w-full max-w-6xl mx-auto px-6 pt-20 pb-10 md:py-24 min-h-[300px] flex flex-col ${isLeft ? 'items-center text-center md:items-start md:text-left' : 'items-center justify-center text-center'}`}>
+    <div className={`relative z-10 w-full max-w-6xl mx-auto px-6 py-20 md:py-24 min-h-[300px] flex flex-col ${isLeft ? 'items-center text-center md:items-start md:text-left' : 'items-center justify-center text-center'}`}>
       {/* 히어로 뱃지 - 타이틀 위 */}
       <motion.div
         initial={{ opacity: 0, y: -10 }}
@@ -114,13 +114,13 @@ export default function HeroContent({ onSubmit, isAnalyzing = false, align = 'ce
               className={`text-[44px] md:text-5xl lg:text-[64px] font-[600] mb-4 md:mb-6 leading-[1.1] tracking-tight w-full max-w-5xl flex flex-col ${isLeft ? 'items-center md:items-start' : 'items-center'}`}
             >
               <span className={`block whitespace-nowrap ${isLeft ? 'text-center md:text-left' : 'text-center'}`}>
-                <span className="bg-gradient-to-br from-brand-secondary via-text-primary to-text-primary bg-clip-text text-transparent">
+                <span className="bg-gradient-to-br from-brand-secondary via-white to-white bg-clip-text text-transparent">
                   {lines[0]}
                 </span>
                 {!done && lines.length === 1 && <span className="inline-block w-[3px] h-[0.85em] bg-brand-primary ml-1 align-middle animate-pulse" />}
               </span>
               <span className={`block whitespace-nowrap ${isLeft ? 'text-center md:text-left' : 'text-center'}`}>
-                <span className="bg-gradient-to-br from-brand-secondary via-text-primary to-text-primary bg-clip-text text-transparent">
+                <span className="bg-gradient-to-br from-brand-secondary via-white to-white bg-clip-text text-transparent">
                   {lines[1] ?? ''}
                 </span>
                 {!done && lines.length === 2 && <span className="inline-block w-[3px] h-[0.85em] bg-brand-primary ml-1 align-middle animate-pulse" />}
@@ -130,7 +130,7 @@ export default function HeroContent({ onSubmit, isAnalyzing = false, align = 'ce
               initial={{ opacity: 0 }}
               animate={{ opacity: done ? 1 : 0 }}
               transition={{ duration: 0.5 }}
-              className={`text-[15px] md:text-[15px] lg:text-[16px] font-normal max-w-[85vw] text-text-secondary sm:max-w-2xl md:max-w-3xl lg:max-w-4xl w-full leading-relaxed whitespace-pre-line ${isLeft ? 'text-center md:text-left' : 'text-center'} px-1`}
+              className={`text-[15px] md:text-[15px] lg:text-[16px] font-normal text-white/60 max-w-[85vw] sm:max-w-2xl md:max-w-3xl lg:max-w-4xl w-full leading-relaxed whitespace-pre-line ${isLeft ? 'text-center md:text-left' : 'text-center'} px-1`}
             >
               {slide.sub}
             </motion.p>
@@ -146,9 +146,7 @@ export default function HeroContent({ onSubmit, isAnalyzing = false, align = 'ce
               setIndex(i);
               startRotation();
             }}
-            className={`h-1.5 w-1.5 rounded-full transition-all duration-500 ${i === index
-                ? 'bg-text-primary'
-                : 'bg-text-primary/20 hover:bg-text-primary/40'
+            className={`h-1.5 w-1.5 rounded-full transition-all duration-500 ${i === index ? "bg-white" : "bg-white/20 hover:bg-white/40"
               }`}
             aria-label={`Slide ${i + 1}`}
           />

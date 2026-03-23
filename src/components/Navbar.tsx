@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence, MotionValue } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { useTheme } from '@/context/ThemeContext';
+import { useTheme } from '../context/ThemeContext';
 
 interface NavbarProps {
   activePage?: 'home' | 'platform' | 'use-cases' | 'news';
@@ -88,8 +88,7 @@ export default function Navbar({ activePage, scrollLineProgress }: NavbarProps) 
         <Button
           variant="ghost"
           size="icon"
-          rounded="lg"
-          className={`lg:hidden ml-auto ${textColor} h-10 w-10 hover:bg-bg-active`}
+          className={`lg:hidden ml-auto ${textColor} h-10 w-10 hover:bg-bg-active rounded-lg`}
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
           {isMenuOpen ? <X size={32} /> : <Menu size={32} />}

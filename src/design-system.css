@@ -1,0 +1,260 @@
+/*
+  🎨 BIZ.AI DESIGN SYSTEM GUIDE
+  이 파일의 HEX 값을 수정하면 서비스 전체의 컬러가 일괄 변경됩니다.
+
+  테마 구조:
+  - :root         → 라이트 테마 (기본값)
+  - html.dark     → 다크 테마 오버라이드
+*/
+
+:root {
+  /* [1. BRAND COLORS] — 테마 무관 고정값 */
+  --color-brand-primary: #1A75FF;
+  --color-brand-secondary: #93C5FD;
+  --color-brand-accent: #E31B23;
+  --color-brand-navy: #171B26;
+
+  /* [2. SEMANTIC COLORS] — 테마 무관 고정값 */
+  --color-emerald: #10B981;
+  --color-sky: #0EA5E9;
+  --color-purple: #A855F7;
+
+  /* [3. COMPONENT SPECIAL] — 테마 무관 고정값 */
+  --color-metal-rim: rgba(255, 255, 255, 0.08);
+  --color-metal-base: #1a1c23;
+  --color-metal-gradient-start: #3b4351;
+  --color-metal-gradient-via: #1b1f28;
+  --color-metal-gradient-end: #0c0e12;
+
+  /* ─── 라이트 테마 기본값 ─────────────────────── */
+
+  /* BACKGROUNDS */
+  --color-bg-main: #FFFFFF;       /* 전체 페이지 배경 */
+  --color-bg-section: #F6F6F6;   /* 섹션 배경 (FAQ, 로고, 푸터 등) */
+  --color-bg-surface: rgba(0, 0, 0, 0.04);  /* 카드/박스 배경 */
+  --color-bg-glass: #1A75FF1A;
+  --color-bg-active: rgba(0, 0, 0, 0.06);   /* 활성 상태 배경 */
+
+  /* TEXT */
+  --color-text-primary: #000000;  /* 메인 타이틀, 헤드라인 */
+  --color-text-secondary: #444444; /* 본문, 부가 설명 */
+  --color-text-dim: #666666;      /* 보조, 흐린 텍스트 */
+
+  /* BORDERS */
+  --color-border-light: rgba(0, 0, 0, 0.08); /* 기본 구분선 */
+  --color-border-active: #1A75FF;
+
+  /* SHADCN SYSTEM MAPPING */
+  --background: var(--color-bg-main);
+  --foreground: var(--color-text-primary);
+  --card: var(--color-bg-surface);
+  --card-foreground: var(--color-text-primary);
+  --popover: var(--color-bg-surface);
+  --popover-foreground: var(--color-text-primary);
+  --primary: var(--color-brand-primary);
+  --primary-foreground: #FFFFFF;
+  --secondary: var(--color-bg-active);
+  --secondary-foreground: var(--color-text-secondary);
+  --muted: var(--color-bg-surface);
+  --muted-foreground: var(--color-text-secondary);
+  --accent: var(--color-bg-glass);
+  --accent-foreground: var(--color-brand-primary);
+  --border: var(--color-border-light);
+  --input: var(--color-border-light);
+  --ring: var(--color-brand-primary);
+  --radius: 0.625rem;
+}
+
+/* ─── 다크 테마 오버라이드 ───────────────────────── */
+html.dark {
+  /* BACKGROUNDS */
+  --color-bg-main: #09090B;
+  --color-bg-section: #0A0A0A;
+  --color-bg-surface: rgba(255, 255, 255, 0.05);
+  --color-bg-active: rgba(255, 255, 255, 0.10);
+
+  /* TEXT */
+  --color-text-primary: #F3F3F3;
+  --color-text-secondary: #B5B5B5;
+  --color-text-dim: rgba(255, 255, 255, 0.4);
+
+  /* BORDERS */
+  --color-border-light: rgba(255, 255, 255, 0.07);
+
+  /* SHADCN SYSTEM MAPPING */
+  --background: var(--color-bg-main);
+  --foreground: var(--color-text-primary);
+  --card: var(--color-bg-surface);
+  --card-foreground: var(--color-text-primary);
+  --popover: var(--color-bg-surface);
+  --popover-foreground: var(--color-text-primary);
+  --secondary: var(--color-bg-active);
+  --secondary-foreground: var(--color-text-secondary);
+  --muted: var(--color-bg-surface);
+  --muted-foreground: var(--color-text-secondary);
+  --border: var(--color-border-light);
+  --input: var(--color-border-light);
+}
+
+/*
+  📝 BIZ.AI TYPOGRAPHY SYSTEM
+  이 파일의 값을 수정하면 서비스 전체의 타이포그래피가 일괄 변경됩니다.
+*/
+
+:root {
+  /* [FONT FAMILY] */
+  --font-primary: 'Pretendard', sans-serif;
+  /* 서비스 전체 메인 폰트 */
+  --font-display: 'Poppins', sans-serif;
+  /* 히어로 애니메이션, 영문 강조 */
+
+  /* [FONT SIZE - Display] 대형 숫자, 히어로 */
+  --text-display-xl: 72px;
+  /* 수치 강조 (최대) */
+  --text-display-lg: 60px;
+  /* 수치 강조 */
+  --text-display-hero: 58px;
+  /* 히어로/배너 대형 타이틀 */
+  --text-display-md: 58px;
+  /* 수치 강조 (중형) */
+  --text-display-sm: 48px;
+  /* CTA 배너, 섹션 강조 */
+  --text-display-xs: 44px;
+  /* 수치 강조 (소형) */
+
+  /* [FONT SIZE - Heading] 섹션 타이틀 */
+  --text-heading-xl: 40px;
+  /* 페이지 메인 타이틀 (데스크탑) */
+  --text-heading-lg: 36px;
+  /* 페이지 메인 타이틀 (태블릿) */
+  --text-heading-md: 32px;
+  /* 섹션 타이틀 */
+  --text-heading-sm: 28px;
+  /* 서브 섹션 타이틀 */
+  --text-heading-xs: 26px;
+  /* 카드 그룹 타이틀 */
+
+  /* [FONT SIZE - Body] 본문 및 카드 */
+  --text-body-xl: 24px;
+  /* 카드 타이틀, 강조 본문 */
+  --text-body-lg: 22px;
+  /* 카드 타이틀 (소형) */
+  --text-body-title: 19px;
+  /* 카드/리스트 타이틀 (h3) */
+  --text-body-md: 20px;
+  /* 중간 강조 텍스트 */
+  --text-body: 18px;
+  /* 주요 기능 타이틀 */
+  --text-body-base: 17px;
+  /* 본문, FAQ 답변, 소개 텍스트 */
+  --text-body-sm: 16px;
+  /* 일반 본문, 메뉴명 */
+  --text-body-xs: 15px;
+  /* 보조 설명 */
+
+  /* [FONT SIZE - Label] 레이블, 태그, 메타 */
+  --text-label-lg: 14px;
+  /* 일반 레이블, 태그 */
+  --text-label-md: 13px;
+  /* 작은 레이블 */
+  --text-label-sm: 12px;
+  /* 메타 정보, 날짜 */
+  --text-label-xs: 11px;
+  /* 최소 텍스트 */
+
+  /* [FONT WEIGHT] */
+  --font-normal: 400;
+  /* 일반 본문 */
+  --font-medium: 500;
+  /* 레이블, UI 요소 */
+  --font-semibold: 600;
+  /* 서브 헤딩, 강조 */
+  --font-bold: 700;
+  /* 타이틀, 헤딩 */
+
+  /* [LINE HEIGHT] */
+  --leading-display: 1;
+  /* 수치/대형 숫자 (압축) */
+  --leading-heading: 1.1;
+  /* 대형 헤딩 */
+  --leading-title: 1.3;
+  /* 섹션 타이틀 */
+  --leading-tight: 1.25;
+  /* 카드 타이틀 */
+  --leading-snug: 1.375;
+  /* 서브 헤딩 */
+  --leading-body: 1.6;
+  /* 일반 본문 */
+  --leading-relaxed: 1.625;
+  /* 긴 본문 단락 */
+
+  /* [LETTER SPACING] */
+  --tracking-tighter: -0.05em;
+  /* 대형 숫자, 최대 압축 */
+  --tracking-tight: -0.025em;
+  /* 헤딩, 타이틀 (기본) */
+  --tracking-normal: 0em;
+  /* 일반 본문 */
+  --tracking-wide: 0.025em;
+  /* 섹션 레이블 */
+  --tracking-wider: 0.05em;
+  /* 대문자 레이블 */
+  --tracking-widest: 0.1em;
+  /* 특수 메타 레이블 */
+}
+
+/* Tailwind v4 매핑을 위한 설정 (Tailwind 클래스에서도 사용 가능하게) */
+@theme {
+  --color-brand-primary: var(--color-brand-primary);
+  --color-brand-secondary: var(--color-brand-secondary);
+  --color-brand-accent: var(--color-brand-accent);
+  --color-brand-navy: var(--color-brand-navy);
+
+  --color-emerald: var(--color-emerald);
+  --color-sky: var(--color-sky);
+  --color-purple: var(--color-purple);
+
+  --color-metal-base: var(--color-metal-base);
+  --color-metal-gradient-start: var(--color-metal-gradient-start);
+  --color-metal-gradient-end: var(--color-metal-gradient-end);
+
+  --color-bg-main: var(--color-bg-main);
+  --color-bg-section: var(--color-bg-section);
+  --color-bg-surface: var(--color-bg-surface);
+  --color-bg-glass: var(--color-bg-glass);
+
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-dim: var(--color-text-dim);
+
+  --color-border-light: var(--color-border-light);
+  --color-border-active: var(--color-border-active);
+
+  /* Typography tokens → Tailwind 클래스로 사용 가능 */
+  --text-display-xl: var(--text-display-xl);
+  --text-display-lg: var(--text-display-lg);
+  --text-display-hero: var(--text-display-hero);
+  --text-display-md: var(--text-display-md);
+  --text-display-sm: var(--text-display-sm);
+  --text-display-xs: var(--text-display-xs);
+
+  --text-heading-xl: var(--text-heading-xl);
+  --text-heading-lg: var(--text-heading-lg);
+  --text-heading-md: var(--text-heading-md);
+  --text-heading-sm: var(--text-heading-sm);
+  --text-heading-xs: var(--text-heading-xs);
+
+  --text-body-xl: var(--text-body-xl);
+  --text-body-lg: var(--text-body-lg);
+  --text-body-title: var(--text-body-title);
+  --text-body-md: var(--text-body-md);
+  --text-body: var(--text-body);
+  --text-body-base: var(--text-body-base);
+  --text-body-sm: var(--text-body-sm);
+  --text-body-xs: var(--text-body-xs);
+
+  --text-label-lg: var(--text-label-lg);
+  --text-label-md: var(--text-label-md);
+  --text-label-sm: var(--text-label-sm);
+  --text-label-xs: var(--text-label-xs);
+}

@@ -8,7 +8,7 @@ const SolutionItem = ({ type, tag, title, desc, icon }: { type: 'top' | 'bottom'
     viewport={{ once: true }}
     transition={{ duration: 0.5 }}
     className="group relative flex flex-col items-center bg-[var(--color-surface)] border border-[var(--color-border)] rounded-3xl p-8 hover:border-[var(--color-text-secondary)] transition-all duration-300 hover:shadow-2xl hover:shadow-[var(--color-accent)]/10"
-  >
+>
     <div className="absolute inset-0 bg-gradient-to-b from-[var(--color-surface-hover)] to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-3xl pointer-events-none" />
     
     <div className="relative z-10 flex flex-col items-center text-center h-full">
@@ -28,7 +28,7 @@ export default function Solutions() {
     <section id="solution" className="py-32 px-6 bg-[var(--color-background)] relative">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-20">
-          <h2 className="text-3xl md:text-5xl font-bold text-[var(--color-text-primary)] mb-6 tracking-tight">KT DS의 AI 솔루션</h2>
+          <h2 className="text-3xl md:text-5xl font-bold text-[var(--color-text-primary)] mb-6 tracking-tight">kt ds의 AI 솔루션</h2>
           <p className="text-[var(--color-text-secondary)] text-xl max-w-2xl mx-auto">기업의 AI 도입부터 클라우드 인프라 관리까지 전 과정을 표준화하고 안정적으로 지원합니다</p>
         </div>
         

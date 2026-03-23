@@ -1,31 +1,17 @@
 import { motion } from 'motion/react';
 import { ChevronRight, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import Silk from '@/components/Silk';
 
 export default function Hero() {
   return (
     <section className="relative pt-48 pb-32 px-6 flex items-center justify-center min-h-[90vh] overflow-hidden bg-[var(--color-background)]">
-      {/* Silk Motion Background */}
-      <div className="absolute inset-0 z-0">
-        <Silk
-          speed={3.5}
-          scale={0.8}
-          color="#1a2a4a"
-          noiseIntensity={2.0}
-          rotation={-1.5}
-        />
-      </div>
-      {/* Fade-out gradient overlay */}
-      <div className="absolute inset-0 z-[1] pointer-events-none" style={{ background: 'linear-gradient(to bottom, rgba(10,10,10,0.15) 0%, rgba(10,10,10,0.7) 60%, rgba(10,10,10,1) 100%)' }} />
-
       {/* Framer-style Grid Background */}
-      <div className="absolute inset-0 z-[2] bg-grid-pattern opacity-20 pointer-events-none" />
-
+      <div className="absolute inset-0 bg-grid-pattern opacity-20 pointer-events-none" />
+      
       {/* Central Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[var(--color-accent)] rounded-full blur-[120px] opacity-10 pointer-events-none animate-pulse z-[2]" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[var(--color-accent)] rounded-full blur-[120px] opacity-10 pointer-events-none animate-pulse" />
 
-      <div className="max-w-7xl mx-auto text-center relative z-10 flex flex-col items-center" style={{ zIndex: 10 }}>
+      <div className="max-w-7xl mx-auto text-center relative z-10 flex flex-col items-center">
         {/* Badge */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}

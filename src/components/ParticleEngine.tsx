@@ -5,13 +5,13 @@ import type { MotionValue } from 'motion/react';
 const PARTICLE_COUNT = 12000;
 const RING_CENTER = 0.72; // Larger overall shape
 const RING_SIGMA = 0.12; // Tighter core density
-const MOUSE_INFLUENCE = 0.01;
-const MOUSE_RADIUS = 0.16;
+const MOUSE_INFLUENCE = 0.08;
+const MOUSE_RADIUS = 0.22;
 const GATHER_DURATION = 4;
 
 const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
 const easeInOutCubic = (t: number) =>
-  t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  t <0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 
 // 화면 가장자리에서 흩어진 시작 위치
 const getStartPos = () => {
@@ -57,48 +57,31 @@ export default function ParticleEngine({ scrollYProgress, className = '', mode =
   const particles = useMemo((): Particle[] => {
     // If it's logo mode, pre-calculate specific dot clustering
     if (mode === "logo") {
-      // Create a hexagonal dot grid similar to the user's reference logo using coordinates
-      const logoDots = [
-        { rX: -0.15, rY: -0.1, s: 6 },
-        { rX: -0.05, rY: -0.2, s: 12 },
-        { rX: 0.05, rY: -0.3, s: 16 },
+      const GRID_RADIUS = 0.28;
+      const GRID_STEP = 0.045;
+      const logoDots: { rX: number; rY: number; s: number }[] = [];
 
-        { rX: -0.2, rY: 0, s: 8 },
-        { rX: -0.1, rY: -0.1, s: 14 },
-        { rX: 0, rY: -0.2, s: 18 },
-        { rX: 0.1, rY: -0.3, s: 22 },
+      for (let x = -GRID_RADIUS; x <= GRID_RADIUS; x += GRID_STEP) {
+        for (let y = -GRID_RADIUS; y <= GRID_RADIUS; y += GRID_STEP) {
+          const dist = Math.sqrt(x * x + y * y);
+          if (dist <= GRID_RADIUS) {
+            // Size increases from left to right
+            // Map x from [-GRID_RADIUS, GRID_RADIUS] to size [4, 18]
+            const sizeWeight = (x + GRID_RADIUS) / (GRID_RADIUS * 2);
+            const size = 4 + sizeWeight * 14;
+            logoDots.push({ rX: x, rY: y, s: size });
+          }
+        }
+      }
 
-        { rX: -0.25, rY: 0.1, s: 6 },
-        { rX: -0.15, rY: 0, s: 10 },
-        { rX: -0.05, rY: -0.1, s: 16 },
-        { rX: 0.05, rY: -0.2, s: 20 },
-        { rX: 0.15, rY: -0.3, s: 24 },
-
-        { rX: -0.2, rY: 0.2, s: 8 },
-        { rX: -0.1, rY: 0.1, s: 12 },
-        { rX: 0, rY: 0, s: 18 },
-        { rX: 0.1, rY: -0.1, s: 24 },
-        { rX: 0.2, rY: -0.2, s: 28 },
-
-        { rX: -0.1, rY: 0.3, s: 10 },
-        { rX: 0, rY: 0.2, s: 14 },
-        { rX: 0.1, rY: 0.1, s: 18 },
-        { rX: 0.2, rY: 0, s: 22 },
-
-        { rX: 0.05, rY: 0.3, s: 12 },
-        { rX: 0.15, rY: 0.2, s: 16 }
-      ];
-
-      // We don't need 30k particles for the logo, just enough to form dense glowing clusters at these points
-      const LOGO_PARTICLE_COUNT = 8000;
+      const LOGO_PARTICLE_COUNT = 10000; // Optimized for performance
       return Array.from({ length: LOGO_PARTICLE_COUNT }, (_, i) => {
         const start = getStartPos();
-        // Clump to specific logical dots
         const targetDot = logoDots[i % logoDots.length];
-        // Add random scatter around the target dot. Larger base 's' means larger radius.
         const angle = Math.random() * Math.PI * 2;
-        // Make the scatter proportional to the visual size of the dot we're simulating
-        const radius = Math.random() * (targetDot.s * 0.002);
+
+        // Denser clustering for structured intelligence feel
+        const radius = Math.random() * (targetDot.s * 0.0008);
         const endX = targetDot.rX + Math.cos(angle) * Math.sqrt(radius);
         const endY = targetDot.rY + Math.sin(angle) * Math.sqrt(radius);
 
@@ -106,17 +89,17 @@ export default function ParticleEngine({ scrollYProgress, className = '', mode =
           startX: start.x,
           startY: start.y,
           angle,
-          radius: Math.sqrt(endX * endX + endY * endY), // Fake radius to leverage existing logic
-          orbitSpeed: (Math.random() - 0.5) * 0.005,
-          size: 0.3 + Math.random() * 0.5,
-          opacity: 0.15 + Math.random() * 0.35,
-          twinkleSpeed: 0.2 + Math.random() * 1.0,
+          radius: Math.sqrt(endX * endX + endY * endY),
+          orbitSpeed: (Math.random() - 0.5) * 0.002,
+          size: 0.4 + Math.random() * 0.4,
+          opacity: 0.1 + Math.random() * 0.4,
+          twinkleSpeed: 0.5 + Math.random() * 1.5,
           twinkleOffset: Math.random() * Math.PI * 2,
-          delay: 0,
+          delay: (i / LOGO_PARTICLE_COUNT) * 0.5, // Staggered arrival for cinematic flow
           color: `255, 255, 255`,
-          // inject specific target pos to override
           targetX: endX,
-          targetY: endY
+          targetY: endY,
+          targetSize: targetDot.s
         } as any;
       });
     }
@@ -131,7 +114,7 @@ export default function ParticleEngine({ scrollYProgress, className = '', mode =
       const baseRadius = Math.max(0.01, gaussRandom(RING_CENTER, RING_SIGMA));
       const radius = baseRadius * (1 + distortion);
 
-      const isGlow = Math.random() < 0.15; // More bright points for richness
+      const isGlow = Math.random() <0.15; // More bright points for richness
       return {
         startX: start.x,
         startY: start.y,
@@ -143,9 +126,9 @@ export default function ParticleEngine({ scrollYProgress, className = '', mode =
         twinkleSpeed: 0.4 + Math.random() * 1.4,
         twinkleOffset: Math.random() * Math.PI * 2,
         delay: 0,
-        color: Math.random() < 0.85
+        color: Math.random() <0.85
           ? `190, 230, 255` // Bright vibrant blue
-          : Math.random() < 0.5
+          : Math.random() <0.5
             ? `255, 255, 255` // Pure white
             : `150, 190, 255`, // Rich sky blue
       };
@@ -196,61 +179,68 @@ export default function ParticleEngine({ scrollYProgress, className = '', mode =
       ctx.clearRect(0, 0, w, h);
 
       const elapsed = (performance.now() - start) * 0.001;
-
       const minSize = Math.min(w, h);
-      const scaleX = minSize / (2 * w);
-      const scaleY = minSize / (2 * h);
 
-      mouseRef.current.x += (mouseTargetRef.current.x - mouseRef.current.x) * 0.08;
-      mouseRef.current.y += (mouseTargetRef.current.y - mouseRef.current.y) * 0.08;
-      const mx = mouseRef.current.x;
-      const my = mouseRef.current.y;
+      const mouseX = mouseRef.current.x += (mouseTargetRef.current.x - mouseRef.current.x) * 0.08;
+      const mouseY = mouseRef.current.y += (mouseTargetRef.current.y - mouseRef.current.y) * 0.08;
 
-      for (let i = 0; i < particles.length; i++) {
+      const globalProgress = Math.min(1, elapsed / (GATHER_DURATION * 1.5));
+      const viewScale = 1 + globalProgress * 0.08;
+
+      const scaleX = (minSize / (2 * w)) * viewScale;
+      const scaleY = (minSize / (2 * h)) * viewScale;
+
+      // REMOVED ctx.shadowBlur - This was the performance killer
+
+      for (let i = 0; i <particles.length; i++) {
         const p = particles[i];
         const progress = Math.max(0, Math.min(1, (elapsed - p.delay * GATHER_DURATION) / GATHER_DURATION));
-        const eased = easeInOutCubic(progress);
+        // Use a faster easing for performance
+        const eased = progress <0.5 ? 2 * progress * progress : 1 - ((-2 * progress + 2) ** 2) / 2;
 
-        p.angle += p.orbitSpeed * (0.005 + 0.025 * eased);
+        p.angle += p.orbitSpeed * (0.005 + 0.015 * eased);
 
-        const radialPulse = 1 + (0.05 * Math.sin(elapsed * 1.2 + p.twinkleOffset)) * eased;
-        const finalRadius = p.radius * radialPulse;
-
-        let ringX = 0.5 + scaleX * finalRadius * Math.cos(p.angle);
-        let ringY = 0.5 + scaleY * finalRadius * Math.sin(p.angle);
-
+        let targetX = 0.5, targetY = 0.5;
         if ((p as any).targetX !== undefined) {
-          ringX = 0.5 + scaleX * ((p as any).targetX + Math.cos(p.angle) * 0.015);
-          ringY = 0.5 + scaleY * ((p as any).targetY + Math.sin(p.angle) * 0.015);
+          const noise = (Math.sin(elapsed * 2 + p.twinkleOffset) * 0.03) * (1 - eased);
+          targetX = 0.5 + scaleX * ((p as any).targetX + noise);
+          targetY = 0.5 + scaleY * ((p as any).targetY + noise);
+        } else {
+          const radialPulse = 1 + (0.05 * Math.sin(elapsed * 1.2 + p.twinkleOffset)) * eased;
+          targetX = 0.5 + scaleX * p.radius * radialPulse * Math.cos(p.angle);
+          targetY = 0.5 + scaleY * p.radius * radialPulse * Math.sin(p.angle);
         }
 
-        const baseX = p.startX + (ringX - p.startX) * eased;
-        const baseY = p.startY + (ringY - p.startY) * eased;
+        const easedX = p.startX + (targetX - p.startX) * eased;
+        const easedY = p.startY + (targetY - p.startY) * eased;
 
-        let x = baseX, y = baseY;
-
-        // Optimized Magnetic Attraction
-        const dx = mx - baseX;
-        const dy = my - baseY;
+        // Mouse displacement logic: particles move away from/towards the cursor based on distance
+        const dx = easedX - mouseX;
+        const dy = easedY - mouseY;
         const distSq = dx * dx + dy * dy;
-        const MAGNETIC_RANGE_SQ = 0.0225; // 0.15 * 0.15
+        const mouseRadiusSq = MOUSE_RADIUS * MOUSE_RADIUS;
 
-        if (distSq < MAGNETIC_RANGE_SQ) {
-          const dist = Math.sqrt(distSq) || 0.001;
-          const falloff = 1 - dist / 0.15;
-          const attractionStrength = falloff * falloff * falloff * 5.0 * eased;
-          x = baseX + dx * attractionStrength;
-          y = baseY + dy * attractionStrength;
+        let offsetX = 0;
+        let offsetY = 0;
+
+        if (distSq <mouseRadiusSq) {
+          const dist = Math.sqrt(distSq);
+          const force = (1 - dist / MOUSE_RADIUS) * MOUSE_INFLUENCE * eased;
+          offsetX = dx * force;
+          offsetY = dy * force;
         }
 
-        const gatherTwinkle = 0.3 + 0.7 * eased;
-        const activeTwinkle = 0.4 + 0.6 * Math.sin(elapsed * p.twinkleSpeed * 1.5 + p.twinkleOffset);
-        const twinkle = gatherTwinkle * (1 - eased) + activeTwinkle * eased;
+        const x = easedX + offsetX;
+        const y = easedY + offsetY;
 
-        const opacity = p.opacity * Math.max(0, Math.min(1, twinkle));
+        const size = p.size * (1 - eased) + ((p as any).targetSize * 0.01 * minSize / 400 || p.size) * eased;
+        const twinkle = 0.4 + 0.6 * Math.sin(elapsed * p.twinkleSpeed + p.twinkleOffset);
+        const opacity = p.opacity * (0.4 + 0.6 * eased) * twinkle;
 
         ctx.fillStyle = `rgba(${p.color},${opacity})`;
-        ctx.fillRect(x * w, y * h, p.size * 2, p.size * 2); // fillRect is significantly faster than arc()
+
+        // Replaced arc() with fillRect() for massive performance gain
+        ctx.fillRect(x * w - size, y * h - size, size * 2, size * 2);
       }
 
       rafId = requestAnimationFrame(draw);
@@ -273,11 +263,15 @@ export default function ParticleEngine({ scrollYProgress, className = '', mode =
     <motion.div
       className={`absolute inset-0 pointer-events-none overflow-hidden ${className}`}
       style={{ opacity: containerOpacity }}
-    >
+>
       <canvas
         ref={canvasRef}
         className="absolute inset-0 w-full h-full"
-        style={{ width: '100%', height: '100%' }}
+        style={{
+          width: '100%',
+          height: '100%',
+          filter: mode === "logo" ? 'drop-shadow(0 0 10px rgba(255,255,255,0.4))' : 'none'
+        }}
       />
     </motion.div>
   );

@@ -73,7 +73,7 @@ const AnimatedCounter = ({ from, to }: { from: number; to: number }) => {
 };
 
 const SolutionCard = ({ number, image, title, desc, highlight, isLarge }: { number: string; image: string; title: string; desc: string; highlight: string; isLarge?: boolean }) => (
-  <div className="bg-white rounded-[20px] p-6 md:p-10 flex flex-col w-full min-w-[280px] h-[340px] md:h-[424px] group cursor-pointer shadow-[0_4px_24px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_48px_rgba(0,0,0,0.08)] transition-all duration-500 hover:-translate-y-2 font-pretendard relative overflow-hidden">
+  <div className="bg-[#F5F5F5] rounded-[20px] p-6 md:p-10 flex flex-col w-full min-w-[280px] h-[340px] md:h-[424px] group cursor-pointer hover:shadow-[0_20px_48px_rgba(0,0,0,0.08)] transition-all duration-500 hover:-translate-y-2 font-pretendard relative overflow-hidden">
     {/* Index Number */}
     <div className="text-black text-body-sm md:text-body-md font-bold leading-none mb-2 md:mb-3">{number}</div>
 
@@ -449,11 +449,11 @@ const Tag = ({ text }: { text: string }) => (
   </Badge>
 );
 
-const ProcessSection = ({ isMobile }: { isMobile: boolean }) => {
+const ProcessSection = () => {
   return (
     <div className="relative w-full py-10">
       <div
-        className={`bg-[#F3F5FC] border-black/5 relative z-20 overflow-hidden shadow-2xl smooth-gpu rounded-[28px] mx-4 ${isMobile ? 'border-none' : 'border'}`}
+        className="bg-white relative z-20 overflow-hidden smooth-gpu rounded-[28px] mx-4"
       >
         <section id="process" className="py-16 md:py-32 relative overflow-hidden">
           <div className="max-w-[1280px] mx-auto px-10 relative z-10">
@@ -505,7 +505,7 @@ const ProcessSection = ({ isMobile }: { isMobile: boolean }) => {
               ].map((step, i) => (
                 <div
                   key={i}
-                  className="group relative bg-white rounded-[20px] p-6 md:p-10 border border-black/5 hover:-translate-y-2 hover:shadow-[0_20px_48px_rgba(0,0,0,0.08)] transition-all duration-300 flex flex-col min-h-[320px] md:min-h-[420px] overflow-hidden"
+                  className="group relative bg-[#F5F5F5] rounded-[20px] p-6 md:p-10 hover:-translate-y-2 hover:shadow-[0_20px_48px_rgba(0,0,0,0.08)] transition-all duration-300 flex flex-col min-h-[320px] md:min-h-[420px] overflow-hidden"
                 >
                   <div className="absolute inset-0 bg-gradient-to-b from-black/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-[20px] pointer-events-none" />
                   <div className="relative min-h-[100px] md:min-h-[130px]">
@@ -620,7 +620,7 @@ const App = () => {
           {/* Continuous gradient from the Hero section into the gap */}
 
           <div
-            className={`relative z-20 overflow-hidden mb-20 smooth-gpu rounded-[28px] mx-4 transition-colors duration-500 ${isMobile ? 'border-none' : 'border'} bg-[#F3F5FC] border-black/5`}
+            className="relative z-20 overflow-hidden mb-20 smooth-gpu rounded-[28px] mx-4 transition-colors duration-500 bg-white"
           >
             <section id="solution" className="py-16 md:py-32">
               <div className="max-w-[1280px] mx-auto px-10 relative">
@@ -719,7 +719,7 @@ const App = () => {
 
 
         {/* Use Cases 섹션 */}
-        <section id="use-cases" className="py-16 md:py-24 relative" style={{ backgroundColor: isDark ? '#0A0A0A' : '#FFFFFF' }}>
+        <section id="use-cases" className="py-16 md:py-24 relative" style={{ backgroundColor: '#0A0A0A' }}>
           <div className="max-w-[1280px] mx-auto container-responsive">
             {/* Header */}
             <div className="text-center mb-10 md:mb-16">
@@ -760,7 +760,7 @@ const App = () => {
                     "단순 조회가 아닌 실제 업무 흐름에 맞춘 Agent 제공",
                     "단계별 구축 없이도 단기간 내 적용 가능",
                   ].map((item, i) => (
-                    <div key={i} className="flex items-start gap-3 text-[#CCCCCC] text-[15px] leading-relaxed">
+                    <div key={i} className={`flex items-start gap-3 text-[15px] leading-relaxed ${isDark ? 'text-[#CCCCCC]' : 'text-[#333333]'}`}>
                       <span className="shrink-0 text-brand-primary font-bold w-6">{String(i + 1).padStart(2, '0')}</span>
                       <span>{item}</span>
                     </div>
@@ -772,9 +772,9 @@ const App = () => {
         </section>
 
         {/* Why kt ds - 프로세스 섹션 */}
-        <ProcessSection isMobile={isMobile} />
+        <ProcessSection />
 
-        <section id="logos" className="relative py-24 overflow-hidden" style={{ backgroundColor: isDark ? '#0A0A0A' : '#FFFFFF' }}>
+        <section id="logos" className="relative pt-10 pb-3 overflow-hidden bg-bg-section">
           {/* Hero와 동일한 그리드 배경 추가 */}
           <div className="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none" />
           
@@ -805,7 +805,7 @@ const App = () => {
                           src={brand.logo} 
                           alt={brand.name} 
                           style={{ transform: `scale(${brand.scale})` }}
-                          className="max-h-[38px] max-w-[140px] w-auto h-auto object-contain opacity-100 transition-all duration-300 pointer-events-auto brightness-0 invert"
+                          className={`max-h-[38px] max-w-[140px] w-auto h-auto object-contain opacity-100 transition-all duration-300 pointer-events-auto brightness-0 ${isDark ? 'invert' : ''}`}
                         />
                       </div>
                     ))}
@@ -820,12 +820,12 @@ const App = () => {
 
 
         {/* FAQ 섹션 */}
-        <section id="faq" className="py-12 md:py-24 relative overflow-hidden" style={{ backgroundColor: isDark ? '#0A0A0A' : '#FFFFFF' }}>
+        <section id="faq" className="py-12 md:py-24 relative overflow-hidden bg-bg-section">
           <div className="max-w-[1280px] mx-auto container-responsive">
             <div className="flex flex-col lg:flex-row gap-10 md:gap-20">
               {/* 왼쪽: 헤더 */}
               <div className="lg:w-1/3">
-                <h1 className="text-heading-md md:text-heading-lg lg:text-display-md font-bold text-white mb-6 md:mb-8 tracking-tight leading-tight font-poppins">
+                <h1 className="text-heading-md md:text-heading-lg lg:text-display-md font-bold mb-6 md:mb-8 tracking-tight leading-tight font-poppins text-text-primary">
                   FAQ
                 </h1>
               </div>
@@ -876,7 +876,7 @@ const App = () => {
                                   onClick={() => setOpenIndex(isOpen ? null : i)}
                                   className="w-full py-8 flex items-center justify-between text-left group cursor-pointer h-auto px-0 hover:bg-transparent"
                                 >
-                                  <span className={`text-body-xs md:text-body-md font-bold tracking-tight transition-colors duration-300 ${isOpen ? 'text-text-primary' : 'text-text-secondary/80 group-hover:text-text-primary/90'}`}>
+                                  <span className={`text-body-xs md:text-body-md font-bold tracking-tight transition-colors duration-300 ${isOpen ? 'text-text-primary' : 'text-text-secondary group-hover:text-text-primary'}`}>
                                     {item.q}
                                   </span>
                                   <div className="relative w-6 h-6 flex items-center justify-center">
@@ -902,7 +902,7 @@ const App = () => {
                                       transition={{ duration: 0.3, ease: "easeInOut" }}
                                       className="overflow-hidden"
                                     >
-                                      <p className="pb-8 text-[#CCCCCC] text-body-base leading-relaxed font-normal break-keep max-w-2xl">
+                                      <p className="pb-8 text-body-base leading-relaxed font-normal break-keep max-w-2xl text-text-secondary">
                                         {item.a}
                                       </p>
                                     </motion.div>
@@ -942,7 +942,7 @@ const App = () => {
                 viewport={{ once: false }}
                 transition={{ duration: 1, ease: "easeOut" }}
               >
-                <h2 className="text-text-primary text-heading-sm md:text-display-sm font-bold mb-6 md:mb-10 tracking-tighter leading-[1.2] drop-shadow-[0_0_25px_rgba(255,255,255,0.2)]">
+                <h2 className="text-white text-heading-sm md:text-display-sm font-bold mb-6 md:mb-10 tracking-tighter leading-[1.2] drop-shadow-[0_0_25px_rgba(255,255,255,0.2)]">
                   Biz.AI와 함께<br />
                   AI 혁신을 지금 실행하세요.
                 </h2>
