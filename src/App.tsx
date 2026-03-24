@@ -872,7 +872,7 @@ const App = () => {
                                 <Button
                                   variant="ghost"
                                   onClick={() => setOpenIndex(isOpen ? null : i)}
-                                  className="w-full py-8 flex items-center justify-between text-left group cursor-pointer h-auto px-0 hover:bg-transparent"
+                                  className="w-full py-8 flex items-center justify-between text-left group cursor-pointer h-auto px-0 hover:bg-transparent dark:hover:bg-transparent"
                                 >
                                   <span className={`text-body-xs md:text-body-md font-bold tracking-tight transition-colors duration-300 ${isOpen ? 'text-text-primary' : 'text-text-secondary group-hover:text-text-primary'}`}>
                                     {item.q}
@@ -900,7 +900,7 @@ const App = () => {
                                       transition={{ duration: 0.3, ease: "easeInOut" }}
                                       className="overflow-hidden"
                                     >
-                                      <p className="pb-8 text-body-base leading-relaxed font-normal break-keep max-w-2xl text-text-secondary">
+                                      <p className="pb-8 text-body-sm leading-relaxed font-normal break-keep max-w-2xl text-text-secondary">
                                         {item.a}
                                       </p>
                                     </motion.div>
