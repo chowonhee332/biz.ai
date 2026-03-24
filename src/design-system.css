@@ -68,14 +68,14 @@
 /* ─── 다크 테마 오버라이드 ───────────────────────── */
 html.dark {
   /* BACKGROUNDS */
-  --color-bg-main: #09090B;
-  --color-bg-section: #0A0A0A;
+  --color-bg-main: #0A0A0A;
+  --color-bg-section: #141414;
   --color-bg-surface: rgba(255, 255, 255, 0.05);
   --color-bg-active: rgba(255, 255, 255, 0.10);
 
   /* TEXT */
   --color-text-primary: #F3F3F3;
-  --color-text-secondary: #B5B5B5;
+  --color-text-secondary: #CCCCCC;
   --color-text-dim: rgba(255, 255, 255, 0.4);
 
   /* BORDERS */

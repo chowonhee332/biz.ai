@@ -36,10 +36,10 @@ export default function NewsPage() {
                             transition={{ duration: 0.8, ease: "easeOut" }}
                             className="text-center"
                         >
-                            <h1 className="text-heading-lg lg:text-display-md font-bold text-text-primary tracking-tight leading-tight">
+                            <h1 className="text-heading-lg lg:text-display-md font-extrabold text-text-primary tracking-tight leading-tight font-display">
                                 News
                             </h1>
-                            <p className="mt-4 text-[18px] text-[#999999] font-normal">kt ds의 핵심기술과 다양한 소식들을 소개합니다</p>
+                            <p className="mt-4 text-[18px] text-text-secondary font-medium">kt ds의 핵심기술과 다양한 소식들을 소개합니다</p>
                         </motion.div>
                     </div>
                 </div>
@@ -53,18 +53,17 @@ export default function NewsPage() {
                             <Button
                                 key={category}
                                 variant="ghost"
-                                rounded="none"
                                 onClick={() => setActiveCategory(category)}
-                                className={`relative h-full !text-[18px] transition-colors flex items-center px-1 cursor-pointer hover:bg-transparent focus-visible:ring-0 focus-visible:outline-none ${activeCategory === category
+                                className={`relative h-full !text-[18px] transition-colors flex items-center px-1 cursor-pointer hover:!bg-transparent active:!bg-transparent focus:!bg-transparent active:!text-current focus:!text-current focus-visible:ring-0 focus-visible:outline-none rounded-none ${activeCategory === category
                                     ? "text-text-primary font-bold"
-                                    : "text-text-dim font-medium hover:text-text-primary"
+                                    : "text-text-dim/60 font-bold hover:text-text-secondary"
                                     }`}
                             >
                                 {category}
                                 {activeCategory === category && (
                                     <motion.div
-                                        layoutId="activeCategoryNews"
-                                        className="absolute bottom-0 left-0 right-0 h-[2px] bg-brand-primary rounded-full"
+                                        layoutId="activeNewsCategory"
+                                        className="absolute bottom-0 left-0 right-0 h-[3px] bg-brand-primary rounded-full"
                                         transition={{ type: "spring", stiffness: 380, damping: 30 }}
                                     />
                                 )}
@@ -87,7 +86,7 @@ export default function NewsPage() {
                                 className="group flex flex-col sm:flex-row gap-[50px] items-center py-8 cursor-pointer border-b border-border-light last:border-0"
                             >
                                 {/* 썸네일: 고정 높이 186px */}
-                                <div className="w-full sm:w-[280px] h-[186px] shrink-0 rounded-[16px] overflow-hidden bg-bg-surface border border-border-light">
+                                <div className="w-full sm:w-[280px] h-[186px] shrink-0 rounded-[20px] overflow-hidden bg-bg-surface border border-border-light">
                                     <img
                                         src={news.이미지}
                                         alt={news.타이틀}

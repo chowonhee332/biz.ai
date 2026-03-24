@@ -79,7 +79,7 @@ export default function HeroContent({ onSubmit, isAnalyzing = false, align = 'ce
                 transition={{ duration: 0.5, delay: 0, ease: 'easeOut' }}
                 className={`block whitespace-nowrap ${isLeft ? 'text-center md:text-left' : 'text-center'}`}
               >
-                <span className="bg-gradient-to-r from-brand-secondary via-white to-white/50 bg-clip-text text-transparent">
+                <span className="text-white">
                   {slide.main[0]}
                 </span>
               </motion.span>
@@ -89,7 +89,7 @@ export default function HeroContent({ onSubmit, isAnalyzing = false, align = 'ce
                 transition={{ duration: 0.5, delay: 0, ease: 'easeOut' }}
                 className={`block whitespace-nowrap ${isLeft ? 'text-center md:text-left' : 'text-center'}`}
               >
-                <span className="bg-gradient-to-r from-brand-secondary via-white to-white/50 bg-clip-text text-transparent">
+                <span className="text-white">
                   {slide.main[1]}
                 </span>
               </motion.span>
@@ -130,7 +130,7 @@ export default function HeroContent({ onSubmit, isAnalyzing = false, align = 'ce
         <Button
           variant="default"
           size="lg"
-          className="w-[110px] md:w-[130px] h-10 md:h-12 text-[15px] relative group transition-all duration-300"
+          className="w-[110px] md:w-[130px] h-10 md:h-12 text-[15px] relative group transition-all duration-300 !bg-brand-primary !text-white hover:!bg-brand-primary/90 !border-0 !rounded-full"
           disabled={isAnalyzing}
         >
           <span className="group-hover:-translate-x-2 transition-transform duration-300">무료체험 신청</span>
@@ -139,7 +139,7 @@ export default function HeroContent({ onSubmit, isAnalyzing = false, align = 'ce
         <Button
           variant="outline"
           size="lg"
-          className="w-[110px] md:w-[130px] h-10 md:h-12 text-[15px] relative group transition-all duration-300"
+          className="w-[110px] md:w-[130px] h-10 md:h-12 text-[15px] relative group transition-all duration-300 !bg-transparent !text-white !border-white/10 hover:!bg-white/10 !rounded-full"
         >
           <span className="group-hover:-translate-x-2 transition-transform duration-300">솔루션 문의</span>
           <ChevronRight size={16} className="absolute right-3 max-w-0 opacity-0 group-hover:max-w-[20px] group-hover:opacity-100 transition-all duration-300 overflow-hidden" />

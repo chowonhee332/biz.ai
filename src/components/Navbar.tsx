@@ -1,8 +1,7 @@
-import { Menu, X, ArrowUpRight, Sun, Moon } from 'lucide-react';
+import { Menu, X, Sun, Moon, ArrowUpRight } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence, MotionValue } from 'motion/react';
 import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
 import { useTheme } from '../context/ThemeContext';
 
 interface NavbarProps {
@@ -29,18 +28,19 @@ export default function Navbar({ activePage, scrollLineProgress }: NavbarProps) 
     { name: '새로운 소식', path: '/news', id: 'news' },
   ];
 
-  const textColor = isDark ? 'text-white' : 'text-gray-900';
+  const textColor = 'text-text-primary';
   const scrolledBg = isDark ? 'rgba(10, 10, 10, 1)' : 'rgba(255, 255, 255, 1)';
   const borderClass = isDark ? 'border-white/10' : 'border-black/10';
   const mobileMenuBg = isDark ? '#0A0A0A' : '#FFFFFF';
   const ktdsLogo = isDark ? '/kt ds_dark.png' : '/kt ds_light.png';
+  const hoverBg = isDark ? 'hover:bg-white/5' : 'hover:bg-black/5';
 
   return (
     <nav
-      className={`fixed top-0 w-full z-50 py-4 transition-all duration-500 ${scrolled ? `backdrop-blur-md shadow-lg` : 'backdrop-blur-none'}`}
+      className={`fixed top-0 w-full z-50 h-[68px] transition-all duration-500 ${scrolled ? `backdrop-blur-md shadow-lg` : 'backdrop-blur-none'}`}
       style={{ backgroundColor: scrolled ? scrolledBg : (isDark ? 'transparent' : 'rgba(255,255,255,1)') }}
     >
-      <div className="max-w-[1280px] mx-auto container-responsive flex items-center">
+      <div className="max-w-[1280px] mx-auto container-responsive flex items-center h-full">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2 shrink-0" onClick={() => window.scrollTo({ top: 0, behavior: 'instant' })}>
           <span className={`text-[22px] font-bold tracking-tighter ${textColor}`}>Biz.AI</span>
@@ -52,7 +52,7 @@ export default function Navbar({ activePage, scrollLineProgress }: NavbarProps) 
             <Link
               key={link.id}
               to={link.path}
-              className={`${textColor} ${activePage === link.id ? 'font-bold' : 'font-medium'}`}
+              className={`${activePage === link.id ? 'text-text-primary font-bold' : 'text-text-secondary font-semibold'} hover:text-text-primary transition-colors`}
             >
               {link.name}
             </Link>
@@ -60,43 +60,35 @@ export default function Navbar({ activePage, scrollLineProgress }: NavbarProps) 
         </div>
 
         {/* CTA Buttons */}
-        <div className="hidden lg:flex items-center gap-[0.7rem] ml-auto">
-          <a href="https://www.ktds.com/" target="_blank" rel="noopener noreferrer">
-            <Button variant="ghost" size="sm" className={`${textColor} hover:${textColor} hover:bg-transparent group h-9`}>
-              <img src={ktdsLogo} alt="kt ds" className="h-[17px] w-auto object-contain transition-opacity" onError={(e) => { (e.target as HTMLImageElement).src = ktdsLogo; }} />
-              <ArrowUpRight size={28} className="-ml-1 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300" />
-            </Button>
-          </a>
-          <a href="https://studio.abclab.ktds.com/auth/login" target="_blank" rel="noopener noreferrer">
-            <Button variant="ghost" size="sm" className={`px-4 py-0 h-9 rounded-[8px] font-bold hover:scale-100 hover:bg-transparent group ${textColor}`} style={{ fontSize: '15px' }}>
+        <div className="hidden lg:flex items-center gap-4 ml-auto">
+          <div className="flex items-center gap-1">
+            <a href="https://www.ktds.com/" target="_blank" rel="noopener noreferrer" className={`${textColor} flex items-center gap-0.5 px-3 h-10 rounded-full ${hoverBg} transition-colors group`}>
+              <img src={ktdsLogo} alt="kt ds" className="h-[17px] w-auto object-contain" />
+              <ArrowUpRight size={20} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300" />
+            </a>
+            <a href="https://studio.abclab.ktds.com/auth/login" target="_blank" rel="noopener noreferrer" className={`${textColor} flex items-center gap-0.5 px-3 h-10 rounded-full ${hoverBg} transition-colors text-[15px] font-bold group`}>
               AI Agent 스튜디오
-              <ArrowUpRight size={28} stroke={isDark ? 'white' : 'black'} className="-ml-1 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </Button>
-          </a>
-          <Button
-            variant="ghost"
-            size="icon"
-            className={`${textColor} hover:bg-transparent h-9 w-9`}
-            onClick={toggleTheme}
-            aria-label="테마 변경"
-          >
-            {isDark ? <Sun size={18} /> : <Moon size={18} />}
-          </Button>
+              <ArrowUpRight size={20} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300" />
+            </a>
+          </div>
+          <button className={`${textColor} flex items-center justify-center w-10 h-10 rounded-full ${hoverBg} transition-colors`} onClick={toggleTheme} aria-label="테마 변경">
+            {isDark ? <Sun size={20} /> : <Moon size={20} />}
+          </button>
         </div>
 
-        {/* Mobile Menu Button */}
-        <Button
-          variant="ghost"
-          size="icon"
-          className={`lg:hidden ml-auto ${textColor} h-10 w-10 hover:bg-bg-active rounded-lg`}
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-        >
-          {isMenuOpen ? <X size={32} /> : <Menu size={32} />}
-        </Button>
+        {/* Mobile: 테마 토글 + 메뉴 버튼 */}
+        <div className="lg:hidden ml-auto flex items-center gap-4">
+          <button className={`${textColor} flex items-center justify-center w-10 h-10 rounded-full ${hoverBg} transition-colors`} onClick={toggleTheme} aria-label="테마 변경">
+            {isDark ? <Sun size={20} /> : <Moon size={20} />}
+          </button>
+          <button className={`${textColor} flex items-center justify-center`} onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
+        </div>
       </div>
 
       {/* Scroll Progress Line */}
-      <div className="absolute bottom-[-1px] left-0 w-full h-[3px]">
+      <div className="absolute bottom-[-1px] left-0 w-full h-[4px]">
         {scrollLineProgress && (
           <motion.div
             style={{ scaleX: scrollLineProgress, originX: 0 }}

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import { motion } from 'motion/react';
+import { motion, useScroll } from 'motion/react';
 import { ArrowUpRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Footer from '@/components/Footer';
@@ -10,6 +10,7 @@ import { HIGHLIGHT_NEWS, REGULAR_NEWS } from './context/news/news-data';
 import { useTheme } from './context/ThemeContext';
 
 export default function NewsDetailPage() {
+    const { scrollYProgress } = useScroll();
     const { id } = useParams();
     const navigate = useNavigate();
     const location = useLocation();
@@ -30,7 +31,7 @@ export default function NewsDetailPage() {
 
     return (
         <div className="min-h-screen text-text-primary font-pretendard flex flex-col" style={{ backgroundColor: isDark ? '#0A0A0A' : '#FFFFFF' }}>
-            <Navbar activePage="news" />
+            <Navbar activePage="news" scrollLineProgress={scrollYProgress} />
 
             {/* Header */}
             <section className="pt-48 pb-16">

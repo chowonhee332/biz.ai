@@ -19,25 +19,26 @@ export default function Footer() {
   };
 
   return (
-    <footer className="border-t border-border-light py-10 container-responsive relative bg-bg-section">
-      <div className="max-w-[1200px] mx-auto flex flex-col md:flex-row md:items-start md:justify-between gap-6">
+    <footer className="container-responsive relative bg-bg-section min-h-[200px] flex items-center">
+      <div className="max-w-[1200px] w-full mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-6">
         {/* 좌측: 로고 + 주소 */}
-        <div className="flex flex-col gap-3">
-          <span className="text-[22px] font-black tracking-tight text-text-primary">kt ds</span>
-          <p className="text-[13px] font-medium text-text-secondary">
+        <div className="flex flex-col gap-5">
+          <img src="/kt ds_light.png" alt="kt ds" className="h-8 object-contain object-left dark:hidden" />
+          <img src="/kt ds_dark.png" alt="kt ds" className="h-8 object-contain object-left hidden dark:block" />
+          <p className="text-[14px] font-medium text-text-secondary">
             (06707) 서울 서초구 효령로 176, 02-523-7029
           </p>
         </div>
 
         {/* 우측: 링크 + 카피라이트 */}
-        <div className="flex flex-col items-start md:items-end gap-3">
-          <div className="flex items-center gap-6 text-[13px] font-medium text-text-secondary">
+        <div className="flex flex-col items-start md:items-end gap-5">
+          <div className="flex items-center gap-6 text-[14px] font-medium text-text-secondary">
             <a href="#" className="hover:text-text-primary transition-colors">사이트맵</a>
             <a href="#" className="hover:text-text-primary transition-colors">공지사항</a>
             <a href="#" className="hover:text-text-primary transition-colors">개인정보처리방침</a>
             <a href="#" className="hover:text-text-primary transition-colors">이용약관</a>
           </div>
-          <p className="text-[12px] text-text-dim">© 2026 AI Biz Portal. All rights reserved.</p>
+          <p className="text-[14px] text-text-dim">© 2026 AI Biz Portal. All rights reserved.</p>
         </div>
       </div>
 

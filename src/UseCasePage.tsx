@@ -33,10 +33,10 @@ export default function UseCasePage() {
                             transition={{ duration: 0.8, ease: "easeOut" }}
                             className="text-center"
                         >
-                            <h1 className="text-heading-lg lg:text-display-md font-bold text-text-primary tracking-tight leading-tight">
+                            <h1 className="text-heading-lg lg:text-display-md font-extrabold text-text-primary tracking-tight leading-tight font-display">
                                 Use Cases
                             </h1>
-                            <p className="mt-4 text-[18px] text-[#999999] font-normal">다양한 산업과 업무 영역에서 검증된 AI 혁신 사례를 만나보세요</p>
+                            <p className="mt-4 text-[18px] text-text-secondary font-medium">다양한 산업과 업무 영역에서 검증된 AI 혁신 사례를 만나보세요</p>
                         </motion.div>
                     </div>
                 </div>
@@ -51,16 +51,16 @@ export default function UseCasePage() {
                                 variant="ghost"
                                 rounded="none"
                                 onClick={() => setActiveCategory(category)}
-                                className={`relative h-full !text-[18px] transition-colors flex items-center px-1 cursor-pointer hover:bg-transparent focus-visible:ring-0 focus-visible:outline-none ${activeCategory === category
+                                className={`relative h-full !text-[18px] transition-colors flex items-center px-1 cursor-pointer hover:!bg-transparent focus-visible:ring-0 focus-visible:outline-none ${activeCategory === category
                                     ? "text-text-primary font-bold"
-                                    : "text-text-dim font-medium hover:text-text-primary"
+                                    : "text-text-dim/60 font-bold hover:text-text-secondary"
                                     }`}
                             >
                                 {category}
                                 {activeCategory === category && (
                                     <motion.div
                                         layoutId="activeCategoryUseCase"
-                                        className="absolute bottom-0 left-0 right-0 h-[2px] bg-brand-primary rounded-full"
+                                        className="absolute bottom-0 left-0 right-0 h-[3px] bg-brand-primary rounded-full"
                                         transition={{ type: "spring", stiffness: 380, damping: 30 }}
                                     />
                                 )}
