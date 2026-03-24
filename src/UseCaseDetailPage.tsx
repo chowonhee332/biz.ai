@@ -9,6 +9,56 @@ const accentColor  = '#00ABFF';
 const accentBg     = '#00ABFF0D';
 const accentBorder = '#00ABFF33';
 
+type BulletType = 'number' | 'dot' | 'bar';
+
+function BulletItem({
+    title,
+    desc,
+    bulletType,
+    idx,
+}: {
+    title: string | null;
+    desc: string;
+    bulletType: BulletType;
+    idx: number;
+}) {
+    return (
+        <li className="flex flex-col gap-1 break-keep">
+            <div className={`flex items-center ${bulletType === 'number' ? 'gap-3' : 'gap-1'}`}>
+                <span className="w-6 shrink-0 flex items-center justify-start">
+                    {bulletType === 'number' ? (
+                        <span className="text-brand-primary text-body-sm font-bold">{(idx + 1).toString().padStart(2, '0')}.</span>
+                    ) : bulletType === 'dot' ? (
+                        <span className="text-brand-primary font-bold leading-none" style={{ fontSize: '32px' }}>·</span>
+                    ) : (
+                        <div className="w-0.5 h-4 rounded-full bg-brand-primary/60" />
+                    )}
+                </span>
+                {title ? (
+                    <span className="text-body font-bold text-text-primary leading-snug">{title}</span>
+                ) : (
+                    <span className="text-body-sm font-normal leading-relaxed text-text-primary">{desc}</span>
+                )}
+            </div>
+            {title && desc && (
+                <span className={`text-body-sm font-normal leading-relaxed text-text-secondary ${bulletType === 'number' ? 'pl-9' : 'pl-7'}`}>{desc}</span>
+            )}
+        </li>
+    );
+}
+
+function BulletList({ items, bulletType }: { items: { title: string | null; desc: string }[]; bulletType: BulletType }) {
+    return (
+        <div className="rounded-[20px] p-7 bg-bg-surface">
+            <ul className="flex flex-col gap-6">
+                {items.map((item, idx) => (
+                    <BulletItem key={idx} title={item.title} desc={item.desc} bulletType={bulletType} idx={idx} />
+                ))}
+            </ul>
+        </div>
+    );
+}
+
 export default function UseCaseDetailPage() {
     const { scrollYProgress } = useScroll();
     const { id } = useParams();
@@ -71,7 +121,7 @@ export default function UseCaseDetailPage() {
 
                                 {/* 섹션 제목 */}
                                 {section.title && (
-                                    <h2 className={`${section.subtitle_level === 1 ? 'text-body-md text-text-secondary' : 'text-body-xl text-text-primary'} font-bold ${sIdx > 0 ? 'pt-[32px]' : ''} mb-4`}>
+                                    <h2 className={`${section.subtitle_level === 1 ? 'text-body-md text-text-secondary' : 'text-body-xl text-text-primary'} font-bold ${sIdx > 0 ? 'pt-[32px]' : ''} mb-3`}>
                                         {section.title.replace(/^\d+[\)\.]\s*/, '')}
                                     </h2>
                                 )}
@@ -87,52 +137,35 @@ export default function UseCaseDetailPage() {
                                 {section.id === 'summary' ? (
                                     <div className="p-7 rounded-[20px] flex gap-4" style={{ backgroundColor: accentBg, border: `1px solid ${accentBorder}` }}>
                                         <FileText className="size-5 shrink-0 mt-0.5" style={{ color: accentColor }} />
-                                        <div className="leading-relaxed break-keep font-medium text-body-sm" style={{ color: accentColor }}>
+                                        <div className="leading-relaxed break-keep font-normal text-body-sm" style={{ color: accentColor }}>
                                             {section.content}
                                         </div>
                                     </div>
                                 ) : section.content && (
-                                    <div className="leading-relaxed mb-6 break-keep whitespace-pre-line font-medium text-body-sm text-text-secondary">
+                                    <div className="leading-relaxed mb-6 break-keep whitespace-pre-line font-normal text-body-sm text-text-secondary">
                                         {section.content}
                                     </div>
                                 )}
 
                                 {/* 리스트 */}
-                                {section.list && (
-                                    <div className="rounded-[20px] p-7 mb-6 bg-bg-surface">
-                                        <ul className="flex flex-col gap-6">
-                                            {section.list.map((li: string, idx: number) => {
-                                                const colonIdx = li.indexOf(':');
-                                                const hasColon = colonIdx !== -1;
-                                                const title = hasColon ? li.slice(0, colonIdx) : null;
-                                                const desc = hasColon ? li.slice(colonIdx + 1).trimStart() : li;
-                                                return (
-                                                    <li key={idx} className="flex flex-col gap-1 break-keep">
-                                                        <div className="flex items-center gap-3">
-                                                            <span className="w-4 shrink-0 flex items-center justify-start">
-                                                                {section.id === 'objective' ? (
-                                                                    <span className="text-brand-primary text-body-sm font-bold">{(idx + 1).toString().padStart(2, '0')}.</span>
-                                                                ) : section.id === 'best_practices' ? (
-                                                                    <span className="text-brand-primary font-bold leading-none" style={{ fontSize: "28px" }}>·</span>
-                                                                ) : (
-                                                                    <div className="w-0.5 h-4 rounded-full bg-brand-primary/60" />
-                                                                )}
-                                                            </span>
-                                                            {hasColon ? (
-                                                                <span className="text-body font-bold text-text-primary leading-snug">{title}</span>
-                                                            ) : (
-                                                                <span className="text-body-sm font-normal leading-relaxed text-text-secondary">{desc}</span>
-                                                            )}
-                                                        </div>
-                                                        {hasColon && (
-                                                            <span className="text-body-sm font-normal leading-relaxed text-text-secondary pl-7">{desc}</span>
-                                                        )}
-                                                    </li>
-                                                );
-                                            })}
-                                        </ul>
-                                    </div>
-                                )}
+                                {section.list && (() => {
+                                    const bulletType: BulletType =
+                                        (section.id === 'objective' || section.id === 'future') ? 'number' :
+                                        (section.id === 'best_practices' || section.id === 'introduction' || section.id === 'background') ? 'dot' : 'bar';
+                                    const items = section.list.map((li: string) => {
+                                        const colonIdx = li.indexOf(':');
+                                        const hasColon = colonIdx !== -1;
+                                        return {
+                                            title: hasColon ? li.slice(0, colonIdx) : null,
+                                            desc: hasColon ? li.slice(colonIdx + 1).trimStart() : li,
+                                        };
+                                    });
+                                    return (
+                                        <div className="mb-6">
+                                            <BulletList items={items} bulletType={bulletType} />
+                                        </div>
+                                    );
+                                })()}
 
                                 {/* 그룹 */}
                                 {section.groups && (
@@ -142,25 +175,10 @@ export default function UseCaseDetailPage() {
                                                 {group.label && (
                                                     <div className="text-body-sm font-medium text-text-secondary px-1">{group.label}</div>
                                                 )}
-                                                <div className="rounded-[20px] p-7 bg-bg-surface">
-                                                    <ul className="flex flex-col gap-6">
-                                                        {group.items.map((it: any, idx: number) => (
-                                                            <li key={idx} className="flex flex-col gap-1 break-keep">
-                                                                <div className="flex items-center gap-3">
-                                                                    <span className="w-6 shrink-0 flex items-center justify-start">
-                                                                        {group.numbered ? (
-                                                                            <span className="text-brand-primary text-body-sm font-bold">{(idx + 1).toString().padStart(2, '0')}.</span>
-                                                                        ) : (
-                                                                            <span className="text-brand-primary font-bold leading-none" style={{ fontSize: "28px" }}>·</span>
-                                                                        )}
-                                                                    </span>
-                                                                    <span className="text-body font-bold leading-snug text-text-primary">{it.타이틀}</span>
-                                                                </div>
-                                                                {it.설명 && <span className="text-body-sm font-normal leading-relaxed text-text-secondary pl-9">{it.설명}</span>}
-                                                            </li>
-                                                        ))}
-                                                    </ul>
-                                                </div>
+                                                <BulletList
+                                                    items={group.items.map((it: any) => ({ title: it.타이틀, desc: it.설명 || '' }))}
+                                                    bulletType={group.numbered ? 'number' : 'dot'}
+                                                />
                                             </div>
                                         ))}
                                     </div>
@@ -169,18 +187,11 @@ export default function UseCaseDetailPage() {
                                 {/* 아이템 */}
                                 {section.items && (
                                     section.id === 'solution' ? (
-                                        <div className="rounded-[20px] p-7 mb-6 bg-bg-surface">
-                                            <ul className="flex flex-col gap-4">
-                                                {section.items.map((it: any, idx: number) => (
-                                                    <li key={idx} className="flex items-start gap-3">
-                                                        <div className="w-0.5 h-4 rounded-full bg-brand-primary/60 shrink-0 mt-1.5" />
-                                                        <div className="flex flex-col gap-1 break-keep">
-                                                            <span className="text-body-sm font-bold leading-snug text-text-primary">{it.타이틀}</span>
-                                                            {it.설명 && <span className="text-body-sm font-medium leading-relaxed text-text-secondary">{it.설명}</span>}
-                                                        </div>
-                                                    </li>
-                                                ))}
-                                            </ul>
+                                        <div className="mb-6">
+                                            <BulletList
+                                                items={section.items.map((it: any) => ({ title: it.타이틀, desc: it.설명 || '' }))}
+                                                bulletType="dot"
+                                            />
                                         </div>
                                     ) : (
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
@@ -201,7 +212,7 @@ export default function UseCaseDetailPage() {
                                         {section.quotes.map((q: any, idx: number) => (
                                             <div key={idx} className="p-7 rounded-[20px] flex flex-col gap-4 bg-bg-surface">
                                                 <Quote className="fill-brand-primary" style={{ width: 28, height: 28, stroke: 'none' }} />
-                                                <div className="text-body-sm font-medium leading-relaxed break-keep text-text-secondary">
+                                                <div className="text-body-sm font-normal leading-relaxed break-keep text-text-secondary">
                                                     {q.text}
                                                 </div>
                                                 <div className="text-brand-primary text-label-lg font-bold">— {q.author}</div>
@@ -214,7 +225,7 @@ export default function UseCaseDetailPage() {
                                 {section.footer && (
                                     <div className="mt-6 p-7 rounded-[20px] flex gap-4" style={{ backgroundColor: accentBg, border: `1px solid ${accentBorder}` }}>
                                         <FileText className="size-5 shrink-0 mt-0.5" style={{ color: accentColor }} />
-                                        <div className="leading-relaxed break-keep font-medium text-body-sm" style={{ color: accentColor }}>
+                                        <div className="leading-relaxed break-keep font-normal text-body-sm" style={{ color: accentColor }}>
                                             {section.footer}
                                         </div>
                                     </div>

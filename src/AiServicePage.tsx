@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useScroll } from 'motion/react';
-import { ChevronRight, ChevronLeft, Play, Download, Mail, Phone } from 'lucide-react';
+import { ChevronRight, ChevronLeft, Play, Download, Mail, Phone, Quote } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { PLATFORM_PAGE_CONFIG } from '@/context/ai-service/ai-service-data';
@@ -86,7 +86,7 @@ export default function AiServicePage() {
                 </div>
 
                 <div className="max-w-[1280px] mx-auto container-responsive relative z-10">
-                    <div className="flex flex-col lg:flex-row gap-[80px]">
+                    <div className="flex flex-col lg:flex-row gap-[100px]">
 
                         {/* 왼쪽 사이드바 (데스크탑) */}
                         <aside className="hidden lg:block lg:w-[240px] shrink-0">
@@ -121,12 +121,12 @@ export default function AiServicePage() {
                                     <div id="section-overview" className="mb-[32px] scroll-mt-32">
                                         <p className="text-brand-primary text-body-sm font-bold mb-2 tracking-wide">{activeTab}</p>
                                         <h2 className="text-heading-md font-bold text-text-primary mb-4 break-keep">{currentContent.타이틀}</h2>
-                                        <p className="text-text-secondary text-body leading-relaxed break-keep font-normal">{currentContent.설명}</p>
+                                        <p className="text-text-secondary text-body-sm leading-relaxed break-keep font-normal">{currentContent.설명}</p>
                                     </div>
 
                                     {/* 2. 주요 고객군 */}
-                                    <div id="section-target" className="pt-[32px] mb-[32px] border-t border-border-light scroll-mt-32">
-                                        <h3 className="text-body-xl font-bold text-text-primary mb-4">주요 고객군</h3>
+                                    <div id="section-target" className="pt-[32px] mb-[32px] scroll-mt-32">
+                                        <h3 className="text-body-xl font-bold text-text-primary mb-3">주요 고객군</h3>
                                         {currentContent.주요고객군 ? (
                                             <div className="rounded-[20px] p-7 bg-bg-surface">
                                                 <p className="text-body-sm font-normal leading-relaxed text-text-secondary">{currentContent.주요고객군}</p>
@@ -137,23 +137,25 @@ export default function AiServicePage() {
                                     </div>
 
                                     {/* 3. 주요 기능 */}
-                                    <div id="section-features" className="pt-[32px] mb-[32px] border-t border-border-light scroll-mt-32">
-                                        <h3 className="text-body-xl font-bold text-text-primary mb-4">주요기능</h3>
+                                    <div id="section-features" className="pt-[32px] mb-[32px] scroll-mt-32">
+                                        <h3 className="text-body-xl font-bold text-text-primary mb-3">주요기능</h3>
                                         {currentContent.주요기능 && currentContent.주요기능.length > 0 ? (
                                             <div className="rounded-[20px] p-7 bg-bg-surface flex flex-col divide-y divide-border-light/40">
                                                 {currentContent.주요기능.map((feature, i) => {
                                                     const [title, ...descParts] = feature.split(':');
                                                     const description = descParts.join(':').trim();
                                                     return (
-                                                        <div key={i} className="flex items-start gap-12 py-[18px] first:pt-0 last:pb-0">
-                                                            <div className="flex items-start gap-3 w-[240px] shrink-0">
-                                                                <span className="text-label-lg font-normal shrink-0 w-6" style={{ color: '#00ABFF' }}>{(i + 1).toString().padStart(2, '0')}</span>
-                                                                <div className="text-body font-medium text-text-primary" style={{ lineHeight: '1.4' }}>
+                                                        <div key={i} className="flex flex-col gap-1 py-[28px] first:pt-0 last:pb-0 break-keep">
+                                                            <div className="flex items-center gap-3">
+                                                                <span className="w-6 shrink-0 flex items-center justify-start">
+                                                                    <span className="text-brand-primary text-body-sm font-bold">{(i + 1).toString().padStart(2, '0')}.</span>
+                                                                </span>
+                                                                <div className="text-body font-bold text-text-primary leading-snug">
                                                                     {title.trim()}
                                                                 </div>
                                                             </div>
                                                             {description && (
-                                                                <div className="text-body-xs leading-[1.6] font-normal break-keep pt-0.5 text-text-secondary">
+                                                                <div className="text-body-sm leading-relaxed font-normal break-keep text-text-secondary pl-9">
                                                                     {description}
                                                                 </div>
                                                             )}
@@ -186,22 +188,18 @@ export default function AiServicePage() {
                                                             </div>
                                                         ))}
                                                     </div>
-                                                    <Button
-                                                        variant="ghost"
-                                                        size="icon"
+                                                    <button
                                                         onClick={() => scrollRef.current?.scrollBy({ left: -(scrollRef.current.clientWidth / 2 + 8), behavior: 'smooth' })}
-                                                        className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2"
+                                                        className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 size-9 rounded-full bg-white dark:bg-bg-surface border border-border-light flex items-center justify-center shadow-sm hover:bg-gray-50 dark:hover:bg-bg-main transition-colors"
                                                     >
-                                                        <ChevronLeft className="size-5" strokeWidth={3} />
-                                                    </Button>
-                                                    <Button
-                                                        variant="ghost"
-                                                        size="icon"
+                                                        <ChevronLeft className="size-4 text-gray-700 dark:text-text-secondary" strokeWidth={2.5} />
+                                                    </button>
+                                                    <button
                                                         onClick={() => scrollRef.current?.scrollBy({ left: scrollRef.current.clientWidth / 2 + 8, behavior: 'smooth' })}
-                                                        className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2"
+                                                        className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 size-9 rounded-full bg-white dark:bg-bg-surface border border-border-light flex items-center justify-center shadow-sm hover:bg-gray-50 dark:hover:bg-bg-main transition-colors"
                                                     >
-                                                        <ChevronRight className="size-5" strokeWidth={3} />
-                                                    </Button>
+                                                        <ChevronRight className="size-4 text-gray-700 dark:text-text-secondary" strokeWidth={2.5} />
+                                                    </button>
                                                 </div>
                                             ) : (
                                                 <EmptyPlaceholder label="주요 특징" />
@@ -210,19 +208,21 @@ export default function AiServicePage() {
                                     </div>
 
                                     {/* 4. 특장점 */}
-                                    <div id="section-advantages" className="pt-[32px] mb-[32px] border-t border-border-light scroll-mt-32">
-                                        <h3 className="text-body-xl font-bold text-text-primary mb-4">특장점</h3>
+                                    <div id="section-advantages" className="pt-[32px] mb-[32px] scroll-mt-32">
+                                        <h3 className="text-body-xl font-bold text-text-primary mb-3">특장점</h3>
                                         {currentContent.특장점 && currentContent.특장점.length > 0 ? (
                                             <div className="rounded-[20px] p-7 bg-bg-surface flex flex-col divide-y divide-border-light/40">
                                                 {currentContent.특장점.map((item, i) => (
-                                                    <div key={i} className="flex items-start gap-12 py-[18px] first:pt-0 last:pb-0">
-                                                        <div className="flex items-start gap-3 w-[240px] shrink-0">
-                                                            <span className="text-label-lg font-normal shrink-0 w-6" style={{ color: '#00ABFF' }}>{(i + 1).toString().padStart(2, '0')}</span>
-                                                            <div className="text-body font-medium text-text-primary" style={{ lineHeight: '1.4' }}>
+                                                    <div key={i} className="flex flex-col gap-1 py-[28px] first:pt-0 last:pb-0 break-keep">
+                                                        <div className="flex items-center gap-3">
+                                                            <span className="w-6 shrink-0 flex items-center justify-start">
+                                                                <span className="text-brand-primary text-body-sm font-bold">{(i + 1).toString().padStart(2, '0')}.</span>
+                                                            </span>
+                                                            <div className="text-body font-bold text-text-primary leading-snug">
                                                                 {item.타이틀.replace(/^\d+\.\s*/, '')}
                                                             </div>
                                                         </div>
-                                                        <div className="text-body-xs leading-[1.6] font-normal break-keep pt-0.5 text-text-secondary">
+                                                        <div className="text-body-sm leading-relaxed font-normal break-keep text-text-secondary pl-9">
                                                             {item.설명}
                                                         </div>
                                                     </div>
@@ -234,8 +234,8 @@ export default function AiServicePage() {
                                     </div>
 
                                     {/* 5. 활용 시나리오 */}
-                                    <div id="section-scenarios" className="pt-[32px] mb-[32px] border-t border-border-light scroll-mt-32">
-                                        <h3 className="text-body-xl font-bold text-text-primary mb-4">이렇게 활용하세요</h3>
+                                    <div id="section-scenarios" className="pt-[32px] mb-[32px] scroll-mt-32">
+                                        <h3 className="text-body-xl font-bold text-text-primary mb-3">이렇게 활용하세요</h3>
                                         {currentContent.주요활용시나리오 && currentContent.주요활용시나리오.length > 0 ? (
                                             <div className="flex flex-col gap-4">
                                                 {currentContent.주요활용시나리오.map((item, i) => (
@@ -255,12 +255,12 @@ export default function AiServicePage() {
                                                                         return (
                                                                             <div key={hi}>
                                                                                 {hi > 0 && <div className="border-t border-border-light/50 my-3" />}
-                                                                                <div className={`flex flex-col gap-1.5 ${isEffect ? 'p-3' : ''}`}>
-                                                                                    <div className={`text-label-lg font-bold flex items-center gap-2 ${labelColor}`}>
-                                                                                        <span className={`shrink-0 ${labelColor}`}>–</span>
+                                                                                <div className="flex flex-col gap-1.5">
+                                                                                    <div className={`text-body-sm font-bold flex items-center gap-1 ${labelColor}`}>
+                                                                                        <span className="w-6 shrink-0 flex items-center justify-start font-bold leading-none" style={{ fontSize: '32px' }}>·</span>
                                                                                         {h.중타이틀}
                                                                                     </div>
-                                                                                    <div className="text-label-lg leading-relaxed pl-3.5 text-text-secondary">
+                                                                                    <div className="text-body-sm leading-relaxed pl-7 text-text-secondary">
                                                                                         {h.설명}
                                                                                     </div>
                                                                                 </div>
@@ -271,12 +271,14 @@ export default function AiServicePage() {
                                                             </>
                                                         ) : (
                                                             <>
-                                                                <div className="flex items-center gap-3">
-                                                                    <div className="w-0.5 h-5 bg-brand-primary rounded-full shrink-0" />
-                                                                    <h4 className="text-body font-bold text-text-primary leading-tight">{item.타이틀}</h4>
+                                                                <div className="flex items-center gap-1">
+                                                                    <span className="w-6 shrink-0 flex items-center justify-start">
+                                                                        <span className="text-brand-primary font-bold leading-none" style={{ fontSize: '32px' }}>·</span>
+                                                                    </span>
+                                                                    <h4 className="text-body font-bold text-text-primary leading-snug">{item.타이틀}</h4>
                                                                 </div>
                                                                 {item.설명 && (
-                                                                    <div className="text-label-lg leading-relaxed pl-4 text-text-secondary">
+                                                                    <div className="text-body-sm font-normal leading-relaxed pl-7 text-text-secondary">
                                                                         {item.설명}
                                                                     </div>
                                                                 )}
@@ -291,8 +293,8 @@ export default function AiServicePage() {
                                     </div>
 
                                     {/* 6. 고객사례 */}
-                                    <div id="section-cases" className="pt-[32px] mb-[32px] border-t border-border-light scroll-mt-32">
-                                        <h3 className="text-body-xl font-bold text-text-primary mb-4">고객사례</h3>
+                                    <div id="section-cases" className="pt-[32px] mb-[32px] scroll-mt-32">
+                                        <h3 className="text-body-xl font-bold text-text-primary mb-3">고객사례</h3>
                                         {currentContent.고객사례 && currentContent.고객사례.length > 0 ? (
                                             <div className="flex flex-col gap-4">
                                                 {currentContent.고객사례.map((item, i) => (
@@ -315,11 +317,11 @@ export default function AiServicePage() {
                                                                 <>
                                                                     <div className="border-t border-border-light/50" />
                                                                     <div className="flex flex-col gap-1.5">
-                                                                        <div className="text-label-lg font-bold flex items-center gap-2 text-text-secondary">
-                                                                            <span className="shrink-0">–</span>
+                                                                        <div className="text-body-sm font-bold flex items-center gap-1 text-text-secondary">
+                                                                            <span className="w-6 shrink-0 flex items-center justify-start font-bold leading-none" style={{ fontSize: '32px' }}>·</span>
                                                                             적용범위
                                                                         </div>
-                                                                        <div className="text-label-lg leading-relaxed pl-3.5 break-keep text-text-secondary">
+                                                                        <div className="text-body-sm leading-relaxed pl-7 break-keep text-text-secondary">
                                                                             {item.산업분야 || item.적용범위}
                                                                         </div>
                                                                     </div>
@@ -330,11 +332,11 @@ export default function AiServicePage() {
                                                                 <>
                                                                     <div className="border-t border-border-light/50" />
                                                                     <div className="flex flex-col gap-1.5">
-                                                                        <div className="text-label-lg font-bold flex items-center gap-2 text-text-secondary">
-                                                                            <span className="shrink-0">–</span>
+                                                                        <div className="text-body-sm font-bold flex items-center gap-1 text-text-secondary">
+                                                                            <span className="w-6 shrink-0 flex items-center justify-start font-bold leading-none" style={{ fontSize: '32px' }}>·</span>
                                                                             적용기간
                                                                         </div>
-                                                                        <div className="text-label-lg leading-relaxed pl-3.5 text-text-secondary">
+                                                                        <div className="text-body-sm leading-relaxed pl-7 text-text-secondary">
                                                                             {item.적용기간}
                                                                         </div>
                                                                     </div>
@@ -345,13 +347,13 @@ export default function AiServicePage() {
                                                                 <>
                                                                     <div className="border-t border-border-light/50" />
                                                                     <div className="flex flex-col gap-1.5">
-                                                                        <div className="text-label-lg font-bold flex items-center gap-2 text-emerald-400">
-                                                                            <span className="shrink-0">–</span>
+                                                                        <div className="text-body-sm font-bold flex items-center gap-1 text-emerald-400">
+                                                                            <span className="w-6 shrink-0 flex items-center justify-start font-bold leading-none" style={{ fontSize: '32px' }}>·</span>
                                                                             성과
                                                                         </div>
-                                                                        <div className="pl-3.5 flex flex-col gap-1">
-                                                                            {item.성과정량 && <p className="text-label-lg font-bold leading-snug break-keep" style={{ color: '#34d399' }}>{item.성과정량}</p>}
-                                                                            {item.성과정성 && <p className="text-label-lg leading-[1.6] break-keep text-text-secondary">{item.성과정성}</p>}
+                                                                        <div className="pl-7 flex flex-col gap-1">
+                                                                            {item.성과정량 && <p className="text-body-sm font-bold leading-snug break-keep" style={{ color: '#34d399' }}>{item.성과정량}</p>}
+                                                                            {item.성과정성 && <p className="text-body-sm leading-[1.6] break-keep text-text-secondary">{item.성과정성}</p>}
                                                                         </div>
                                                                     </div>
                                                                 </>
@@ -361,12 +363,15 @@ export default function AiServicePage() {
                                                                 <>
                                                                     <div className="border-t border-border-light/50" />
                                                                     <div className="flex flex-col gap-1.5">
-                                                                        <div className="text-label-lg font-bold flex items-center gap-2 text-text-secondary">
-                                                                            <span className="shrink-0">–</span>
+                                                                        <div className="text-body-sm font-bold flex items-center gap-1 text-text-secondary">
+                                                                            <span className="w-6 shrink-0 flex items-center justify-start font-bold leading-none" style={{ fontSize: '32px' }}>·</span>
                                                                             코멘트
                                                                         </div>
-                                                                        <div className="italic text-label-lg leading-relaxed pl-3.5 text-text-secondary">
-                                                                            "{item.담당자코멘트}"
+                                                                        <div className="flex flex-col gap-2 pl-7">
+                                                                            <Quote className="fill-brand-primary" style={{ width: 20, height: 20, stroke: 'none' }} />
+                                                                            <div className="italic text-body-sm font-normal leading-relaxed text-text-secondary">
+                                                                                {item.담당자코멘트}
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </>
@@ -393,16 +398,15 @@ export default function AiServicePage() {
                                     </div>
 
                                     {/* 7. 기대효과 */}
-                                    <div id="section-values" className="pt-[32px] mb-[32px] border-t border-border-light scroll-mt-32">
-                                        <h3 className="text-body-xl font-bold text-text-primary mb-4">기대효과</h3>
+                                    <div id="section-values" className="pt-[32px] mb-[32px] scroll-mt-32">
+                                        <h3 className="text-body-xl font-bold text-text-primary mb-3">기대효과</h3>
                                         {currentContent.핵심가치 && currentContent.핵심가치.length > 0 ? (
                                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                                 {currentContent.핵심가치.map((item, i) => (
-                                                    <div key={i} className="rounded-[20px] p-7 bg-bg-surface">
-                                                        <h4 className="text-body font-bold text-text-primary mb-3">
-                                                            <span className="font-normal" style={{ color: '#00ABFF' }}>{i + 1}.&nbsp;&nbsp;</span>{item.타이틀}
-                                                        </h4>
-                                                        <p className="text-body-sm leading-[1.6] text-text-secondary">{item.설명}</p>
+                                                    <div key={i} className="rounded-[20px] p-7 bg-bg-surface flex flex-col gap-2">
+                                                        <span className="text-brand-primary text-body-sm font-bold leading-none">{(i + 1).toString().padStart(2, '0')}.</span>
+                                                        <h4 className="text-body font-bold text-text-primary leading-snug">{item.타이틀}</h4>
+                                                        <p className="text-body-sm leading-relaxed font-normal text-text-secondary">{item.설명}</p>
                                                     </div>
                                                 ))}
                                             </div>
@@ -412,8 +416,8 @@ export default function AiServicePage() {
                                     </div>
 
                                     {/* 8. 소개영상 */}
-                                    <div id="section-videos" className="pt-[32px] mb-[32px] border-t border-border-light scroll-mt-32">
-                                        <h3 className="text-body-xl font-bold text-text-primary mb-4">소개영상</h3>
+                                    <div id="section-videos" className="pt-[32px] mb-[32px] scroll-mt-32">
+                                        <h3 className="text-body-xl font-bold text-text-primary mb-3">소개영상</h3>
                                         {currentContent.소개영상 && currentContent.소개영상.length > 0 ? (
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                                                 {currentContent.소개영상.map((video, i) => {
@@ -460,26 +464,25 @@ export default function AiServicePage() {
                                     </div>
 
                                     {/* 9. 오퍼링 */}
-                                    <div id="section-offerings" className="pt-[32px] mb-[32px] border-t border-border-light scroll-mt-32">
-                                        <h3 className="text-body-xl font-bold text-text-primary mb-4">오퍼링</h3>
+                                    <div id="section-offerings" className="pt-[32px] mb-[32px] scroll-mt-32">
+                                        <h3 className="text-body-xl font-bold text-text-primary mb-3">오퍼링</h3>
                                         {currentContent.오퍼링 && currentContent.오퍼링.length > 0 ? (
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                                 {currentContent.오퍼링.map((offering, i) => (
                                                     <div key={i} className="bg-bg-surface rounded-[20px] p-7 flex flex-col justify-between group">
                                                         <div>
-                                                            <div className="flex items-center gap-3 mb-4">
-                                                                <div className="w-0.5 h-5 bg-brand-primary rounded-full shrink-0" />
-                                                                <h4 className="text-body font-bold text-text-primary">{offering.타이틀}</h4>
+                                                            <div className="mb-3">
+                                                                <h4 className="text-body font-bold text-text-primary leading-snug">{offering.타이틀}</h4>
                                                             </div>
-                                                            <p className="text-body-xs mb-7 leading-[1.6] text-text-secondary">{offering.설명}</p>
+                                                            <p className="text-body-sm mb-7 leading-relaxed font-normal text-text-secondary">{offering.설명}</p>
                                                         </div>
                                                         {offering.상세링크 && (
-                                                            <Link to={offering.상세링크}>
+                                                            <Link to={offering.상세링크} className="flex">
                                                                 <Button
                                                                     variant="ghost"
-                                                                    className="h-auto p-0 text-label-md font-bold relative transition-all duration-300 hover:bg-transparent hover:text-white"
+                                                                    className="h-auto !p-0 text-label-md font-normal relative transition-all duration-300 hover:bg-transparent hover:text-white flex items-center gap-0"
                                                                 >
-                                                                    <span className="group-hover:-translate-x-1.5 transition-transform duration-300">자세히 보기</span>
+                                                                    <span>자세히 보기</span>
                                                                     <ChevronRight size={14} className="max-w-0 opacity-0 group-hover:max-w-[14px] group-hover:opacity-100 transition-all duration-300 overflow-hidden" />
                                                                 </Button>
                                                             </Link>
@@ -494,7 +497,7 @@ export default function AiServicePage() {
 
                                     {/* 10. 문의/리소스 */}
                                     <div id="section-contact" className="pt-[32px] border-t border-border-light mb-12 scroll-mt-32">
-                                        <h3 className="text-body-xl font-bold text-text-primary mb-4">문의 / 리소스</h3>
+                                        <h3 className="text-body-xl font-bold text-text-primary mb-3">문의 / 리소스</h3>
                                         {(currentContent.제품상세문의?.이메일 || currentContent.제품상세문의?.전화번호 || (currentContent.관련리소스 && currentContent.관련리소스.length > 0)) ? (
                                             <div className="flex flex-col gap-5">
                                                 {currentContent.관련리소스 && currentContent.관련리소스.length > 0 && (
@@ -515,7 +518,7 @@ export default function AiServicePage() {
                                                                         <Button
                                                                             variant="outline"
 
-                                                                            className="w-full flex justify-between items-center bg-bg-surface border border-border-light hover:border-brand-primary transition-all group text-left h-[66px] cursor-pointer"
+                                                                            className="w-full flex justify-between items-center bg-bg-surface !rounded-[20px] border-0 hover:bg-bg-surface/80 transition-all group text-left h-[66px] cursor-pointer"
                                                                             style={{ padding: '20px' }}
                                                                         >
                                                                             <div className="flex items-center gap-4 min-w-0 mr-4">
@@ -532,7 +535,7 @@ export default function AiServicePage() {
                                                                         <Button
                                                                             variant="outline"
 
-                                                                            className="w-full flex justify-between items-center bg-bg-surface border border-border-light text-left h-[66px] pointer-events-none"
+                                                                            className="w-full flex justify-between items-center bg-bg-surface !rounded-[20px] border-0 text-left h-[66px] pointer-events-none"
                                                                             style={{ padding: '20px' }}
                                                                         >
                                                                             <div className="flex items-center gap-4 min-w-0 mr-4">
@@ -552,7 +555,7 @@ export default function AiServicePage() {
                                                 {currentContent.제품상세문의 && (currentContent.제품상세문의.이메일 || currentContent.제품상세문의.전화번호) && (
                                                     <div>
                                                         <h4 className="text-label-md font-bold text-text-dim mb-3 tracking-wider uppercase">제품 상세 문의</h4>
-                                                        <div className="bg-bg-surface rounded-[20px] py-5 px-5 border border-border-light flex flex-row items-center justify-between gap-4 flex-wrap">
+                                                        <div className="bg-bg-surface rounded-[20px] py-5 px-5 flex flex-row items-center justify-between gap-4 flex-wrap">
                                                             <span className="text-body-sm font-bold text-text-primary">도입이 궁금하신가요?</span>
                                                             <div className="flex flex-row gap-6 items-center flex-wrap">
                                                                 {currentContent.제품상세문의.이메일 && (

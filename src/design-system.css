@@ -31,7 +31,7 @@
   /* BACKGROUNDS */
   --color-bg-main: #FFFFFF;       /* 전체 페이지 배경 */
   --color-bg-section: #F6F6F6;   /* 섹션 배경 (FAQ, 로고, 푸터 등) */
-  --color-bg-surface: rgba(0, 0, 0, 0.04);  /* 카드/박스 배경 */
+  --color-bg-surface: #F6F6F6;  /* 카드/박스 배경 */
   --color-bg-glass: #1A75FF1A;
   --color-bg-active: rgba(0, 0, 0, 0.06);   /* 활성 상태 배경 */
 
@@ -70,7 +70,7 @@ html.dark {
   /* BACKGROUNDS */
   --color-bg-main: #0A0A0A;
   --color-bg-section: #141414;
-  --color-bg-surface: rgba(255, 255, 255, 0.05);
+  --color-bg-surface: #141414;
   --color-bg-active: rgba(255, 255, 255, 0.10);
 
   /* TEXT */
