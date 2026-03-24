@@ -587,7 +587,7 @@ const App = () => {
         <div className="relative z-10 w-full max-w-[1280px] mx-auto container-responsive flex items-center h-full pointer-events-none -mt-[160px] md:mt-0">
           <div className="w-full h-full flex flex-col justify-center lg:flex-row lg:justify-start items-center relative">
             {/* Left Content */}
-            <div className="w-full lg:max-w-[800px] relative z-20 pointer-events-auto md:pl-[28px]">
+            <div className="w-full lg:max-w-[800px] relative z-20 pointer-events-auto">
               <HeroContent align="left" />
             </div>
           </div>

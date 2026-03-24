@@ -3,11 +3,11 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Button } from '@/components/ui/button';
 import { ChevronRight } from 'lucide-react';
 
-const HERO_SLIDES: { main: [string, string]; sub: string }[] = [
-  { main: ['All-Round AI for', 'Every Enterprise.'], sub: '기업 전반에 적용 가능한 All-Round AI 솔루션을 제공합니다.\n부서와 업무 영역을 구분하지 않고 활용 가능한 통합 AI 환경을 지원합니다.' },
-  { main: ['From Data to', 'Action. Instantly'], sub: '빠른 데이터 수집, 분석을 통해 데이터 활용 극대화를 실현합니다.\n정확하고 신속한 의사결정을 지원하는 AI 기반 분석 체계를 제공합니다.' },
-  { main: ['Smarter Operations', 'Through Automation.'], sub: 'AI 자동화를 기반으로 업무 및 운용 효율성을 개선합니다.\n반복 업무를 최소화하고, 핵심 업무에 집중할 수 있는 환경을 제공합니다.' },
-  { main: ['Secure AI,', 'Built for Enterprise.'], sub: '엔터프라이즈 환경에 적합한 보안 체계를 통해 안정성을 강화합니다.\n데이터 보호와 접근 통제를 기반으로 신뢰할 수 있는 AI 운영 환경을 지원합니다.' },
+const HERO_SLIDES: { category: string; main: [string, string]; sub: string }[] = [
+  { category: 'Biz.AI', main: ['KT DS의 기업용 AI 서비스로', '비즈니스를 성장시키세요.'], sub: '귀사에 필요한 AI Agents만 쏙쏙 모아, 기업 환경에 최적화된 솔루션을 만들어요.\n실제 성과로 이어지는 변화를 경험하세요.' },
+  { category: '국정감사 Agent', main: ['빠른 준비, 정확한 대응', '국정감사 AI Agent로 끝!'], sub: '국정감사 담당자의 성향을 파악하여 AI가 필요한 내용을 정리하고,\n많은 자료를 일일이 찾지 않아도, 중요한 내용만 빠르게 확인할 수 있도록 도와줍니다.' },
+  { category: 'Works AI', main: ['내 일을 대신하는 개인 비서', 'AI 사내 업무 포털'], sub: '여러 시스템 이동 없이, 필요한 정보 제공부터 업무 처리까지,\nAI 사내 업무 포털로 복잡한 업무와 흩어진 정보를 한 곳에 모아 더 쉽고 빠르게 일할 수 있도록 도와줍니다.' },
+  { category: 'AI:ON-U', main: ['비즈니스 맞춤형 AI Agent 구축', '노코딩 Agent Builder'], sub: 'Agent Builder로 코딩 없이 간단한 설정만으로 필요한 기능만 선택해\n기업 업무에 필요한 AI Agent를 바로 만들고 빠르게 구축/운영할 수 있습니다.' },
 ];
 
 const ROTATE_INTERVAL_MS = 4800;
@@ -38,25 +38,35 @@ export default function HeroContent({ onSubmit, isAnalyzing = false, align = 'ce
   const isLeft = align === 'left';
 
   return (
-    <div className={`relative z-10 w-full max-w-6xl mx-auto px-6 py-20 md:py-24 min-h-[300px] flex flex-col ${isLeft ? 'items-center text-center md:items-start md:text-left' : 'items-center justify-center text-center'}`}>
+    <div className={`relative z-10 w-full max-w-6xl mx-auto px-0 py-20 md:py-24 min-h-[300px] flex flex-col ${isLeft ? 'items-center text-center md:items-start md:text-left' : 'items-center justify-center text-center'}`}>
       {/* 히어로 뱃지 - 타이틀 위 */}
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0, ease: 'easeOut' }}
-        className={`flex mb-6 ${isLeft ? 'justify-center md:justify-start' : 'justify-center'} w-full`}
+        className={`flex mb-3 ${isLeft ? 'justify-center md:justify-start' : 'justify-center'} w-full`}
       >
         <div className="relative inline-flex items-center gap-2 px-0 py-1.5 overflow-hidden">
-          <motion.span
-            className="relative font-normal text-[18px] font-pretendard bg-clip-text text-transparent bg-[length:200%_100%]"
-            style={{
-              backgroundImage: 'linear-gradient(90deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,0.4) 100%)',
-            }}
-            animate={{ backgroundPosition: ['200% 0', '-200% 0'] }}
-            transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
-          >
-            kt ds Enterprise AI Platform
-          </motion.span>
+          <AnimatePresence mode="wait">
+            <motion.span
+              key={slide.category}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0, backgroundPosition: ['200% 0', '-200% 0'] }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{
+                opacity: { duration: 0.4, ease: 'easeOut' },
+                y: { duration: 0.4, ease: 'easeOut' },
+                backgroundPosition: { duration: 4, repeat: Infinity, ease: 'linear' },
+              }}
+              className="relative font-[800] text-[24px] font-pretendard bg-clip-text text-transparent"
+              style={{
+                backgroundImage: 'linear-gradient(90deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,0.4) 100%)',
+                backgroundSize: '200% 100%',
+              }}
+            >
+              {slide.category}
+            </motion.span>
+          </AnimatePresence>
         </div>
       </motion.div>
 
@@ -71,7 +81,7 @@ export default function HeroContent({ onSubmit, isAnalyzing = false, align = 'ce
             className={`absolute inset-0 flex flex-col ${isLeft ? 'items-center text-center md:items-start md:text-left' : 'items-center justify-center text-center'}`}
           >
             <h1
-              className={`text-[44px] md:text-5xl lg:text-[64px] font-[600] mb-4 md:mb-6 leading-[1.1] tracking-tight w-full max-w-5xl flex flex-col ${isLeft ? 'items-center md:items-start' : 'items-center'}`}
+              className={`text-[40px] md:text-5xl lg:text-[58px] font-[800] font-pretendard mb-4 md:mb-6 leading-[1.25] tracking-tight w-full max-w-5xl flex flex-col ${isLeft ? 'items-center md:items-start' : 'items-center'}`}
             >
               <motion.span
                 initial={{ opacity: 0, y: 16 }}
