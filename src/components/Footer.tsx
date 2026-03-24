@@ -1,11 +1,9 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowUp } from 'lucide-react';
-import { useTheme } from '../context/ThemeContext';
 
 // 모든 페이지에서 공통으로 사용하는 푸터 컴포넌트
 export default function Footer() {
-  const { isDark } = useTheme();
   const [showScrollTop, setShowScrollTop] = useState(false);
 
   useEffect(() => {
@@ -25,7 +23,7 @@ export default function Footer() {
       <div className="max-w-[1200px] mx-auto flex flex-col md:flex-row md:items-start md:justify-between gap-6">
         {/* 좌측: 로고 + 주소 */}
         <div className="flex flex-col gap-3">
-          <img src={isDark ? '/kt ds_dark.png' : '/kt ds_light.png'} alt="kt ds" className="h-5 w-auto object-contain" />
+          <span className="text-[22px] font-black tracking-tight text-text-primary">kt ds</span>
           <p className="text-[13px] font-medium text-text-secondary">
             (06707) 서울 서초구 효령로 176, 02-523-7029
           </p>

@@ -6,13 +6,14 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useTheme } from './context/ThemeContext';
 import HeroSpline from './components/HeroSpline';
-import { useTransform, motion, useInView, AnimatePresence, animate, useMotionValue, useSpring } from 'motion/react';
+import { useTransform, motion, useInView, AnimatePresence, animate, useMotionValue, useSpring, useScroll } from 'motion/react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import ParticleEngine from './components/ParticleEngine';
 import HeroContent from './components/HeroContent';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 import Aurora from './components/Aurora';
 import Antigravity from './components/Antigravity';
 import { BackgroundGradientAnimation } from './components/ui/background-gradient-animation';
@@ -72,35 +73,30 @@ const AnimatedCounter = ({ from, to }: { from: number; to: number }) => {
   return <span ref={nodeRef}>{Intl.NumberFormat("en-US").format(from)}</span>;
 };
 
-const SolutionCard = ({ number, image, title, desc, highlight, isLarge }: { number: string; image: string; title: string; desc: string; highlight: string; isLarge?: boolean }) => (
-  <div className="bg-[#F5F5F5] rounded-[20px] p-6 md:p-10 flex flex-col w-full min-w-[280px] h-[340px] md:h-[424px] group cursor-pointer hover:shadow-[0_20px_48px_rgba(0,0,0,0.08)] transition-all duration-500 hover:-translate-y-2 font-pretendard relative overflow-hidden">
-    {/* Index Number */}
-    <div className="text-black text-body-sm md:text-body-md font-bold leading-none mb-2 md:mb-3">{number}</div>
+const SolutionCard = ({ image, title, desc, highlight, category }: { image: string; title: string; desc: string; highlight: string; category?: string }) => (
+  <div className="bg-[#F6F6F6] rounded-[20px] p-6 md:pt-[32px] md:px-8 md:pb-8 flex flex-col w-full min-w-[280px] h-[340px] md:h-[400px] group cursor-pointer hover:shadow-[0_20px_48px_rgba(0,0,0,0.08)] transition-all duration-500 hover:-translate-y-2 font-pretendard relative overflow-hidden">
 
-    {/* Title & Description Group */}
-    <div className="flex flex-col gap-2 md:gap-4 mb-4 md:mb-6">
-      <h4 className="text-black text-[24px] md:text-heading-md font-bold tracking-tight leading-tight">{title}</h4>
-      <div className="min-h-[40px] md:min-h-[48px]">
-        <p className="text-[#666666] text-body-sm md:text-body-sm leading-snug font-normal break-keep whitespace-pre-line">
-          {desc}
-        </p>
-      </div>
+    {/* Tag Chips - 상단 */}
+    <div className="flex flex-wrap gap-1 mb-5">
+      {category && (
+        <span className={`px-2 py-1.5 rounded-full text-white text-[14px] font-medium leading-none ${category === 'Solution' ? 'bg-[#22C55E]' : 'bg-brand-primary'}`}>{category}</span>
+      )}
+      <span className="px-2 py-1.5 rounded-full bg-[#E8E8E8] text-[#555555] text-[14px] font-medium leading-none">
+        {highlight.replace(/^#\s*/, '')}
+      </span>
     </div>
 
-    {/* Highlight Tag */}
-    <div className="text-brand-primary font-medium text-label-md md:text-body-sm tracking-tight">
-      {highlight.startsWith('#') ? highlight : `# ${highlight}`}
+    {/* Title & Description */}
+    <div className="flex flex-col gap-2 md:gap-3 flex-1">
+      <h4 className="text-black text-[22px] md:text-[28px] font-bold tracking-tight leading-tight">{title}</h4>
+      <p className="text-[#444444] text-[15px] leading-relaxed font-normal break-keep">
+        {desc}
+      </p>
     </div>
 
-    {/* Logo: Absolute Bottom Right Positioning */}
-    <div className="absolute bottom-6 right-6 md:bottom-10 md:right-10 pointer-events-none">
-      <div className={`relative flex items-end justify-end transition-transform duration-500 group-hover:scale-105 ${isLarge ? 'w-28 h-28 md:w-44 md:h-44' : 'w-[100px] h-[100px] md:w-[160px] md:h-[160px]'}`}>
-        <motion.img
-          src={image}
-          alt={title}
-          className="w-full h-full object-contain object-right-bottom origin-bottom-right"
-        />
-      </div>
+    {/* Logo - 우하단 */}
+    <div className="absolute bottom-0 right-[30px] w-[80px] h-[80px] md:w-[132px] md:h-[132px] shrink-0">
+      <img src={image} alt={title} className="w-full h-full object-contain" />
     </div>
   </div>
 );
@@ -453,7 +449,7 @@ const ProcessSection = () => {
   return (
     <div className="relative w-full py-10">
       <div
-        className="bg-white relative z-20 overflow-hidden smooth-gpu rounded-[28px] mx-4"
+        className="bg-white relative z-20 overflow-hidden smooth-gpu rounded-[28px] mx-3"
       >
         <section id="process" className="py-16 md:py-32 relative overflow-hidden">
           <div className="max-w-[1280px] mx-auto px-10 relative z-10">
@@ -505,7 +501,7 @@ const ProcessSection = () => {
               ].map((step, i) => (
                 <div
                   key={i}
-                  className="group relative bg-[#F5F5F5] rounded-[20px] p-6 md:p-10 hover:-translate-y-2 hover:shadow-[0_20px_48px_rgba(0,0,0,0.08)] transition-all duration-300 flex flex-col min-h-[320px] md:min-h-[420px] overflow-hidden"
+                  className="group relative bg-[#F6F6F6] rounded-[20px] p-6 md:p-10 hover:-translate-y-2 hover:shadow-[0_20px_48px_rgba(0,0,0,0.08)] transition-all duration-300 flex flex-col min-h-[320px] md:min-h-[420px] overflow-hidden"
                 >
                   <div className="absolute inset-0 bg-gradient-to-b from-black/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-[20px] pointer-events-none" />
                   <div className="relative min-h-[100px] md:min-h-[130px]">
@@ -536,6 +532,7 @@ const ProcessSection = () => {
 
 const App = () => {
   const { isDark } = useTheme();
+  const { scrollYProgress } = useScroll();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' ? window.innerWidth < 1024 : false);
   const [scrolled, setScrolled] = useState(false);
@@ -564,15 +561,15 @@ const App = () => {
   return (
     <div className="min-h-screen text-text-primary font-sans transition-colors duration-500" style={{ backgroundColor: isDark ? '#0A0A0A' : '#FFFFFF' }}>
       {/* GNB - Global Navigation Bar */}
-      <Navbar activePage="home" />
+      <Navbar activePage="home" scrollLineProgress={scrollYProgress} />
 
       {/* Hero Section */}
-      <section id="hero" className="relative z-20 h-[calc(100vh-84px)] flex items-center justify-center overflow-clip font-poppins mx-4 mt-[68px] mb-4 rounded-[28px] bg-[#0A0A0A]">
+      <section id="hero" className="relative z-20 h-[calc(100vh-84px)] flex items-center justify-center overflow-clip font-poppins mx-3 mt-[68px] mb-3 rounded-[28px] bg-[#0A0A0A]">
 
         {/* Silk Motion Background */}
         <div className="absolute inset-0 z-0">
           <Silk
-            speed={3.5}
+            speed={4}
             scale={0.8}
             color="#c8d8ff"
             noiseIntensity={6}
@@ -580,7 +577,7 @@ const App = () => {
           />
         </div>
         {/* Fade-out gradient overlay */}
-        <div className="absolute inset-0 z-[1] pointer-events-none" style={{ background: 'linear-gradient(to bottom, rgba(10,10,10,0.5) 0%, rgba(10,10,10,0.85) 60%, rgba(10,10,10,1) 100%), linear-gradient(to right, rgba(10,10,10,0) 0%, rgba(10,10,10,0.5) 40%, rgba(10,10,10,1) 60%)' }} />
+        <div className="absolute inset-0 z-[1] pointer-events-none" style={{ background: 'linear-gradient(to bottom, rgba(10,10,10,0) 0%, rgba(10,10,10,1) 100%), linear-gradient(to right, rgba(10,10,10,0) 0%, rgba(10,10,10,1) 100%)' }} />
 
         <div className="absolute inset-0 z-[2]">
           <HeroSpline />
@@ -620,14 +617,14 @@ const App = () => {
           {/* Continuous gradient from the Hero section into the gap */}
 
           <div
-            className="relative z-20 overflow-hidden mb-20 smooth-gpu rounded-[28px] mx-4 transition-colors duration-500 bg-white"
+            className="relative z-20 overflow-hidden mb-20 smooth-gpu rounded-[28px] mx-3 transition-colors duration-500 bg-white"
           >
             <section id="solution" className="py-16 md:py-32">
               <div className="max-w-[1280px] mx-auto px-10 relative">
                 <div className="text-left md:text-center mb-10 md:mb-20 font-pretendard flex flex-col items-start md:items-center relative z-10">
-                  <span className="text-body-sm md:text-body text-[#999999] mb-3 block font-medium">AI 솔루션</span>
+                  <span className="text-body-sm md:text-body text-[#999999] mb-3 block font-medium">AI 서비스</span>
                   <h1 className="text-heading-md md:text-heading-lg lg:text-display-md font-bold mb-4 md:mb-6 tracking-tight leading-tight font-poppins text-black">
-                    AI Solutions
+                    AI Services by kt ds
                   </h1>
                 </div>
 
@@ -635,38 +632,38 @@ const App = () => {
                 {/* 그룹 1: 전사 공통 */}
                 <div className="mb-16 md:mb-32 max-w-[1280px] mx-auto">
                   <div className="flex items-center gap-2 mb-5 ml-4">
-                    <span className="text-body font-normal text-gray-800">전사 공통 (General Business)</span>
+                    <span className="text-body font-normal text-gray-800">Agents</span>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
                     {[
                       {
-                        image: "/logo_1.png",
-                        title: "AI:ON-U",
-                        desc: "엔터프라이즈 맞춤형 AI Agent를 빠르게 구축하는 No-Code 기반 Agent Builder",
-                        highlight: "#3분 완성 Agent"
-                      },
-                      {
-                        image: "/logo_2.png",
+                        image: "/ai-service-logos/logo_1.png",
                         title: "WorksAI",
                         desc: "AI Agent 기반으로 다양한 업무처리를 지원하는 사내 AI Agent Portal",
-                        highlight: "#업무 효율 200% 향상"
+                        highlight: "#효율 200% 향상"
                       },
                       {
-                        image: "/logo_3.png",
+                        image: "/ai-service-logos/logo_2.png",
                         title: "AI 회의록",
                         desc: "음성 기반 회의 자동 기록 · 요약 · 업무 추출 AI 서비스",
-                        highlight: "#1분 완성 회의록 작성"
+                        highlight: "#1분 회의록"
                       },
                       {
-                        image: "/logo_7.png",
-                        title: "AI 문서요약",
-                        desc: "방대한 문서를 AI가 핵심만 추출해 빠르게 요약하는 서비스",
-                        highlight: "#문서 처리 시간 80% 단축"
+                        image: "/ai-service-logos/logo_3.png",
+                        title: "국정감사 Agent",
+                        desc: "국정감사 자료 분석부터 핵심 이슈 도출까지 지원하는 AI 서비스",
+                        highlight: "#준비시간 70% 단축"
+                      },
+                      {
+                        image: "/ai-service-logos/logo_4.png",
+                        title: "RFP Agent",
+                        desc: "제안요청서(RFP) 분석, 요구사항 정리, 제안서 초안 작성을 지원하는 AI 서비스",
+                        highlight: "#작성시간 60% 절감"
                       }
                     ]
                       .map((card, i) => (
                         <div key={i}>
-                          <SolutionCard {...card} number={`0${i + 1}`} />
+                          <SolutionCard {...card} category="Agent" />
                         </div>
                       ))}
                   </div>
@@ -675,37 +672,37 @@ const App = () => {
                 {/* 그룹 2: IT 서비스/개발 직군 */}
                 <div className="mb-14 max-w-[1280px] mx-auto">
                   <div className="flex items-center gap-2 mb-5 ml-4">
-                    <span className="text-body font-normal text-gray-800">IT 서비스/개발 직군 (IT Service & Dev)</span>
+                    <span className="text-body font-normal text-gray-800">Solutions</span>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
                     {[
                       {
-                        image: "/logo_4.png",
-                        title: "CloudWiz",
-                        desc: "클라우드 운영 효율화와 자동화를 지원하는 관리 서비스",
-                        highlight: "#멀티 클라우드 비용 30% 절감"
+                        image: "/ai-service-logos/logo_5.png",
+                        title: "AI:ON-U",
+                        desc: "엔터프라이즈 맞춤형 AI Agent를 빠르게 구축하는 No-Code 기반 Agent Builder",
+                        highlight: "#3분 완성"
                       },
                       {
-                        image: "/logo_5.png",
-                        title: "Beast AI Gateway", isLarge: true,
+                        image: "/ai-service-logos/logo_6.png",
+                        title: "Beast AI Gateway",
                         desc: "엔터프라이즈용 AI 기술, API를 통합 관리하는 솔루션",
-                        highlight: "#기업 내부 시스템과 AI 기능 표준화"
+                        highlight: "#AI 기능 표준화"
                       },
                       {
-                        image: "/logo_6.png",
+                        image: "/ai-service-logos/logo_7.png",
                         title: "Codebox",
                         desc: "폐쇄형 설치형 AI 코드 개발 어플라이언스",
-                        highlight: "#보안 특화 AI 개발 환경"
+                        highlight: "#보안 특화 개발"
                       },
                       {
-                        image: "/logo_8.png",
-                        title: "AI DataLens",
-                        desc: "기업 내 데이터를 자연어로 조회하고 인사이트를 도출하는 분석 AI",
-                        highlight: "#데이터 분석 자동화"
+                        image: "/ai-service-logos/logo_8.png",
+                        title: "CloudWiz",
+                        desc: "클라우드 운영 효율화와 자동화를 지원하는 관리 서비스",
+                        highlight: "#비용 30% 절감"
                       }
                     ].map((card, i) => (
                       <div key={i}>
-                        <SolutionCard {...card} number={`0${i + 1}`} />
+                        <SolutionCard {...card} category="Solution" />
                       </div>
                     ))}
                   </div>
@@ -735,17 +732,17 @@ const App = () => {
             </div>
 
             {/* Content: 좌측 타이틀+칩 / 우측 설명 */}
-            <div className="flex flex-col md:flex-row gap-8 md:gap-16">
+            <div className="flex flex-col md:flex-row gap-8 md:gap-[120px]">
               <div className="md:w-1/3 flex flex-col gap-4">
-                <h2 className="text-heading-xs md:text-heading-sm font-bold text-white leading-tight">
-                  AI:ON-U, AI Works,<br />SQL Agents
+                <h2 className="text-heading-sm md:text-heading-md font-bold text-white leading-tight">
+                  AI:ON-U · AI Works ·<br />SQL Agents
                 </h2>
                 <div className="flex flex-wrap gap-2">
-                  <span className="px-3 py-1.5 rounded-full border border-brand-primary text-brand-primary text-label-sm font-medium"># 구축 기간 3개월</span>
-                  <span className="px-3 py-1.5 rounded-full border border-brand-primary text-brand-primary text-label-sm font-medium"># 데이터 접근성과 활용도 향상</span>
+                  <span className="px-2 py-1.5 rounded-full bg-white/8 text-white text-[14px] font-medium"># 구축 기간 3개월</span>
+                  <span className="px-2 py-1.5 rounded-full bg-white/8 text-white text-[14px] font-medium"># 데이터 접근성과 활용도 향상</span>
                 </div>
               </div>
-              <div className="md:w-2/3 flex flex-col gap-6 md:pr-24">
+              <div className="md:w-2/3 flex flex-col gap-6">
                 <p className="text-[#CCCCCC] text-[16px] leading-relaxed font-normal">
                   수많은 문서와 통계 데이터 속에서 원하는 정보를 찾기 어려운 환경에서,<br className="hidden md:block" />
                   Works AI와 SQL Agent를 통해 질문만으로 필요한 데이터를 바로 확인할 수 있는 환경 구축하였습니다.<br className="hidden md:block" />
@@ -760,7 +757,7 @@ const App = () => {
                     "단순 조회가 아닌 실제 업무 흐름에 맞춘 Agent 제공",
                     "단계별 구축 없이도 단기간 내 적용 가능",
                   ].map((item, i) => (
-                    <div key={i} className={`flex items-start gap-3 text-[15px] leading-relaxed ${isDark ? 'text-[#CCCCCC]' : 'text-[#333333]'}`}>
+                    <div key={i} className="flex items-start gap-3 text-[15px] leading-relaxed text-[#CCCCCC]">
                       <span className="shrink-0 text-brand-primary font-bold w-6">{String(i + 1).padStart(2, '0')}</span>
                       <span>{item}</span>
                     </div>
@@ -948,18 +945,16 @@ const App = () => {
                 </h2>
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                   <Button
-                    variant="premium"
-                    size="cta"
-                    rounded="xl"
+                    variant="default"
+                    size="lg"
                     className="w-[140px] relative group transition-all duration-300"
                   >
                     <span className="group-hover:-translate-x-2 transition-transform duration-300">무료체험 신청</span>
                     <ChevronRight size={18} className="absolute right-4 max-w-0 opacity-0 group-hover:max-w-[24px] group-hover:opacity-100 transition-all duration-300 overflow-hidden" />
                   </Button>
                   <Button
-                    variant="glass"
-                    size="cta"
-                    rounded="xl"
+                    variant="outline"
+                    size="lg"
                     className="w-[140px] mt-3 sm:mt-0 relative group transition-all duration-300"
                   >
                     <span className="group-hover:-translate-x-2 transition-transform duration-300">솔루션 문의</span>
@@ -989,35 +984,7 @@ const App = () => {
           )}
         </AnimatePresence>
 
-        {/* 풋터 */}
-        <footer className="py-16 border-t border-border-light relative z-20" style={{ backgroundColor: isDark ? '#0A0A0A' : '#FFFFFF' }}>
-          <div className="max-w-[1280px] mx-auto px-10 flex flex-col md:flex-row justify-between items-start gap-10 md:gap-0 font-pretendard">
-            {/* 좌측: 로고 + 주소 */}
-            <div className="flex flex-col items-start gap-8">
-              <img
-                src="/ktds_white.png"
-                alt="kt ds"
-                className="h-8 w-auto object-contain"
-              />
-              <p className="text-label-lg text-text-primary/90 font-medium text-left">
-                (06707) 서울 서초구 효령로 176, 02-523-7029
-              </p>
-            </div>
-
-            {/* 우측: 메뉴 + 저작권 (이 부분도 좌측 정렬로 통일) */}
-            <div className="flex flex-col items-start gap-8">
-              <div className="flex flex-wrap gap-x-8 gap-y-2 text-label-lg text-text-primary/90 font-medium">
-                <a href="#" className="hover:text-text-primary transition-colors">사이트맵</a>
-                <a href="#" className="hover:text-text-primary transition-colors">공지사항</a>
-                <a href="#" className="hover:text-text-primary transition-colors">개인정보처리방침</a>
-                <a href="#" className="hover:text-text-primary transition-colors">이용약관</a>
-              </div>
-              <p className="text-label-md text-text-dim font-medium text-left">
-                © 2026 AI Biz Portal. All rights reserved.
-              </p>
-            </div>
-          </div>
-        </footer>
+        <Footer />
       </div>
     </div>
   );

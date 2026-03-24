@@ -19,11 +19,12 @@ const HeroSpline = React.memo(() => {
   };
 
   return (
-    <div className="absolute left-1/2 -translate-x-1/2 bottom-[-650px] md:left-auto md:right-[-350px] md:top-1/2 md:-translate-y-1/2 md:bottom-auto md:translate-x-0 lg:right-[50px]">
-      <div ref={containerRef} className="scale-[0.46] md:scale-[0.615] lg:scale-[0.65] origin-center md:origin-right">
+    <div className="absolute left-1/2 -translate-x-1/2 bottom-[-650px] md:left-auto md:right-[-350px] md:top-1/2 md:-translate-y-1/2 md:bottom-auto md:translate-x-0 lg:right-[-200px]">
+      <div ref={containerRef} className="scale-[0.46] md:scale-[0.615] lg:scale-[0.85] origin-center md:origin-right">
         <Spline
-          scene="https://prod.spline.design/bBgS2Q3sQ3sP0ZKh/scene.splinecode"
+          scene="https://prod.spline.design/w3rRLdiJPjOpXuBz/scene.splinecode"
           onLoad={handleLoad}
+          style={{ width: 1300, height: 1000 }}
         />
       </div>
     </div>
@@ -31,3 +32,5 @@ const HeroSpline = React.memo(() => {
 });
 
 export default HeroSpline;
+
+
