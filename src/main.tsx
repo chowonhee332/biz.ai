@@ -6,7 +6,8 @@ import NewsPage from './NewsPage.tsx';
 import NewsDetailPage from './NewsDetailPage.tsx';
 import UseCasePage from './UseCasePage.tsx';
 import UseCaseDetailPage from './UseCaseDetailPage.tsx';
-import AiServicePage from './AiServicePage.tsx';
+import AiAgentsPage from './AiAgentsPage.tsx';
+import AiSolutionsPage from './AiSolutionsPage.tsx';
 import { ThemeProvider } from './context/ThemeContext.tsx';
 import './index.css';
 
@@ -16,7 +17,8 @@ createRoot(document.getElementById('root')!).render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} />
-        <Route path="/platform" element={<AiServicePage />} />
+        <Route path="/ai-agents" element={<AiAgentsPage />} />
+        <Route path="/ai-solutions" element={<AiSolutionsPage />} />
         <Route path="/news" element={<NewsPage />} />
         <Route path="/news/:id" element={<NewsDetailPage />} />
         <Route path="/use-cases" element={<UseCasePage />} />

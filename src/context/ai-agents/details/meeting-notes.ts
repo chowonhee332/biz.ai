@@ -1,4 +1,4 @@
-import { PlatformProduct } from '../types';
+import { PlatformProduct } from '../../types';
 
 export const meetingNotes: PlatformProduct = {
     관련리소스: [

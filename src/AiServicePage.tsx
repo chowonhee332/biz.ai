@@ -3,7 +3,13 @@ import { motion, AnimatePresence, useScroll } from 'motion/react';
 import { ChevronRight, ChevronLeft, Play, Download, Mail, Phone, Quote } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { PLATFORM_PAGE_CONFIG } from '@/context/ai-service/ai-service-data';
+import { PlatformProduct } from './context/types';
+
+interface PageConfig {
+    hero: { title: string; description: string };
+    sidebarItems: string[];
+    products: Record<string, PlatformProduct>;
+}
 import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
 
@@ -15,9 +21,14 @@ function EmptyPlaceholder({ label }: { label: string }) {
     );
 }
 
-export default function AiServicePage() {
+interface AiServicePageProps {
+    config: PageConfig;
+    activePage: 'ai-agents' | 'ai-solutions';
+}
+
+export default function AiServicePage({ config, activePage }: AiServicePageProps) {
     const { scrollYProgress } = useScroll();
-    const [activeTab, setActiveTab] = useState(PLATFORM_PAGE_CONFIG.sidebarItems[0]);
+    const [activeTab, setActiveTab] = useState(config.sidebarItems[0]);
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'instant' });
     }, [activeTab]);
@@ -41,12 +52,12 @@ export default function AiServicePage() {
         return () => clearInterval(interval);
     }, [activeTab]);
 
-    const sidebarItems = PLATFORM_PAGE_CONFIG.sidebarItems;
-    const currentContent = PLATFORM_PAGE_CONFIG.products[activeTab];
+    const sidebarItems = config.sidebarItems;
+    const currentContent = config.products[activeTab];
 
     return (
         <div className="min-h-screen text-text-primary font-pretendard flex flex-col bg-bg-main">
-            <Navbar activePage="platform" scrollLineProgress={scrollYProgress} />
+            <Navbar activePage={activePage} scrollLineProgress={scrollYProgress} />
 
             <section className="pt-[220px] pb-32 flex-1 relative">
                 <div className="max-w-[1280px] mx-auto container-responsive mb-[120px] relative z-10">
@@ -59,9 +70,9 @@ export default function AiServicePage() {
                             className="text-center"
                         >
                             <h1 className="text-heading-lg lg:text-display-md font-extrabold text-text-primary tracking-tight leading-tight font-display">
-                                AI Products/Service
+                                {config.hero.title}
                             </h1>
-                            <p className="mt-4 text-body text-text-secondary font-medium">기업의 AI 도입부터 클라우드 인프라 관리까지 전 과정을 표준화하고 안정적으로 지원합니다.</p>
+                            <p className="mt-4 text-body text-text-secondary font-medium">{config.hero.description}</p>
                         </motion.div>
                     </div>
                 </div>

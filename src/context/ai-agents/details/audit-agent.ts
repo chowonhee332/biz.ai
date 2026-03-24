@@ -1,4 +1,4 @@
-import { PlatformProduct } from '../types';
+import { PlatformProduct } from '../../types';
 
 export const auditAgent: PlatformProduct = {
     관련리소스: [],

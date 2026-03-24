@@ -1,4 +1,4 @@
-import { PlatformProduct } from '../types';
+import { PlatformProduct } from '../../types';
 
 export const aiPortal: PlatformProduct = {
     다운로드: [],

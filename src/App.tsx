@@ -73,31 +73,32 @@ const AnimatedCounter = ({ from, to }: { from: number; to: number }) => {
   return <span ref={nodeRef}>{Intl.NumberFormat("en-US").format(from)}</span>;
 };
 
-const SolutionCard = ({ image, title, desc, highlight, category }: { image: string; title: string; desc: string; highlight: string; category?: string }) => (
-  <div className="bg-[#F6F6F6] rounded-[20px] p-6 md:pt-[32px] md:px-8 md:pb-8 flex flex-col w-full min-w-[280px] h-[340px] md:h-[400px] group cursor-pointer hover:shadow-[0_20px_48px_rgba(0,0,0,0.08)] transition-all duration-500 hover:-translate-y-2 font-pretendard relative overflow-hidden">
+const SolutionCard = ({ image, title, desc, highlight, category, index }: { image: string; title: string; desc: string; highlight: string; category?: string; index?: number }) => (
+  <div className="bg-[#F6F6F6] rounded-[20px] p-6 md:pt-[32px] md:px-8 md:pb-8 flex flex-col w-full min-w-[280px] h-[340px] md:h-[400px] cursor-pointer font-pretendard relative overflow-hidden">
 
-    {/* Tag Chips - 상단 */}
-    <div className="flex flex-wrap gap-1 mb-5">
-      {category && (
-        <span className={`px-2 py-1.5 rounded-full text-white text-[14px] font-medium leading-none ${category === 'Solution' ? 'bg-[#22C55E]' : 'bg-brand-primary'}`}>{category}</span>
-      )}
-      <span className="px-2 py-1.5 rounded-full bg-[#E8E8E8] text-[#555555] text-[14px] font-medium leading-none">
-        {highlight.replace(/^#\s*/, '')}
-      </span>
-    </div>
+        {/* Title & Description */}
+        <div className="flex flex-col gap-2 md:gap-3">
+          {index !== undefined && (
+            <span className="text-black text-[16px] font-bold leading-none mb-1">{String(index + 1).padStart(2, '0')}</span>
+          )}
+          <h4 className="text-black text-[22px] md:text-[28px] font-bold tracking-tight leading-tight">{title}</h4>
+          <p className="text-[#444444] text-[15px] leading-relaxed font-normal break-keep">{desc}</p>
+        </div>
 
-    {/* Title & Description */}
-    <div className="flex flex-col gap-2 md:gap-3 flex-1">
-      <h4 className="text-black text-[22px] md:text-[28px] font-bold tracking-tight leading-tight">{title}</h4>
-      <p className="text-[#444444] text-[15px] leading-relaxed font-normal break-keep">
-        {desc}
-      </p>
-    </div>
+        {/* Tag Chips - 하단 */}
+        <div className="flex flex-wrap gap-1 mt-[30px]">
+          {category && (
+            <span className={`px-2 py-1.5 rounded-full text-white text-[14px] font-medium leading-none ${category === 'Solution' ? 'bg-[#22C55E]' : 'bg-brand-primary'}`}>{category}</span>
+          )}
+          <span className="px-2 py-1.5 rounded-full bg-[#E8E8E8] text-[#555555] text-[14px] font-medium leading-none">
+            {highlight.replace(/^#\s*/, '')}
+          </span>
+        </div>
 
-    {/* Logo - 우하단 */}
-    <div className="absolute bottom-0 right-[30px] w-[80px] h-[80px] md:w-[132px] md:h-[132px] shrink-0">
-      <img src={image} alt={title} className="w-full h-full object-contain" />
-    </div>
+        {/* Logo - 우하단 */}
+        <div className="absolute bottom-0 right-[30px] w-[80px] h-[80px] md:w-[132px] md:h-[132px] shrink-0">
+          <img src={image} alt={title} className="w-full h-full object-contain" />
+        </div>
   </div>
 );
 
@@ -663,7 +664,7 @@ const App = () => {
                     ]
                       .map((card, i) => (
                         <div key={i}>
-                          <SolutionCard {...card} category="Agent" />
+                          <SolutionCard {...card} category="Agent" index={i} />
                         </div>
                       ))}
                   </div>
@@ -702,7 +703,7 @@ const App = () => {
                       }
                     ].map((card, i) => (
                       <div key={i}>
-                        <SolutionCard {...card} category="Solution" />
+                        <SolutionCard {...card} category="Solution" index={i} />
                       </div>
                     ))}
                   </div>
