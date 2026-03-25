@@ -73,31 +73,26 @@ const AnimatedCounter = ({ from, to }: { from: number; to: number }) => {
   return <span ref={nodeRef}>{Intl.NumberFormat("en-US").format(from)}</span>;
 };
 
-const SolutionCard = ({ image, title, desc, highlight, category, index }: { image: string; title: string; desc: string; highlight: string; category?: string; index?: number }) => (
-  <div className="bg-[#F6F6F6] rounded-[20px] p-6 md:pt-[32px] md:px-8 md:pb-8 flex flex-col w-full min-w-[280px] h-[340px] md:h-[400px] cursor-pointer font-pretendard relative overflow-hidden">
+const SolutionCard = ({ image, title, desc, highlight, category }: { image: string; title: string; desc: string; highlight: string; category?: string; index?: number }) => (
+  <div className="bg-[#F6F6F6] rounded-[20px] p-6 md:p-8 flex flex-col w-full min-w-[280px] h-[340px] md:h-[380px] cursor-pointer font-pretendard">
 
-        {/* Title & Description */}
-        <div className="flex flex-col gap-2 md:gap-3">
-          {index !== undefined && (
-            <span className="text-black text-[16px] font-bold leading-none mb-1">{String(index + 1).padStart(2, '0')}</span>
-          )}
-          <h4 className="text-black text-[22px] md:text-[28px] font-bold tracking-tight leading-tight">{title}</h4>
-          <p className="text-[#444444] text-[15px] leading-relaxed font-normal break-keep">{desc}</p>
-        </div>
-
-        {/* Tag Chips - 하단 */}
-        <div className="flex flex-wrap gap-1 mt-[30px]">
-          {category && (
-            <span className={`px-2 py-1.5 rounded-full text-white text-[14px] font-medium leading-none ${category === 'Solution' ? 'bg-[#22C55E]' : 'bg-brand-primary'}`}>{category}</span>
-          )}
-          <span className="px-2 py-1.5 rounded-full bg-[#E8E8E8] text-[#555555] text-[14px] font-medium leading-none">
-            {highlight.replace(/^#\s*/, '')}
-          </span>
-        </div>
-
-        {/* Logo - 우하단 */}
-        <div className="absolute bottom-0 right-[30px] w-[80px] h-[80px] md:w-[132px] md:h-[132px] shrink-0">
+        {/* Logo - 좌상단 */}
+        <div className="w-[60px] h-[60px] md:w-[120px] md:h-[60px] shrink-0">
           <img src={image} alt={title} className="w-full h-full object-contain" />
+        </div>
+
+        {/* Title, Description, Tags - 하단 고정 */}
+        <div className="flex flex-col gap-3 mt-auto">
+          <h4 className="text-black text-[22px] md:text-[28px] font-bold tracking-tight leading-tight">{title}</h4>
+          <p className="text-[#444444] text-[15px] leading-relaxed font-normal break-keep min-h-[80px] md:min-h-[96px]">{desc}</p>
+          <div className="flex flex-wrap gap-1.5">
+            {category && (
+              <span className={`px-3 h-7 rounded-full text-white text-[14px] font-medium leading-none inline-flex items-center ${category === 'Solution' ? 'bg-[#22C55E]' : 'bg-brand-primary'}`}>{category}</span>
+            )}
+            <span className="px-3 h-7 rounded-full bg-[#E8E8E8] text-[#555555] text-[14px] font-medium leading-none inline-flex items-center">
+              {highlight.replace(/^#\s*/, '')}
+            </span>
+          </div>
         </div>
   </div>
 );
@@ -578,7 +573,7 @@ const App = () => {
           />
         </div>
         {/* Fade-out gradient overlay */}
-        <div className="absolute inset-0 z-[1] pointer-events-none" style={{ background: 'linear-gradient(to bottom, rgba(10,10,10,0) 0%, rgba(10,10,10,1) 100%), linear-gradient(to right, rgba(10,10,10,0.2) 0%, rgba(10,10,10,1) 70%)' }} />
+        <div className="absolute inset-0 z-[1] pointer-events-none" style={{ background: 'linear-gradient(to bottom, rgba(10,10,10,0) 0%, rgba(10,10,10,1) 100%), linear-gradient(to right, rgba(10,10,10,0.2) 0%, rgba(10,10,10,1) 60%)' }} />
 
         <div className="absolute inset-0 z-[2]">
           <HeroSpline />
@@ -751,19 +746,19 @@ const App = () => {
             {/* Content: 좌측 타이틀+칩 / 우측 설명 */}
             <div className="flex flex-col md:flex-row gap-8 md:gap-[120px]">
               <div className="md:w-1/3 flex flex-col gap-4">
-                <h2 className="text-heading-sm md:text-heading-md font-bold text-white leading-tight">
-                  AI:ON-U · AI Works ·<br />SQL Agents
+                <h2 className="text-[32px] md:text-[40px] font-bold text-white leading-tight">
+                  AI:ON-U · AI Works · SQL Agents
                 </h2>
                 <div className="flex flex-wrap gap-2">
-                  <span className="px-2 py-1.5 rounded-full bg-white/8 text-white text-[14px] font-medium"># 구축 기간 3개월</span>
-                  <span className="px-2 py-1.5 rounded-full bg-white/8 text-white text-[14px] font-medium"># 데이터 접근성과 활용도 향상</span>
+                  <span className="px-2 py-1.5 rounded-full bg-white/8 text-white text-[14px] font-medium">구축 기간 3개월</span>
+                  <span className="px-2 py-1.5 rounded-full bg-white/8 text-white text-[14px] font-medium">데이터 접근성과 활용도 향상</span>
                 </div>
               </div>
               <div className="md:w-2/3 flex flex-col gap-6">
                 <p className="text-[#CCCCCC] text-[16px] leading-relaxed font-normal">
                   수많은 문서와 통계 데이터 속에서 원하는 정보를 찾기 어려운 환경에서,<br className="hidden md:block" />
                   Works AI와 SQL Agent를 통해 질문만으로 필요한 데이터를 바로 확인할 수 있는 환경 구축하였습니다.<br className="hidden md:block" />
-                  AI:ON-U를 활용해 맞춤형 AI Agent를 빠르게 생성하여, 단기간 내 업무에 적용했습니다.<br className="hidden md:block" />
+                  AI:ON-U를 활용해 맞춤형 AI Agent를 빠르게 생성하여, 단기간 내 업무에 적용했습니다.<br /><br />
                   그 결과, 복잡한 데이터 탐색 과정 없이도 원하는 결과를 즉시 확인할 수 있게 되었고 약 3개월 내에 실제 업무에 활용 가능한 AI 기반 업무 환경을 구현했습니다.
                 </p>
                 <div className="rounded-[16px] border border-white/10 bg-white/5 px-6 py-5 flex flex-col gap-3">
@@ -788,7 +783,7 @@ const App = () => {
         {/* Why kt ds - 프로세스 섹션 */}
         <ProcessSection />
 
-        <section id="logos" className="relative pt-10 pb-3 overflow-hidden" style={{ backgroundColor: isDark ? '#0A0A0A' : undefined }}>
+        <section id="logos" className="relative pt-10 pb-3 overflow-hidden" style={{ backgroundColor: isDark ? '#0A0A0A' : '#F6F6F6' }}>
           {/* Hero와 동일한 그리드 배경 추가 */}
           <div className="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none" />
           
@@ -834,7 +829,7 @@ const App = () => {
 
 
         {/* FAQ 섹션 */}
-        <section id="faq" className="py-12 md:py-24 relative overflow-hidden" style={{ backgroundColor: isDark ? '#0A0A0A' : undefined }} >
+        <section id="faq" className="py-12 md:py-24 relative overflow-hidden" style={{ backgroundColor: isDark ? '#0A0A0A' : '#F6F6F6' }} >
           <div className="max-w-[1280px] mx-auto container-responsive">
             <div className="flex flex-col lg:flex-row gap-10 md:gap-20">
               {/* 왼쪽: 헤더 */}

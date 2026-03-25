@@ -34,7 +34,6 @@ export default function Navbar({ activePage, scrollLineProgress }: NavbarProps) 
   const borderClass = isDark ? 'border-white/10' : 'border-black/10';
   const mobileMenuBg = isDark ? '#0A0A0A' : '#FFFFFF';
   const ktdsLogo = isDark ? '/kt ds_dark.png' : '/kt ds_light.png';
-  const bizaiLogo = isDark ? '/logos/logo_bizai_dark.png' : '/logos/logo_bizai_light.png';
   const hoverBg = isDark ? 'hover:bg-white/5' : 'hover:bg-black/5';
 
   return (
@@ -44,8 +43,8 @@ export default function Navbar({ activePage, scrollLineProgress }: NavbarProps) 
     >
       <div className="max-w-[1280px] mx-auto container-responsive flex items-center h-full">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-[2px] shrink-0" onClick={() => window.scrollTo({ top: 0, behavior: 'instant' })}>
-          <img src={bizaiLogo} alt="Biz.AI" className="w-auto object-contain" style={{ height: 34 }} />
+        <Link to="/" className="flex items-center gap-2 shrink-0" onClick={() => window.scrollTo({ top: 0, behavior: 'instant' })}>
+          <img src="/bizai_logo.png" alt="Biz.AI" className="w-auto object-contain" style={{ height: 28, filter: isDark ? 'none' : 'brightness(0)' }} />
           <span className={`text-[22px] ${isDark ? 'text-white' : 'text-black'}`} style={{ fontFamily: 'var(--font-poppins)', fontWeight: 600, letterSpacing: '-0.2px' }}>Biz.AI</span>
         </Link>
 

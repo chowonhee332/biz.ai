@@ -69,9 +69,9 @@ export default function HeroContent({ isAnalyzing = false, align = 'center' }: H
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ opacity: { duration: 0.4, ease: 'easeOut' }, y: { duration: 0.4, ease: 'easeOut' } }}
-            className="inline-flex items-center px-3.5 py-1.5 rounded-full border border-[#7DD3FC]/40 bg-[#7DD3FC]/10"
+            className="inline-flex items-center px-3.5 py-1.5 rounded-[12px] bg-[#3B82F6]/10"
           >
-            <span className="font-[700] text-[14px] font-pretendard text-[#7DD3FC] tracking-wide">
+            <span className="font-[700] text-[16px] font-pretendard text-[#3B82F6] tracking-wide">
               {slide.category}
             </span>
           </motion.div>
@@ -93,7 +93,7 @@ export default function HeroContent({ isAnalyzing = false, align = 'center' }: H
               style={{ textShadow: '0px 2px 1px rgba(0,0,0,0.06)' }}
             >
               {slide.main.map((line, i) => (
-                <span key={i} className={`block whitespace-nowrap text-white ${slide.highlight === i ? 'font-[800]' : 'font-[400]'} ${isLeft ? 'text-center md:text-left' : 'text-center'}`}>
+                <span key={i} className={`block whitespace-nowrap ${slide.highlight === i ? 'text-white font-[800]' : 'bg-gradient-to-r from-white/90 to-white/70 bg-clip-text text-transparent font-[400]'} ${isLeft ? 'text-center md:text-left' : 'text-center'}`}>
                   {line}
                 </span>
               ))}
@@ -119,7 +119,7 @@ export default function HeroContent({ isAnalyzing = false, align = 'center' }: H
         <Button
           variant="default"
           size="lg"
-          className="w-[110px] md:w-[130px] h-10 md:h-12 text-[15px] relative group transition-all duration-300 !bg-brand-primary !text-white hover:!bg-brand-primary/90 !border-0 !rounded-[12px]"
+          className="w-[110px] md:w-[130px] h-10 md:h-12 text-[15px] relative group transition-all duration-300 !bg-white !text-black hover:!bg-white/90 !border-0 !rounded-[12px]"
           disabled={isAnalyzing}
         >
           <span className="group-hover:-translate-x-2 transition-transform duration-300">무료체험 신청</span>

@@ -8,7 +8,7 @@ export default function HeroSpline() {
       <div className="scale-[0.55] origin-center">
         <Suspense fallback={null}>
           <Spline
-            scene="https://prod.spline.design/2UO9IOrNh3JYR1wS/scene.splinecode"
+            scene="/scene.splinecode"
             style={{ width: 2000, height: 1231 }}
           />
         </Suspense>

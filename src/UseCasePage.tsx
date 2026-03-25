@@ -28,7 +28,7 @@ export default function UseCasePage() {
                 {/* Hero Banner with Silk */}
                 <div className="relative overflow-hidden bg-[#3a3a3a] mx-3 mt-[68px] mb-3 rounded-[28px] h-[300px] flex items-center justify-center">
                     <div className="absolute inset-0 z-0">
-                        <Silk speed={4} scale={0.7} color="#b8e4ff" noiseIntensity={4} rotation={4.8} />
+                        <Silk speed={4} scale={0.7} color="#b8e4ff" noiseIntensity={2} rotation={4.8} />
                     </div>
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
@@ -55,7 +55,7 @@ export default function UseCasePage() {
                                 onClick={() => setActiveCategory(category)}
                                 className={`relative h-full !text-[18px] transition-colors flex items-center px-1 cursor-pointer hover:!bg-transparent focus-visible:ring-0 focus-visible:outline-none ${activeCategory === category
                                     ? "text-text-primary font-bold"
-                                    : "text-text-dim/60 font-bold hover:text-text-secondary"
+                                    : "text-[#666666] font-bold hover:text-text-secondary"
                                     }`}
                             >
                                 {category}
@@ -100,7 +100,7 @@ export default function UseCasePage() {
                                         <h3 className="text-text-primary text-[22px] font-bold leading-snug whitespace-pre-line">
                                             {item.상세내용?.title || item.타이틀}
                                         </h3>
-                                        <p className="text-[#666666] text-[16px] leading-relaxed line-clamp-2 font-normal">
+                                        <p className="text-[#888888] text-[16px] leading-relaxed line-clamp-2 font-normal">
                                             {item.상세내용?.header || item.설명}
                                         </p>
                                         <span className="text-[14px] font-medium px-3 py-1 rounded-full mt-0.5 self-start" style={{ backgroundColor: isDark ? '#222222' : '#f6f6f6', color: isDark ? '#FFFFFF' : undefined }}>
