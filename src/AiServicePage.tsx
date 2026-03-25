@@ -25,9 +25,11 @@ function EmptyPlaceholder({ label }: { label: string }) {
 interface AiServicePageProps {
     config: PageConfig;
     activePage: 'ai-agents' | 'ai-solutions';
+    silkColor?: string;
+    silkScale?: number;
 }
 
-export default function AiServicePage({ config, activePage }: AiServicePageProps) {
+export default function AiServicePage({ config, activePage, silkColor = '#c8d8ff', silkScale = 0.8 }: AiServicePageProps) {
     const { scrollYProgress } = useScroll();
     const [activeTab, setActiveTab] = useState(config.sidebarItems[0]);
     useEffect(() => {
@@ -62,13 +64,11 @@ export default function AiServicePage({ config, activePage }: AiServicePageProps
 
             <section className="pb-32 flex-1 relative">
                 {/* Hero Banner with Silk */}
-                <div className="relative overflow-hidden bg-[#0A0A0A] mx-3 mt-[68px] mb-3 rounded-[28px] h-[300px] flex items-center justify-center">
+                <div className="relative overflow-hidden bg-[#3a3a3a] mx-3 mt-[68px] mb-3 rounded-[28px] h-[300px] flex items-center justify-center">
                     {/* Silk background */}
                     <div className="absolute inset-0 z-0">
-                        <Silk speed={4} scale={0.8} color="#c8d8ff" noiseIntensity={6} rotation={4.8} />
+                        <Silk speed={4} scale={0.7} color={silkColor} noiseIntensity={4} rotation={4.8} />
                     </div>
-                    {/* Fade overlay */}
-                    <div className="absolute inset-0 z-[1] pointer-events-none" style={{ background: 'linear-gradient(to bottom, rgba(10,10,10,0) 0%, rgba(10,10,10,0.7) 100%), linear-gradient(to right, rgba(10,10,10,0) 0%, rgba(10,10,10,0.6) 100%)' }} />
                     {/* Title */}
                     <motion.div
                         key={activeTab + "header"}
@@ -77,10 +77,10 @@ export default function AiServicePage({ config, activePage }: AiServicePageProps
                         transition={{ duration: 0.8, ease: "easeOut" }}
                         className="relative z-10 text-center px-6"
                     >
-                        <h1 className="text-heading-lg lg:text-display-md font-extrabold tracking-tight leading-tight font-display bg-gradient-to-r from-white to-white/50 bg-clip-text text-transparent">
+                        <h1 className="text-heading-lg lg:text-display-md font-extrabold tracking-tight leading-tight font-display text-white">
                             {config.hero.title}
                         </h1>
-                        <p className="mt-4 text-body text-white/60 font-medium">{config.hero.description}</p>
+                        <p className="mt-4 text-[16px] text-white font-normal">{config.hero.description}</p>
                     </motion.div>
                 </div>
 

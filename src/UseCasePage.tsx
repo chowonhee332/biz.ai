@@ -26,21 +26,20 @@ export default function UseCasePage() {
             {/* Content Body */}
             <section className="pb-32 flex-1 relative">
                 {/* Hero Banner with Silk */}
-                <div className="relative overflow-hidden bg-[#0A0A0A] mx-3 mt-[68px] mb-3 rounded-[28px] h-[300px] flex items-center justify-center">
+                <div className="relative overflow-hidden bg-[#3a3a3a] mx-3 mt-[68px] mb-3 rounded-[28px] h-[300px] flex items-center justify-center">
                     <div className="absolute inset-0 z-0">
-                        <Silk speed={4} scale={0.8} color="#c8d8ff" noiseIntensity={6} rotation={4.8} />
+                        <Silk speed={4} scale={0.7} color="#b8e4ff" noiseIntensity={4} rotation={4.8} />
                     </div>
-                    <div className="absolute inset-0 z-[1] pointer-events-none" style={{ background: 'linear-gradient(to bottom, rgba(10,10,10,0) 0%, rgba(10,10,10,0.7) 100%), linear-gradient(to right, rgba(10,10,10,0) 0%, rgba(10,10,10,0.6) 100%)' }} />
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, ease: "easeOut" }}
                         className="relative z-10 text-center px-6"
                     >
-                        <h1 className="text-heading-lg lg:text-display-md font-extrabold tracking-tight leading-tight font-display bg-gradient-to-r from-white to-white/50 bg-clip-text text-transparent">
+                        <h1 className="text-heading-lg lg:text-display-md font-extrabold tracking-tight leading-tight font-display text-white">
                             Use Cases
                         </h1>
-                        <p className="mt-4 text-[18px] text-white/60 font-medium">다양한 산업과 업무 영역에서 검증된 AI 혁신 사례를 만나보세요</p>
+                        <p className="mt-4 text-[16px] text-white font-normal">다양한 산업과 업무 영역에서 검증된 AI 혁신 사례를 만나보세요</p>
                     </motion.div>
                 </div>
 
