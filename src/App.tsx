@@ -570,7 +570,7 @@ const App = () => {
         {/* Silk Motion Background */}
         <div className="absolute inset-0 z-0">
           <Silk
-            speed={4}
+            speed={2}
             scale={0.8}
             color="#c8d8ff"
             noiseIntensity={6}
@@ -578,7 +578,7 @@ const App = () => {
           />
         </div>
         {/* Fade-out gradient overlay */}
-        <div className="absolute inset-0 z-[1] pointer-events-none" style={{ background: 'linear-gradient(to bottom, rgba(10,10,10,0) 0%, rgba(10,10,10,1) 100%), linear-gradient(to right, rgba(10,10,10,0) 0%, rgba(10,10,10,1) 80%)' }} />
+        <div className="absolute inset-0 z-[1] pointer-events-none" style={{ background: 'linear-gradient(to bottom, rgba(10,10,10,0) 0%, rgba(10,10,10,1) 100%), linear-gradient(to right, rgba(10,10,10,0.2) 0%, rgba(10,10,10,1) 70%)' }} />
 
         <div className="absolute inset-0 z-[2]">
           <HeroSpline />

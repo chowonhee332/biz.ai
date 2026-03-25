@@ -7,6 +7,7 @@ import { HIGHLIGHT_NEWS, REGULAR_NEWS, NEWS_CATEGORIES } from '@/context/news/ne
 import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
 import { useTheme } from './context/ThemeContext';
+import Silk from './components/Silk';
 
 export default function NewsPage() {
     const { isDark } = useTheme();
@@ -26,22 +27,24 @@ export default function NewsPage() {
         <div className="min-h-screen text-text-primary font-pretendard flex flex-col" style={{ backgroundColor: isDark ? '#0A0A0A' : '#FFFFFF' }}>
             <Navbar activePage="news" />
 
-            <section className="pt-[220px] pb-32 flex-1 relative">
-                {/* 헤더 */}
-                <div className="max-w-[1280px] mx-auto container-responsive mb-[100px] relative z-10">
-                    <div className="flex justify-center items-center w-full">
-                        <motion.div
-                            initial={{ opacity: 0, y: 30 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8, ease: "easeOut" }}
-                            className="text-center"
-                        >
-                            <h1 className="text-heading-lg lg:text-display-md font-extrabold text-text-primary tracking-tight leading-tight font-display">
-                                News
-                            </h1>
-                            <p className="mt-4 text-[18px] text-text-secondary font-medium">kt ds의 핵심기술과 다양한 소식들을 소개합니다</p>
-                        </motion.div>
+            <section className="pb-32 flex-1 relative">
+                {/* Hero Banner with Silk */}
+                <div className="relative overflow-hidden bg-[#0A0A0A] mx-3 mt-[68px] mb-3 rounded-[28px] h-[300px] flex items-center justify-center">
+                    <div className="absolute inset-0 z-0">
+                        <Silk speed={4} scale={0.8} color="#c8d8ff" noiseIntensity={6} rotation={4.8} />
                     </div>
+                    <div className="absolute inset-0 z-[1] pointer-events-none" style={{ background: 'linear-gradient(to bottom, rgba(10,10,10,0) 0%, rgba(10,10,10,0.7) 100%), linear-gradient(to right, rgba(10,10,10,0) 0%, rgba(10,10,10,0.6) 100%)' }} />
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, ease: "easeOut" }}
+                        className="relative z-10 text-center px-6"
+                    >
+                        <h1 className="text-heading-lg lg:text-display-md font-extrabold tracking-tight leading-tight font-display bg-gradient-to-r from-white to-white/50 bg-clip-text text-transparent">
+                            News
+                        </h1>
+                        <p className="mt-4 text-[18px] text-white/60 font-medium">kt ds의 핵심기술과 다양한 소식들을 소개합니다</p>
+                    </motion.div>
                 </div>
 
 

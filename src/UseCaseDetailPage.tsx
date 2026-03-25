@@ -94,7 +94,7 @@ export default function UseCaseDetailPage() {
                         <span className={`text-body-sm font-bold ${USE_CASE_CATEGORY_COLORS[item.카테고리]?.text || 'text-brand-primary'}`}>
                             {item.카테고리}
                         </span>
-                        <h1 className="text-heading-lg md:text-display-sm font-extrabold text-text-primary leading-tight break-keep tracking-tight font-display">
+                        <h1 className="text-[40px] font-extrabold text-text-primary leading-tight break-keep tracking-tight font-display">
                             {detail?.title || item.타이틀}
                         </h1>
                         <p className="text-body-sm md:text-body text-text-secondary break-keep">

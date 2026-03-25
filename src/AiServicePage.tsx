@@ -4,6 +4,7 @@ import { ChevronRight, ChevronLeft, Play, Download, Mail, Phone, Quote } from 'l
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { PlatformProduct } from './context/types';
+import Silk from './components/Silk';
 
 interface PageConfig {
     hero: { title: string; description: string };
@@ -59,22 +60,28 @@ export default function AiServicePage({ config, activePage }: AiServicePageProps
         <div className="min-h-screen text-text-primary font-pretendard flex flex-col bg-bg-main">
             <Navbar activePage={activePage} scrollLineProgress={scrollYProgress} />
 
-            <section className="pt-[220px] pb-32 flex-1 relative">
-                <div className="max-w-[1280px] mx-auto container-responsive mb-[120px] relative z-10">
-                    <div className="flex justify-center items-center w-full">
-                        <motion.div
-                            key={activeTab + "header"}
-                            initial={{ opacity: 0, y: 30 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8, ease: "easeOut" }}
-                            className="text-center"
-                        >
-                            <h1 className="text-heading-lg lg:text-display-md font-extrabold text-text-primary tracking-tight leading-tight font-display">
-                                {config.hero.title}
-                            </h1>
-                            <p className="mt-4 text-body text-text-secondary font-medium">{config.hero.description}</p>
-                        </motion.div>
+            <section className="pb-32 flex-1 relative">
+                {/* Hero Banner with Silk */}
+                <div className="relative overflow-hidden bg-[#0A0A0A] mx-3 mt-[68px] mb-3 rounded-[28px] h-[300px] flex items-center justify-center">
+                    {/* Silk background */}
+                    <div className="absolute inset-0 z-0">
+                        <Silk speed={4} scale={0.8} color="#c8d8ff" noiseIntensity={6} rotation={4.8} />
                     </div>
+                    {/* Fade overlay */}
+                    <div className="absolute inset-0 z-[1] pointer-events-none" style={{ background: 'linear-gradient(to bottom, rgba(10,10,10,0) 0%, rgba(10,10,10,0.7) 100%), linear-gradient(to right, rgba(10,10,10,0) 0%, rgba(10,10,10,0.6) 100%)' }} />
+                    {/* Title */}
+                    <motion.div
+                        key={activeTab + "header"}
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, ease: "easeOut" }}
+                        className="relative z-10 text-center px-6"
+                    >
+                        <h1 className="text-heading-lg lg:text-display-md font-extrabold tracking-tight leading-tight font-display bg-gradient-to-r from-white to-white/50 bg-clip-text text-transparent">
+                            {config.hero.title}
+                        </h1>
+                        <p className="mt-4 text-body text-white/60 font-medium">{config.hero.description}</p>
+                    </motion.div>
                 </div>
 
                 {/* 모바일 탭 */}
@@ -96,7 +103,7 @@ export default function AiServicePage({ config, activePage }: AiServicePageProps
                     </div>
                 </div>
 
-                <div className="max-w-[1280px] mx-auto container-responsive relative z-10">
+                <div className="max-w-[1280px] mx-auto container-responsive relative z-10 pt-[24px]">
                     <div className="flex flex-col lg:flex-row gap-[100px]">
 
                         {/* 왼쪽 사이드바 (데스크탑) */}
@@ -119,7 +126,7 @@ export default function AiServicePage({ config, activePage }: AiServicePageProps
                         </aside>
 
                         {/* 메인 콘텐츠 */}
-                        <main className="flex-1 min-w-0">
+                        <main className="flex-1 min-w-0 pt-8">
                             <AnimatePresence mode="wait">
                                 <motion.div
                                     key={activeTab}
@@ -151,12 +158,12 @@ export default function AiServicePage({ config, activePage }: AiServicePageProps
                                     <div id="section-features" className="pt-[32px] mb-[32px] scroll-mt-32">
                                         <h3 className="text-body-xl font-bold text-text-primary mb-3">주요기능</h3>
                                         {currentContent.주요기능 && currentContent.주요기능.length > 0 ? (
-                                            <div className="rounded-[20px] p-7 bg-bg-surface flex flex-col divide-y divide-border-light/40">
+                                            <div className="rounded-[20px] p-7 bg-bg-surface flex flex-col gap-7">
                                                 {currentContent.주요기능.map((feature, i) => {
                                                     const [title, ...descParts] = feature.split(':');
                                                     const description = descParts.join(':').trim();
                                                     return (
-                                                        <div key={i} className="flex flex-col gap-1 py-[28px] first:pt-0 last:pb-0 break-keep">
+                                                        <div key={i} className="flex flex-col gap-1 break-keep">
                                                             <div className="flex items-center gap-3">
                                                                 <span className="w-6 shrink-0 flex items-center justify-start">
                                                                     <span className="text-brand-primary text-body-sm font-bold">{(i + 1).toString().padStart(2, '0')}.</span>
@@ -222,9 +229,9 @@ export default function AiServicePage({ config, activePage }: AiServicePageProps
                                     <div id="section-advantages" className="pt-[32px] mb-[32px] scroll-mt-32">
                                         <h3 className="text-body-xl font-bold text-text-primary mb-3">특장점</h3>
                                         {currentContent.특장점 && currentContent.특장점.length > 0 ? (
-                                            <div className="rounded-[20px] p-7 bg-bg-surface flex flex-col divide-y divide-border-light/40">
+                                            <div className="rounded-[20px] p-7 bg-bg-surface flex flex-col gap-7">
                                                 {currentContent.특장점.map((item, i) => (
-                                                    <div key={i} className="flex flex-col gap-1 py-[28px] first:pt-0 last:pb-0 break-keep">
+                                                    <div key={i} className="flex flex-col gap-1 break-keep">
                                                         <div className="flex items-center gap-3">
                                                             <span className="w-6 shrink-0 flex items-center justify-start">
                                                                 <span className="text-brand-primary text-body-sm font-bold">{(i + 1).toString().padStart(2, '0')}.</span>
