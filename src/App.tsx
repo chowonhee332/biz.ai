@@ -720,11 +720,27 @@ const App = () => {
         <section id="use-cases" className="py-16 md:py-24 relative" style={{ backgroundColor: '#0A0A0A' }}>
           <div className="max-w-[1280px] mx-auto container-responsive">
             {/* Header */}
-            <div className="text-center mb-10 md:mb-16">
+            <div className="text-center mb-16 md:mb-24">
               <span className="text-body-sm text-[#999999] mb-3 block font-medium">고객 사례</span>
               <h1 className="text-heading-md md:text-heading-lg lg:text-display-md font-bold text-white tracking-tight leading-tight font-poppins">
                 Use Cases
               </h1>
+            </div>
+
+            {/* Testimonial Quote */}
+            <div className="flex flex-col items-center text-center gap-5 mb-10 md:mb-14">
+              <svg width="28" height="22" viewBox="0 0 40 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="opacity-30">
+                <path d="M0 32V19.2C0 14.9333 1.06667 11.2 3.2 8C5.38667 4.74667 8.69333 2.13333 13.12 0.16L15.68 4C13.0133 5.28 11.04 6.82667 9.76 8.64C8.53333 10.4533 7.92 12.5333 7.92 14.88H15.68V32H0ZM24.32 32V19.2C24.32 14.9333 25.3867 11.2 27.52 8C29.7067 4.74667 33.0133 2.13333 37.44 0.16L40 4C37.3333 5.28 35.36 6.82667 34.08 8.64C32.8533 10.4533 32.24 12.5333 32.24 14.88H40V32H24.32Z" fill="white"/>
+              </svg>
+              <p className="text-[28px] font-normal italic text-white/70 leading-snug tracking-tight max-w-3xl" style={{ fontFamily: 'var(--font-nanum)' }}>
+                질문만으로 원하는 데이터(문서, 통계)를 바로 찾고,<br />
+                3개월 안에 업무에 적용한 AI 구축 사례
+              </p>
+              <div className="flex items-center gap-2 mt-1">
+                <div className="w-6 h-px bg-brand-primary/60" />
+                <span className="text-[16px] text-brand-primary font-medium tracking-wide">한국기계산업진흥원</span>
+                <div className="w-6 h-px bg-brand-primary/60" />
+              </div>
             </div>
 
             {/* Image */}
@@ -772,7 +788,7 @@ const App = () => {
         {/* Why kt ds - 프로세스 섹션 */}
         <ProcessSection />
 
-        <section id="logos" className="relative pt-10 pb-3 overflow-hidden bg-bg-section">
+        <section id="logos" className="relative pt-10 pb-3 overflow-hidden" style={{ backgroundColor: isDark ? '#0A0A0A' : undefined }}>
           {/* Hero와 동일한 그리드 배경 추가 */}
           <div className="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none" />
           
@@ -818,7 +834,7 @@ const App = () => {
 
 
         {/* FAQ 섹션 */}
-        <section id="faq" className="py-12 md:py-24 relative overflow-hidden bg-bg-section">
+        <section id="faq" className="py-12 md:py-24 relative overflow-hidden" style={{ backgroundColor: isDark ? '#0A0A0A' : undefined }} >
           <div className="max-w-[1280px] mx-auto container-responsive">
             <div className="flex flex-col lg:flex-row gap-10 md:gap-20">
               {/* 왼쪽: 헤더 */}

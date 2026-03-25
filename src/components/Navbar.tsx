@@ -34,6 +34,7 @@ export default function Navbar({ activePage, scrollLineProgress }: NavbarProps) 
   const borderClass = isDark ? 'border-white/10' : 'border-black/10';
   const mobileMenuBg = isDark ? '#0A0A0A' : '#FFFFFF';
   const ktdsLogo = isDark ? '/kt ds_dark.png' : '/kt ds_light.png';
+  const bizaiLogo = '/logos/logo_bizai_light.png';
   const hoverBg = isDark ? 'hover:bg-white/5' : 'hover:bg-black/5';
 
   return (
@@ -43,8 +44,9 @@ export default function Navbar({ activePage, scrollLineProgress }: NavbarProps) 
     >
       <div className="max-w-[1280px] mx-auto container-responsive flex items-center h-full">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2 shrink-0" onClick={() => window.scrollTo({ top: 0, behavior: 'instant' })}>
-          <span className={`text-[22px] font-bold tracking-tighter ${textColor}`}>Biz.AI</span>
+        <Link to="/" className="flex items-center gap-1 shrink-0" onClick={() => window.scrollTo({ top: 0, behavior: 'instant' })}>
+          <img src={bizaiLogo} alt="Biz.AI" className="w-auto object-contain" style={{ height: 40 }} />
+          <span className={`text-[24px] ${isDark ? 'text-white' : 'text-brand-primary'}`} style={{ fontFamily: 'var(--font-poppins)', fontWeight: 600, letterSpacing: '-0.2px' }}>Biz.AI</span>
         </Link>
 
         {/* Desktop Navigation - 정중앙 */}
