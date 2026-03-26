@@ -6,6 +6,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useTheme } from './context/ThemeContext';
 import HeroSpline from './components/HeroSpline';
+import Silk from './components/Silk';
 import { useTransform, motion, useInView, AnimatePresence, animate, useMotionValue, useSpring, useScroll } from 'motion/react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -17,7 +18,6 @@ import Footer from './components/Footer';
 import Aurora from './components/Aurora';
 import Antigravity from './components/Antigravity';
 import { BackgroundGradientAnimation } from './components/ui/background-gradient-animation';
-import Silk from './components/Silk';
 import {
   Zap,
   Layout,
