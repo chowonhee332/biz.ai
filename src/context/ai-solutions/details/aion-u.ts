@@ -9,7 +9,7 @@ export const aionU: PlatformProduct = {
         { 타이틀: "[AI_ON-U] Knowledge.zip", 파일타입: "ZIP", URL: "#" },
         { 타이틀: "[AI_ON-U] Code Assistant.zip", 파일타입: "ZIP", URL: "#" }
     ],
-    제품상세문의: { 이메일: "aion-u@ktds.com", 전화번호: "02-523-7074" },
+    제품상세문의: { 이메일: "bizai@kt.com", 전화번호: "02-523-7074" },
     오퍼링: [],
     다운로드: [],
     노출뉴스: [],

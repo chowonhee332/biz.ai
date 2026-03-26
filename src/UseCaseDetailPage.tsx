@@ -242,7 +242,7 @@ export default function UseCaseDetailPage() {
                         <div className="flex flex-col gap-3">
                             <div className="flex items-center gap-2 text-text-secondary">
                                 <Mail className="size-4 text-text-dim shrink-0" />
-                                <span className="text-label-lg font-medium">ktdspr@kt.com</span>
+                                <span className="text-label-lg font-medium">bizai@kt.com</span>
                             </div>
                             <div className="flex items-center gap-2 text-text-secondary">
                                 <Phone className="size-4 text-text-dim shrink-0" />
@@ -260,7 +260,7 @@ export default function UseCaseDetailPage() {
                         <div className="flex flex-col gap-3">
                             <div className="flex items-center gap-2 text-text-secondary">
                                 <Mail className="size-4 text-text-dim shrink-0" />
-                                <span className="text-label-lg font-medium">ktdspr@kt.com</span>
+                                <span className="text-label-lg font-medium">bizai@kt.com</span>
                             </div>
                             <div className="flex items-center gap-2 text-text-secondary">
                                 <Phone className="size-4 text-text-dim shrink-0" />

@@ -96,7 +96,7 @@ export const aiPortal: PlatformProduct = {
         { 타이틀: "Enterprise", 설명: "고성능 하이브리드 RAG 엔진 + 엔터프라이즈 보안 패키지", 상세링크: "#" }
     ],
     제품상세문의: {
-        이메일: "gworks.helpdesk@kt.com",
+        이메일: "bizai@kt.com",
         전화번호: "02-1234-5678"
     },
     관련리소스: [

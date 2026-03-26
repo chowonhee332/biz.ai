@@ -4,7 +4,7 @@ export const meetingNotes: PlatformProduct = {
     관련리소스: [
         { 타이틀: "[KTDS] AI회의록 소개자료 (1).pdf", 파일타입: "PDF", URL: "#" }
     ],
-    제품상세문의: { 이메일: "ktdspr@kt.com", 전화번호: "02-523-7029" },
+    제품상세문의: { 이메일: "bizai@kt.com", 전화번호: "02-523-7029" },
     오퍼링: [],
     다운로드: [],
     노출뉴스: [],

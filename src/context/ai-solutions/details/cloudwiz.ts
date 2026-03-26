@@ -5,7 +5,7 @@ export const cloudwiz: PlatformProduct = {
         { 타이틀: "[kt ds] Cloud서비스 오퍼링팩_260123.pptx", 파일타입: "PPTX", URL: "#" },
         { 타이틀: "KT ds CloudPack 매니지드(패키지)_규격서.pdf", 파일타입: "PDF", URL: "#" }
     ],
-    제품상세문의: { 이메일: "ktdspr@kt.com", 전화번호: "02-523-7029" },
+    제품상세문의: { 이메일: "bizai@kt.com", 전화번호: "02-523-7029" },
     오퍼링: [
         { 타이틀: "CloudWiz 홈페이지", 설명: "", 상세링크: "https://cloudwiz.ktds.com/" },
         { 타이틀: "솔루션의 모든 것(KMS)", 설명: "", 상세링크: "#" },

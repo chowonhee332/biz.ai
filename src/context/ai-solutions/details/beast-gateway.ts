@@ -2,7 +2,7 @@ import { PlatformProduct } from '../../types';
 
 export const beastGateway: PlatformProduct = {
     관련리소스: [],
-    제품상세문의: { 이메일: "beast@ktds.com", 전화번호: "02-523-7075" },
+    제품상세문의: { 이메일: "bizai@kt.com", 전화번호: "02-523-7075" },
     오퍼링: [],
     다운로드: [],
     노출뉴스: [],

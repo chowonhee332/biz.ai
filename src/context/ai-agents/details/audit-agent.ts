@@ -2,7 +2,7 @@ import { PlatformProduct } from '../../types';
 
 export const auditAgent: PlatformProduct = {
     관련리소스: [],
-    제품상세문의: { 이메일: "ktdspr@kt.com", 전화번호: "02-523-7029" },
+    제품상세문의: { 이메일: "bizai@kt.com", 전화번호: "02-523-7029" },
     오퍼링: [],
     다운로드: [],
     노출뉴스: [],

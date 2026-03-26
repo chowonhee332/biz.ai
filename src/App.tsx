@@ -26,7 +26,6 @@ import {
   Shield,
   Clock,
   ChevronRight,
-  ChevronDown,
   ArrowUp,
   Youtube,
   Linkedin,
@@ -87,7 +86,7 @@ const SolutionCard = ({ image, title, desc, highlight, category }: { image: stri
           <p className="text-[#444444] text-[15px] leading-relaxed font-normal break-keep min-h-[80px] md:min-h-[96px]">{desc}</p>
           <div className="flex flex-wrap gap-1.5">
             {category && (
-              <span className={`px-3 h-7 rounded-full text-white text-[14px] font-medium leading-none inline-flex items-center ${category === 'Solution' ? 'bg-[#22C55E]' : 'bg-brand-primary'}`}>{category}</span>
+              <span className="px-3 h-7 rounded-full bg-[#E8E8E8] text-[#555555] text-[14px] font-medium leading-none inline-flex items-center">{category}</span>
             )}
             <span className="px-3 h-7 rounded-full bg-[#E8E8E8] text-[#555555] text-[14px] font-medium leading-none inline-flex items-center">
               {highlight.replace(/^#\s*/, '')}
@@ -565,46 +564,29 @@ const App = () => {
         {/* Silk Motion Background */}
         <div className="absolute inset-0 z-0">
           <Silk
-            speed={2}
-            scale={0.8}
+            speed={0.1}
+            scale={0.6}
             color="#c8d8ff"
-            noiseIntensity={6}
+            noiseIntensity={3}
             rotation={4.8}
           />
         </div>
         {/* Fade-out gradient overlay */}
-        <div className="absolute inset-0 z-[1] pointer-events-none" style={{ background: 'linear-gradient(to bottom, rgba(10,10,10,0) 0%, rgba(10,10,10,1) 100%), linear-gradient(to right, rgba(10,10,10,0.2) 0%, rgba(10,10,10,1) 60%)' }} />
+        <div className="absolute inset-0 z-[1] pointer-events-none" style={{ background: 'linear-gradient(to bottom, rgba(10,10,10,0.2) 0%, rgba(10,10,10,0.6) 30%, rgba(10,10,10,1) 60%)' }} />
 
         <div className="absolute inset-0 z-[2]">
           <HeroSpline />
         </div>
 
         <div className="relative z-10 w-full max-w-[1280px] mx-auto container-responsive flex items-center h-full pointer-events-none -mt-[160px] md:mt-0">
-          <div className="w-full h-full flex flex-col justify-center lg:flex-row lg:justify-start items-center relative">
+          <div className="w-full h-full flex flex-col justify-center lg:flex-row lg:justify-center items-center relative">
             {/* Left Content */}
             <div className="w-full lg:max-w-[800px] relative z-20 pointer-events-auto">
-              <HeroContent align="left" />
+              <HeroContent align="center" />
             </div>
           </div>
         </div>
 
-        {/* 스크롤 다운 인디케이터 */}
-        <motion.div
-          className="hidden md:flex absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex-col items-center gap-2 cursor-pointer"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.5, duration: 1 }}
-          onClick={() => document.getElementById('solution')?.scrollIntoView({ behavior: 'smooth' })}
-        >
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-          >
-            <ChevronDown size={28} className="text-white/80" strokeWidth={1.5} />
-            <ChevronDown size={28} className="text-white/40 -mt-5" strokeWidth={1.5} />
-          </motion.div>
-          <span className="text-white/60 text-sm font-medium tracking-wider">Scroll down</span>
-        </motion.div>
       </section>
 
       {/* Main Content Area */}

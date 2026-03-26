@@ -3,14 +3,14 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Button } from '@/components/ui/button';
 import { ChevronRight } from 'lucide-react';
 
-const HERO_SLIDES: { category: string; main: [string, string, string]; sub: string; highlight?: number }[] = [
-  { category: 'Biz.AI', main: ['kt ds의 기업용', 'AI 서비스로', '비즈니스를 성장시키세요'], sub: '귀사에 필요한 AI Agents만 쏙쏙 모아, 기업 환경에 최적화된 솔루션을 만들어요.\n실제 성과로 이어지는 변화를 경험하세요.', highlight: 2 },
-  { category: '국정감사 Agent', main: ['준비부터 대응까지', '국정감사를', 'AI Agent로 끝!'], sub: '국정감사 담당자의 성향을 파악하여 AI가 필요한 내용을 정리하고,\n많은 자료를 일일이 찾지 않아도, 중요한 내용만 빠르게 확인할 수 있도록 도와줍니다.', highlight: 2 },
-  { category: 'Works AI', main: ['내 일을 대신하는', '개인 비서 -', 'AI 사내 업무 포털'], sub: '여러 시스템 이동 없이, 필요한 정보 제공부터 업무 처리까지,\nAI 사내 업무 포털로 복잡한 업무와 흩어진 정보를 한 곳에 모아\n더 쉽고 빠르게 일할 수 있도록 도와줍니다.', highlight: 2 },
-  { category: 'AI:ON-U', main: ['비즈니스 맞춤형', 'AI Agent 구축', '노코딩 Agent Builder'], sub: 'Agent Builder로 코딩 없이 간단한 설정만으로 필요한 기능만 선택해\n기업 업무에 필요한 AI Agent를 바로 만들고 빠르게 구축/운영할 수 있습니다.', highlight: 2 },
+const HERO_SLIDES: { category: string; main: [string, string]; sub: string; highlight?: number }[] = [
+  { category: 'Biz.AI', main: ['kt ds의 기업용 AI 서비스로', '비즈니스를 성장시키세요'], sub: '귀사에 필요한 AI Agents만 쏙쏙 모아, 기업 환경에 최적화된 솔루션을 만들어요.\n실제 성과로 이어지는 변화를 경험하세요.', highlight: 1 },
+  { category: '국정감사 Agent', main: ['빠른 준비, 정확한 대응', '국정감사 AI Agent로 끝!'], sub: '국정감사 담당자의 성향을 파악하여 AI가 필요한 내용을 정리하고,\n많은 자료를 일일이 찾지 않아도, 중요한 내용만 빠르게 확인할 수 있도록 도와줍니다.', highlight: 1 },
+  { category: 'Works AI', main: ['내 일을 대신하는 개인 비서', 'AI 사내 업무 포털'], sub: '여러 시스템 이동 없이, 필요한 정보 제공부터 업무 처리까지,\nAI 사내 업무 포털로 복잡한 업무와 흩어진 정보를 한 곳에 모아\n더 쉽고 빠르게 일할 수 있도록 도와줍니다.', highlight: 1 },
+  { category: 'AI:ON-U', main: ['비즈니스 맞춤형 AI Agent 구축', '노코딩 Agent Builder'], sub: 'Agent Builder로 코딩 없이 간단한 설정만으로 필요한 기능만 선택해\n기업 업무에 필요한 AI Agent를 바로 만들고 빠르게 구축/운영할 수 있습니다.', highlight: 1 },
 ];
 
-const ROTATE_INTERVAL_MS = 4800;
+const ROTATE_INTERVAL_MS = 6000;
 
 interface HeroContentProps {
   isAnalyzing?: boolean;
@@ -37,46 +37,10 @@ export default function HeroContent({ isAnalyzing = false, align = 'center' }: H
   const isLeft = align === 'left';
 
   return (
-    <div className="relative z-10 w-full">
-      {/* 좌측 세로 페이지네이션 - 1200px 컨테이너 밖 */}
-      <div className="hidden md:flex absolute -left-20 top-1/2 -translate-y-1/2 flex-col items-center gap-2.5">
-        {HERO_SLIDES.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => {
-              setIndex(i);
-              startRotation();
-            }}
-            className={`rounded-full transition-all duration-500 ${i === index ? "h-8 bg-white" : "bg-white/20 hover:bg-white/40"}`} style={i === index ? { width: 8 } : { width: 8, height: 8 }}
-            aria-label={`Slide ${i + 1}`}
-          />
-        ))}
-      </div>
+    <div className="relative z-10 w-full mt-[0px] md:-mt-[200px]">
 
       {/* 콘텐츠 영역 */}
-      <div className={`max-w-6xl mx-auto px-0 py-20 md:py-24 min-h-[300px] flex flex-col ${isLeft ? 'items-center text-center md:items-start md:text-left' : 'items-center justify-center text-center'}`}>
-      {/* 히어로 뱃지 - 타이틀 위 */}
-      <motion.div
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: 'easeOut' }}
-        className={`flex mb-3 ${isLeft ? 'justify-center md:justify-start' : 'justify-center'} w-full`}
-      >
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={slide.category}
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ opacity: { duration: 0.4, ease: 'easeOut' }, y: { duration: 0.4, ease: 'easeOut' } }}
-            className="inline-flex items-center px-3.5 py-1.5 rounded-[12px] bg-[#3B82F6]/10"
-          >
-            <span className="font-[700] text-[16px] font-pretendard text-[#3B82F6] tracking-wide">
-              {slide.category}
-            </span>
-          </motion.div>
-        </AnimatePresence>
-      </motion.div>
+      <div className={`max-w-6xl mx-auto px-0 pt-10 pb-20 md:pt-14 md:pb-24 min-h-[300px] flex flex-col ${isLeft ? 'items-center text-center md:items-start md:text-left' : 'items-center justify-center text-center'}`}>
 
       <div className="relative h-[290px] md:h-[340px] w-full flex flex-col items-center justify-center">
         <AnimatePresence mode="wait">
@@ -88,12 +52,22 @@ export default function HeroContent({ isAnalyzing = false, align = 'center' }: H
             transition={{ duration: 0.5, ease: 'easeOut' }}
             className={`absolute inset-0 flex flex-col ${isLeft ? 'items-center text-center md:items-start md:text-left' : 'items-center justify-center text-center'}`}
           >
+            {/* 히어로 뱃지 - 타이틀 위 */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, ease: 'easeOut' }}
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-[15px] font-medium mb-4"
+            >
+              <span className="w-1 h-1 rounded-full bg-blue-400 animate-pulse" />
+              {slide.category}
+            </motion.div>
             <h1
-              className={`text-[40px] md:text-5xl lg:text-[58px] font-[600] font-pretendard mb-4 md:mb-6 leading-[1.25] tracking-tight w-full max-w-5xl flex flex-col ${isLeft ? 'items-center md:items-start' : 'items-center'}`}
+              className={`text-[40px] md:text-5xl lg:text-[64px] font-[600] font-pretendard mb-4 md:mb-6 leading-[1.25] tracking-tight w-full max-w-5xl flex flex-col ${isLeft ? 'items-center md:items-start' : 'items-center'}`}
               style={{ textShadow: '0px 2px 1px rgba(0,0,0,0.06)' }}
             >
               {slide.main.map((line, i) => (
-                <span key={i} className={`block whitespace-nowrap ${slide.highlight === i ? 'text-white font-[800]' : 'bg-gradient-to-r from-white/90 to-white/70 bg-clip-text text-transparent font-[400]'} ${isLeft ? 'text-center md:text-left' : 'text-center'}`}>
+                <span key={i} className={`block whitespace-nowrap ${slide.highlight === i ? 'text-white font-[800]' : 'text-white font-[400]'} ${isLeft ? 'text-center md:text-left' : 'text-center'}`}>
                   {line}
                 </span>
               ))}
@@ -102,7 +76,7 @@ export default function HeroContent({ isAnalyzing = false, align = 'center' }: H
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, ease: 'easeOut' }}
-              className={`text-[15px] md:text-[15px] lg:text-[16px] font-normal text-white/60 max-w-[680px] w-full leading-relaxed whitespace-pre-line ${isLeft ? 'text-center md:text-left' : 'text-center'} px-1`}
+              className={`text-[15px] md:text-[15px] lg:text-[16px] font-normal text-white/60 max-w-[500px] md:max-w-[600px] w-full leading-relaxed line-clamp-2 ${isLeft ? 'text-center md:text-left' : 'text-center'} px-1`}
             >
               {slide.sub}
             </motion.p>
@@ -114,7 +88,7 @@ export default function HeroContent({ isAnalyzing = false, align = 'center' }: H
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className={`flex flex-row gap-3 ${isLeft ? 'justify-center md:justify-start' : 'justify-center'} mt-8 md:mt-12`}
+        className={`flex flex-row gap-3 ${isLeft ? 'justify-center md:justify-start' : 'justify-center'} mt-7 md:mt-7`}
       >
         <Button
           variant="default"
