@@ -29,7 +29,7 @@ export default function SolutionCard({ image, title, desc, highlight, idx }: {
       <img
         src={image}
         alt={title}
-        className="absolute bottom-[-5px] right-6 w-[100px] h-[100px] object-contain"
+        className="absolute bottom-[-5px] right-6 w-[120px] h-[120px] object-contain"
       />
     </div>
   );
