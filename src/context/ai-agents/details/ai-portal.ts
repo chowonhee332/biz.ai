@@ -97,7 +97,7 @@ export const aiPortal: PlatformProduct = {
     ],
     제품상세문의: {
         이메일: "bizai@kt.com",
-        전화번호: "02-1234-5678"
+        전화번호: "02-523-7029"
     },
     관련리소스: [
         { 타이틀: "KTDS_Works AI_브로셔", 파일타입: "PDF", URL: "/download/ai-portal/worksai.pdf" },

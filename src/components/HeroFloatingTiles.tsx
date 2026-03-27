@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 
 // Enhanced SVG Noise Filter for metallic/sparkly texture (glitch-like grain)
 const NoiseFilter = () => (
