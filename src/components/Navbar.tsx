@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence, MotionValue } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
+import { throttle } from '../lib/utils';
 
 interface NavbarProps {
   activePage?: 'home' | 'platform' | 'ai-agents' | 'ai-solutions' | 'use-cases' | 'news';
@@ -15,9 +16,9 @@ export default function Navbar({ activePage, scrollLineProgress }: NavbarProps) 
   const { isDark, toggleTheme } = useTheme();
 
   useEffect(() => {
-    const handleScroll = () => {
+    const handleScroll = throttle(() => {
       setScrolled(window.scrollY > 20);
-    };
+    }, 100);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -44,7 +45,7 @@ export default function Navbar({ activePage, scrollLineProgress }: NavbarProps) 
       <div className="max-w-[1280px] mx-auto container-responsive flex items-center h-full">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2 shrink-0" onClick={() => window.scrollTo({ top: 0, behavior: 'instant' })}>
-          <img src="/logos/logo_bizai_dark.png" alt="Biz.AI" className="w-auto object-contain" style={{ height: 32, filter: isDark ? 'none' : 'brightness(0)' }} />
+          <img src="/logos/logo_bizai_dark.png" alt="Biz.AI" className="w-auto object-contain" style={{ height: 34, filter: isDark ? 'none' : 'brightness(0)' }} />
         </Link>
 
         {/* Desktop Navigation - 정중앙 */}

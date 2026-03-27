@@ -20,5 +20,19 @@ export default defineConfig(() => {
         interval: 300,
       },
     },
+    build: {
+      sourcemap: false,
+      reportCompressedSize: false,
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            'vendor-react': ['react', 'react-dom', 'react-router-dom'],
+            'vendor-motion': ['motion'],
+            'vendor-three': ['three', '@react-three/fiber'],
+            'vendor-spline': ['@splinetool/react-spline'],
+          },
+        },
+      },
+    },
   };
 });

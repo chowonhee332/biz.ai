@@ -5,8 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 
 import { USE_CASES, USE_CASE_CATEGORIES, USE_CASE_CATEGORY_COLORS } from '@/context/use-cases/use-case-data';
-import Footer from '@/components/Footer';
-import Navbar from '@/components/Navbar';
+import Layout from './components/Layout';
 import { useTheme } from './context/ThemeContext';
 import Silk from './components/Silk';
 
@@ -18,9 +17,7 @@ export default function UseCasePage() {
     useScrollToTop();
 
     return (
-        <div className="min-h-screen text-text-primary font-pretendard flex flex-col" style={{ backgroundColor: isDark ? '#0A0A0A' : '#FFFFFF' }}>
-            {/* GNB */}
-            <Navbar activePage="use-cases" />
+        <Layout activePage="use-cases">
 
             {/* Content Body */}
             <section className="pb-32 flex-1 relative">
@@ -89,6 +86,7 @@ export default function UseCasePage() {
                                         <img
                                             src={item.이미지}
                                             alt={item.타이틀}
+                                            loading="lazy"
                                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                                         />
                                     </div>
@@ -113,9 +111,7 @@ export default function UseCasePage() {
                 </div>
             </section>
 
-            {/* Footer */}
-            <Footer />
-        </div>
+        </Layout>
     );
 }
 

@@ -1,11 +1,11 @@
 import { useScrollToTop } from './lib/useScrollToTop';
+import { getTagColor } from '@/lib/utils';
 
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { motion, useScroll } from 'motion/react';
 import { ArrowUpRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import Footer from '@/components/Footer';
-import Navbar from '@/components/Navbar';
+import Layout from './components/Layout';
 import { HIGHLIGHT_NEWS, REGULAR_NEWS } from './context/news/news-data';
 import { useTheme } from './context/ThemeContext';
 
@@ -20,16 +20,10 @@ export default function NewsDetailPage() {
     const newsIndex = id ? parseInt(id) - 1 : 0;
     const news = location.state?.news || allNews[newsIndex] || allNews[0];
 
-    const getTagColor = (tag: string) => {
-        if (tag === "기술 이야기") return "text-emerald-500";
-        return "text-brand-primary";
-    };
-
     useScrollToTop();
 
     return (
-        <div className="min-h-screen text-text-primary font-pretendard flex flex-col" style={{ backgroundColor: isDark ? '#0A0A0A' : '#FFFFFF' }}>
-            <Navbar activePage="news" scrollLineProgress={scrollYProgress} />
+        <Layout activePage="news" scrollLineProgress={scrollYProgress}>
 
             {/* Header */}
             <section className="pt-48 pb-16">
@@ -72,6 +66,7 @@ export default function NewsDetailPage() {
                     <img
                         src={news.이미지}
                         alt="News Detail"
+                        loading="lazy"
                         className="w-full h-full object-cover brightness-90"
                     />
                 </div>
@@ -101,7 +96,6 @@ export default function NewsDetailPage() {
                 </div>
             </main>
 
-            <Footer />
-        </div>
+        </Layout>
     );
 }

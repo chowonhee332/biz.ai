@@ -1,7 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&display=swap');
-@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css');
 @import "tailwindcss";
 @import "./design-system.css";
 @import "tw-animate-css";
@@ -48,42 +44,6 @@ body {
   overflow-x: clip;
 }
 
-/* Hero particle ring - gather from far to form ring */
-@keyframes particle-gather {
-  0% {
-    transform: translate(-50%, -50%) translate(var(--start-x), var(--start-y)) scale(0);
-    opacity: 0;
-  }
-
-  60% {
-    opacity: 0.6;
-  }
-
-  100% {
-    transform: translate(-50%, -50%) translate(var(--end-x), var(--end-y)) scale(1);
-    opacity: var(--opacity);
-  }
-}
-
-.hero-particle {
-  animation: particle-gather 2.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  will-change: transform, opacity;
-}
-
-/* ParticleEngine - subtle twinkle (--p-opacity per particle) */
-@keyframes particle-twinkle {
-
-  0%,
-  100% {
-    opacity: calc(var(--p-opacity, 0.6) * 0.4);
-    transform: translate(-50%, -50%) scale(0.9);
-  }
-
-  50% {
-    opacity: var(--p-opacity, 0.6);
-    transform: translate(-50%, -50%) scale(1.12);
-  }
-}
 
 @keyframes moveInCircle {
   0% {
@@ -127,9 +87,6 @@ body {
   }
 }
 
-.particle-dot {
-  will-change: opacity, transform;
-}
 
 /* Framer-like Grid Background Utility */
 .bg-grid-pattern {

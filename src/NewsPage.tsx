@@ -4,9 +4,9 @@ import { motion } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 
-import { HIGHLIGHT_NEWS, REGULAR_NEWS, NEWS_CATEGORIES } from '@/context/news/news-data';
-import Footer from '@/components/Footer';
-import Navbar from '@/components/Navbar';
+import { HIGHLIGHT_NEWS, REGULAR_NEWS, NEWS_CATEGORIES, type NewsItem } from '@/context/news/news-data';
+import { getTagColor } from '@/lib/utils';
+import Layout from './components/Layout';
 import { useTheme } from './context/ThemeContext';
 import Silk from './components/Silk';
 
@@ -15,16 +15,10 @@ export default function NewsPage() {
     const [activeCategory, setActiveCategory] = useState("전체");
     const navigate = useNavigate();
 
-    const getTagColor = (tag: string) => {
-        if (tag === "기술 이야기") return "text-emerald";
-        return "text-brand-primary";
-    };
-
     useScrollToTop();
 
     return (
-        <div className="min-h-screen text-text-primary font-pretendard flex flex-col" style={{ backgroundColor: isDark ? '#0A0A0A' : '#FFFFFF' }}>
-            <Navbar activePage="news" />
+        <Layout activePage="news">
 
             <section className="pb-32 flex-1 relative">
                 {/* Hero Banner with Silk */}
@@ -76,7 +70,7 @@ export default function NewsPage() {
                 {/* 뉴스 목록 */}
                 <div className="max-w-[1280px] mx-auto container-responsive">
                     <div className="flex flex-col divide-y divide-border-light/30">
-                        {[...HIGHLIGHT_NEWS, ...REGULAR_NEWS].filter(news => activeCategory === "전체" || news.태그 === activeCategory).map((news: any, i) => (
+                        {[...HIGHLIGHT_NEWS, ...REGULAR_NEWS].filter(news => activeCategory === "전체" || news.태그 === activeCategory).map((news: NewsItem, i) => (
                             <motion.div
                                 key={i}
                                 onClick={() => navigate(`/news/${i + 1}`, { state: { news } })}
@@ -91,6 +85,7 @@ export default function NewsPage() {
                                     <img
                                         src={news.이미지}
                                         alt={news.타이틀}
+                                        loading="lazy"
                                         className="w-full h-full object-cover brightness-90 transition-all duration-700 group-hover:brightness-100 group-hover:scale-105"
                                     />
                                 </div>
@@ -110,7 +105,6 @@ export default function NewsPage() {
                 </div>
             </section>
 
-            <Footer />
-        </div>
+        </Layout>
     );
 }

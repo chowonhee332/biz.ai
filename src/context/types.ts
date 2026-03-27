@@ -15,7 +15,14 @@ export interface PlatformProduct {
         설명?: string;
         항목?: { 중타이틀: string; 설명: string }[];
     }[];
-    고객사례: any[];
+    고객사례: {
+        고객조직: string;
+        적용범위: string;
+        적용기간: string;
+        핵심적용기능: string[];
+        성과정량: string;
+        성과정성: string;
+    }[];
     소개영상: {
         타이틀: string;
         URL: string;

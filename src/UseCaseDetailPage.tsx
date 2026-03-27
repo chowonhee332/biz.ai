@@ -1,11 +1,10 @@
 import { useEffect } from 'react';
-import { useScrollToTop } from './lib/useScrollToTop';
 import { Mail, Phone, FileText, Quote } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import { motion, useScroll } from 'motion/react';
-import Footer from '@/components/Footer';
-import Navbar from '@/components/Navbar';
-import { USE_CASES, USE_CASE_CATEGORY_COLORS } from '@/context/use-cases/use-case-data';
+import Layout from './components/Layout';
+
+import { USE_CASES, USE_CASE_CATEGORY_COLORS, type UseCaseDetailSection, type UseCaseDetailGroup, type UseCaseDetailItem, type UseCaseDetailQuote } from '@/context/use-cases/use-case-data';
 const accentColor  = '#00ABFF';
 const accentBg     = '#00ABFF0D';
 const accentBorder = '#00ABFF33';
@@ -80,8 +79,7 @@ export default function UseCaseDetailPage() {
     }, [item]);
 
     return (
-        <div className="min-h-screen text-text-primary font-pretendard flex flex-col bg-bg-main">
-            <Navbar activePage="use-cases" scrollLineProgress={scrollYProgress} />
+        <Layout activePage="use-cases" scrollLineProgress={scrollYProgress}>
 
             {/* Header */}
             <section className="pt-48 pb-16 relative">
@@ -117,7 +115,7 @@ export default function UseCaseDetailPage() {
                 <div className="flex items-start">
                 <div className="w-full max-w-[820px]">
                     <article className="flex flex-col font-pretendard">
-                        {sections.map((section: any, sIdx: number) => (
+                        {sections.map((section: UseCaseDetailSection, sIdx: number) => (
                             <section key={section.id} id={section.id} className="flex flex-col scroll-mt-32 pb-[32px]">
 
                                 {/* 섹션 제목 */}
@@ -171,13 +169,13 @@ export default function UseCaseDetailPage() {
                                 {/* 그룹 */}
                                 {section.groups && (
                                     <div className="flex flex-col gap-4 mb-6">
-                                        {section.groups.map((group: any, gi: number) => (
+                                        {section.groups.map((group: UseCaseDetailGroup, gi: number) => (
                                             <div key={gi} className="flex flex-col gap-3">
                                                 {group.label && (
                                                     <div className="text-body-sm font-medium text-text-secondary px-1">{group.label}</div>
                                                 )}
                                                 <BulletList
-                                                    items={group.items.map((it: any) => ({ title: it.타이틀, desc: it.설명 || '' }))}
+                                                    items={group.items.map((it: UseCaseDetailItem) => ({ title: it.타이틀, desc: it.설명 || '' }))}
                                                     bulletType={group.numbered ? 'number' : 'dot'}
                                                 />
                                             </div>
@@ -190,13 +188,13 @@ export default function UseCaseDetailPage() {
                                     section.id === 'solution' ? (
                                         <div className="mb-6">
                                             <BulletList
-                                                items={section.items.map((it: any) => ({ title: it.타이틀, desc: it.설명 || '' }))}
+                                                items={section.items.map((it: UseCaseDetailItem) => ({ title: it.타이틀, desc: it.설명 || '' }))}
                                                 bulletType="dot"
                                             />
                                         </div>
                                     ) : (
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                                            {section.items.map((it: any, idx: number) => (
+                                            {section.items.map((it: UseCaseDetailItem, idx: number) => (
                                                 <div key={idx} className="p-7 rounded-[20px] flex flex-col gap-3 bg-bg-surface">
                                                     <span className="text-brand-primary text-body-sm font-bold shrink-0 leading-none mt-0.5">{(idx + 1).toString().padStart(2, '0')}</span>
                                                     <div className="font-bold leading-tight text-body text-text-primary">{it.타이틀}</div>
@@ -210,7 +208,7 @@ export default function UseCaseDetailPage() {
                                 {/* 인용 */}
                                 {section.quotes && (
                                     <div className="flex flex-col gap-4 mt-4">
-                                        {section.quotes.map((q: any, idx: number) => (
+                                        {section.quotes.map((q: UseCaseDetailQuote, idx: number) => (
                                             <div key={idx} className="p-7 rounded-[20px] flex flex-col gap-4 bg-bg-surface">
                                                 <Quote className="fill-brand-primary" style={{ width: 28, height: 28, stroke: 'none' }} />
                                                 <div className="text-body-sm font-normal leading-relaxed break-keep text-text-secondary">
@@ -272,7 +270,6 @@ export default function UseCaseDetailPage() {
                 </div>
             </main>
 
-            <Footer />
-        </div>
+        </Layout>
     );
 }

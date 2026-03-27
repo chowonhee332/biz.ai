@@ -7,6 +7,42 @@ import { CLOUDWIZ_DETAIL } from './details/cloudwiz';
 import { WORKS_AI_HANWHA_DETAIL } from './details/works-ai-hanwha';
 import { NATIONAL_ASSEMBLY_AGENT_DETAIL } from './details/national-assembly-agent';
 
+export interface UseCaseDetailItem {
+    타이틀: string;
+    설명?: string;
+}
+
+export interface UseCaseDetailGroup {
+    label?: string;
+    numbered?: boolean;
+    items: UseCaseDetailItem[];
+}
+
+export interface UseCaseDetailQuote {
+    text: string;
+    author: string;
+}
+
+export interface UseCaseDetailSection {
+    id: string;
+    title?: string;
+    subtitle_level?: number;
+    content?: string;
+    header?: string;
+    footer?: string;
+    list?: string[];
+    items?: UseCaseDetailItem[];
+    groups?: UseCaseDetailGroup[];
+    quotes?: UseCaseDetailQuote[];
+}
+
+export interface UseCaseDetail {
+    title?: string;
+    subtitle?: string;
+    header?: string;
+    sections?: UseCaseDetailSection[];
+}
+
 export interface UseCaseItem {
     타이틀: string;
     산업군: string;
@@ -14,7 +50,7 @@ export interface UseCaseItem {
     카테고리: string;
     이미지: string;
     설명: string;
-    상세내용: any; // PDF 원문 전체 내용을 담은 객체
+    상세내용: UseCaseDetail;
 }
 
 export const USE_CASES: UseCaseItem[] = [

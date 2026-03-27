@@ -3,532 +3,43 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
+import { throttle, debounce } from './lib/utils';
+import { AGENT_CARDS, SOLUTION_CARDS } from './context/home/home-cards';
 import { useTheme } from './context/ThemeContext';
-import HeroSpline from './components/HeroSpline';
+const HeroSpline = lazy(() => import('./components/HeroSpline'));
 import Silk from './components/Silk';
-import { useTransform, motion, useInView, AnimatePresence, animate, useMotionValue, useSpring, useScroll } from 'motion/react';
+import { motion, AnimatePresence, useScroll } from 'motion/react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import ParticleEngine from './components/ParticleEngine';
 import HeroContent from './components/HeroContent';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import Aurora from './components/Aurora';
-import Antigravity from './components/Antigravity';
-import { BackgroundGradientAnimation } from './components/ui/background-gradient-animation';
-import {
-  Zap,
-  Layout,
-  Globe,
-  Database,
-  Shield,
-  Clock,
-  ChevronRight,
-  ArrowUp,
-  X,
-} from 'lucide-react';
-
-// Sub-components (Moved to top for hoisting/scoping clarity)
-
-const StudioCard = ({ icon, title, desc }: { icon: React.ReactElement; title: string; desc: string }) => (
-  <Card className="p-10 rounded-[20px] bg-bg-surface border-border-light hover:bg-bg-active hover:border-border-active transition-all duration-500 group flex flex-col items-center md:items-start text-center md:text-left shadow-2xl relative overflow-hidden text-left break-keep">
-    <div className="absolute top-0 right-0 w-32 h-32 bg-bg-surface/50 rounded-full blur-2xl -mr-16 -mt-16 group-hover:bg-brand-primary/20 transition-colors duration-500" />
-    <div className="size-16 bg-bg-surface/50 rounded-[20px] flex items-center justify-center mb-8 group-hover:scale-110 transition-transform border border-border-light relative z-10 text-text-primary/80 group-hover:text-brand-primary">
-      {React.cloneElement(icon as any, { size: 32 })}
-    </div>
-    <h4 className="text-2xl font-bold text-text-primary mb-4 relative z-10">{title}</h4>
-    <p className="text-text-dim leading-relaxed font-medium relative z-10">{desc}</p>
-  </Card>
-);
-
-const AnimatedCounter = ({ from, to }: { from: number; to: number }) => {
-  const nodeRef = useRef<HTMLSpanElement>(null);
-  const isInView = useInView(nodeRef, { once: false, margin: "-100px" });
-
-  useEffect(() => {
-    if (!isInView || !nodeRef.current) return;
-
-    const controls = animate(from, to, {
-      duration: 2,
-      ease: "easeOut",
-      onUpdate(value) {
-        if (nodeRef.current) {
-          nodeRef.current.textContent = Intl.NumberFormat("en-US").format(Math.floor(value));
-        }
-      }
-    });
-
-    return () => controls.stop();
-  }, [isInView, from, to]);
-
-  return <span ref={nodeRef}>{Intl.NumberFormat("en-US").format(from)}</span>;
-};
-
-const SolutionCard = ({ image, title, desc, highlight, category }: { image: string; title: string; desc: string; highlight: string; category?: string; index?: number }) => (
-  <div className="bg-[#F6F6F6] rounded-[20px] p-6 md:p-8 flex flex-col w-full min-w-[280px] h-[340px] md:h-[380px] cursor-pointer font-pretendard">
-
-        {/* Logo - 좌상단 */}
-        <div className="w-[60px] h-[60px] md:w-[120px] md:h-[60px] shrink-0">
-          <img src={image} alt={title} className="w-full h-full object-contain" />
-        </div>
-
-        {/* Title, Description, Tags - 하단 고정 */}
-        <div className="flex flex-col gap-3 mt-auto">
-          <h4 className="text-black text-[22px] md:text-[28px] font-bold tracking-tight leading-tight">{title}</h4>
-          <p className="text-[#444444] text-[15px] leading-relaxed font-normal break-keep min-h-[80px] md:min-h-[96px]">{desc}</p>
-          <div className="flex flex-wrap gap-1.5">
-            {category && (
-              <span className="px-3 h-7 rounded-full bg-[#E8E8E8] text-[#555555] text-[14px] font-medium leading-none inline-flex items-center">{category}</span>
-            )}
-            <span className="px-3 h-7 rounded-full bg-[#E8E8E8] text-[#555555] text-[14px] font-medium leading-none inline-flex items-center">
-              {highlight.replace(/^#\s*/, '')}
-            </span>
-          </div>
-        </div>
-  </div>
-);
-
-
-
-const Char = ({ children, progress, range, isHighlight }: { children: string; progress: any; range: [number, number]; isHighlight?: boolean }) => {
-  const opacity = useTransform(progress, range, [0.4, 1]);
-  return (
-    <motion.span
-      style={{ opacity, color: isHighlight ? '#33ADFF' : undefined }}
-      className="whitespace-pre"
-    >
-      {children}
-    </motion.span>
-  );
-};
-
-const CharacterReveal = ({ text, className, scrollProgress, range, highlightIndex }: { text: string; className?: string; scrollProgress: any, range: [number, number], highlightIndex?: number }) => {
-  const lines = text.split('\n');
-  const totalChars = text.length;
-  let charCounter = 0;
-
-  return (
-    <div className={`flex flex-col gap-1 md:gap-2 font-pretendard ${className}`}>
-      {lines.map((line, lineIdx) => {
-        // Line-based color scheme:
-        // Blue highlight from the specified highlightIndex to the end.
-        // If no index is provided, only the last line is highlighted.
-        const isHighlight = lineIdx >= (highlightIndex ?? lines.length - 1);
-        const colorClass = isHighlight ? "" : "text-text-primary";
-
-        return (
-          <div
-            key={lineIdx}
-            className={`flex flex-wrap text-heading-md md:text-heading-xl font-bold tracking-tight leading-[1.3] ${colorClass}`}
-          >
-            {line.split('').map((char, charIdx) => {
-              const charStart = range[0] + (charCounter / totalChars) * (range[1] - range[0]);
-              const charEnd = range[0] + ((charCounter + 1) / totalChars) * (range[1] - range[0]);
-              charCounter++;
-              return (
-                <Char key={charIdx} progress={scrollProgress} range={[charStart, charEnd]} isHighlight={isHighlight}>
-                  {char}
-                </Char>
-              );
-            })}
-            {lineIdx < lines.length - 1 && (() => { charCounter++; return null; })()}
-          </div>
-        );
-      })}
-    </div>
-  );
-};
-
-const InteractiveMockup = ({ image, frameImage, initialMouseX = -0.75, cursorColor = "var(--color-brand-primary)", cursorName = "Biz.AI" }: { image: string; frameImage: string; initialMouseX?: number; cursorColor?: string; cursorName?: string }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const mouseX = useMotionValue(initialMouseX);
-  const mouseY = useMotionValue(0.3);
-
-  // 커스텀 커서를 위한 실제 픽셀 좌표 (딜레이 없는 트래킹용)
-  const cursorX = useMotionValue(0);
-  const cursorY = useMotionValue(0);
-  const [isHovered, setIsHovered] = useState(false);
-
-  // 마우스 위치에 따라 이미지가 따라오는 효과 (실시간 반응성을 위해 stiffness를 250으로 대폭 강화)
-  const imgX = useSpring(useTransform(mouseX, [-1, 1], [-400, 400]), { stiffness: 250, damping: 30 });
-  const imgY = useSpring(useTransform(mouseY, [-1, 1], [-200, 200]), { stiffness: 250, damping: 30 });
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = containerRef.current?.getBoundingClientRect();
-    if (!rect) return;
-
-    // 커스텀 커서 위치 업데이트
-    cursorX.set(e.clientX - rect.left);
-    cursorY.set(e.clientY - rect.top);
-    if (!isHovered) setIsHovered(true);
-
-    // -1 ~ 1 사이 정규화
-    const nx = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-    const ny = ((e.clientY - rect.top) / rect.height) * 2 - 1;
-    mouseX.set(nx);
-    mouseY.set(ny);
-  };
-
-  const handleMouseLeave = () => {
-    // 마우스가 떠나면 다시 설정된 초기 오프셋 지점으로 즉시 복귀
-    mouseX.set(initialMouseX);
-    mouseY.set(0.3);
-    setIsHovered(false);
-  };
-
-  return (
-    <div className="w-full h-full flex items-center justify-center lg:justify-end relative group/frame shrink-0 bg-transparent">
-      {/* 겉 프레임: 원래의 널찍한 사이즈로 복원 */}
-      <div
-        ref={containerRef}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
-        className="relative w-full h-full rounded-[28px] overflow-hidden cursor-none bg-bg-main"
-      >
-        {/* 배경 이미지 (프레임) */}
-        <img
-          src={frameImage}
-          alt=""
-          className="absolute inset-0 w-full h-full object-cover pointer-events-none"
-        />
-
-        {/* 안의 이미지: 마우스 커서에 따라 움직임 */}
-        <motion.div
-          style={{ x: imgX, y: imgY }}
-          className="absolute inset-[-40%] flex items-center justify-center p-16"
-        >
-          <img
-            src={image}
-            alt="Use Case Screenshot"
-            className="w-[180%] h-auto rounded-[12px] object-contain pointer-events-none transition-transform duration-500 group-hover:scale-[1.02]"
-          />
-        </motion.div>
-
-        {/* 커스텀 커서 (협업 스타일) */}
-        <motion.div
-          style={{
-            x: cursorX,
-            y: cursorY,
-            opacity: isHovered ? 1 : 0
-          }}
-          className="absolute top-0 left-0 z-50 pointer-events-none select-none"
-        >
-          {/* 포인터 화살표 */}
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M4 4L11 20L14 14L20 11L4 4Z" fill={cursorColor} stroke="white" strokeWidth="2" strokeLinejoin="round" />
-          </svg>
-          {/* 이름표 */}
-          <div
-            className="ml-6 -mt-1 px-3 py-1 text-text-primary text-label-sm font-bold rounded-lg shadow-lg border border-border-light whitespace-nowrap"
-            style={{ backgroundColor: cursorColor }}
-          >
-            {cursorName}
-          </div>
-        </motion.div>
-      </div>
-    </div>
-  );
-};
-
-const UseCaseVisual = ({ image, frameImage, initialMouseX, cursorColor, cursorName, index, setActive, isActive }: { image: string; frameImage: string; initialMouseX: number; cursorColor: string; cursorName: string; index: number; setActive: (idx: number) => void; isActive: boolean }) => {
-  const ref = useRef(null);
-
-  return (
-    <motion.div
-      ref={ref}
-      className="w-full h-full smooth-gpu"
-    >
-      <InteractiveMockup image={image} frameImage={frameImage} initialMouseX={initialMouseX} cursorColor={cursorColor} cursorName={cursorName} />
-    </motion.div>
-  );
-};
-
-
-const CTAParticles = () => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    let animationFrameId: number;
-    let particles: Array<{
-      x: number;
-      y: number;
-      vx: number;
-      vy: number;
-      size: number;
-      opacity: number;
-    }> = [];
-
-    const resize = () => {
-      if (!canvas.parentElement) return;
-      canvas.width = canvas.parentElement.clientWidth * window.devicePixelRatio;
-      canvas.height = canvas.parentElement.clientHeight * window.devicePixelRatio;
-      initParticles();
-    };
-
-    const initParticles = () => {
-      particles = [];
-      for (let i = 0; i < 1000; i++) {
-        particles.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
-          vx: (Math.random() - 0.5) * 0.5,
-          vy: (Math.random() - 0.5) * 0.5,
-          size: Math.random() * 1.5 + 0.5,
-          opacity: Math.random() * 0.5 + 0.1,
-        });
-      }
-    };
-
-    const render = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles.forEach(p => {
-        p.x += p.vx;
-        p.y += p.vy;
-
-        if (p.x < 0) p.x = canvas.width;
-        if (p.x > canvas.width) p.x = 0;
-        if (p.y < 0) p.y = canvas.height;
-        if (p.y > canvas.height) p.y = 0;
-
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity})`;
-        ctx.fill();
-      });
-      animationFrameId = requestAnimationFrame(render);
-    };
-
-    window.addEventListener('resize', resize);
-    resize();
-    render();
-
-    return () => {
-      window.removeEventListener('resize', resize);
-      cancelAnimationFrame(animationFrameId);
-    };
-  }, []);
-  return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none opacity-40 translate-z-0" />;
-};
-
-const DomainAccordionItem = ({
-  title,
-  agents,
-  image,
-  isActive,
-  forceExpanded,
-  onMouseEnter,
-  onClick
-}: {
-  title: string;
-  agents: string[];
-  image: string;
-  isActive: boolean;
-  forceExpanded?: boolean;
-  onMouseEnter: () => void;
-  onClick: () => void;
-}) => {
-  const expanded = isActive || forceExpanded;
-
-  const agentListVariants = {
-    hidden: {},
-    visible: {
-      transition: {
-        staggerChildren: 0.08,
-        delayChildren: forceExpanded ? 0 : 0.15,
-      }
-    }
-  };
-
-  const agentItemVariants = {
-    hidden: { opacity: 0, y: 12, filter: 'blur(6px)' },
-    visible: {
-      opacity: 1,
-      y: 0,
-      filter: 'blur(0px)',
-      transition: { type: 'spring' as const, stiffness: 200, damping: 24 }
-    }
-  };
-
-  return (
-    <motion.div
-      layout
-      onMouseEnter={onMouseEnter}
-      onClick={onClick}
-      className="relative overflow-hidden cursor-pointer rounded-2xl smooth-gpu w-full lg:w-auto h-[380px] lg:h-auto"
-      style={{ willChange: 'flex, width' }}
-      {...(!forceExpanded && {
-        animate: { flex: isActive ? 780 : 122 },
-        transition: { type: 'spring', stiffness: 80, damping: 22, mass: 1 },
-      })}
-    >
-      <div className="absolute inset-0">
-        <motion.img
-          src={image}
-          alt={title}
-          loading="eager"
-          className="w-full h-full object-cover"
-          animate={{
-            filter: expanded ? 'grayscale(0) brightness(0.85) contrast(1.1)' : 'grayscale(1) brightness(0.4)',
-            scale: expanded ? 1.06 : 1
-          }}
-          transition={{ type: 'spring', stiffness: 80, damping: 22 }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/10 to-black/70" />
-      </div>
-
-      <div className={`absolute inset-x-0 top-0 p-5 lg:p-8 flex flex-col justify-start h-full ${expanded ? 'items-start text-left' : 'items-center'}`}>
-        <p className="text-white/60 font-medium text-body-sm tracking-wide mb-3 whitespace-nowrap uppercase">
-          {title}
-        </p>
-
-        <AnimatePresence>
-          {(expanded || window.innerWidth < 1024) && (
-            <motion.div
-              key="agents"
-              variants={agentListVariants}
-              initial="hidden"
-              animate="visible"
-              exit="hidden"
-              className="flex flex-col gap-1.5 md:gap-2"
-            >
-              {agents.map((agent, i) => (
-                <motion.div key={i} variants={agentItemVariants}>
-                  <span className="text-white text-body-md md:text-body-lg lg:text-heading-xs font-bold leading-tight">{agent}</span>
-                </motion.div>
-              ))}
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    </motion.div>
-  );
-};
-
-const Tag = ({ text }: { text: string }) => (
-  <Badge variant="outline" className="border-brand-primary text-brand-primary rounded-full px-4 py-1.5 font-medium whitespace-nowrap">
-    {text}
-  </Badge>
-);
-
-const ProcessSection = () => {
-  return (
-    <div className="relative w-full py-10">
-      <div
-        className="bg-white relative z-20 overflow-hidden smooth-gpu rounded-[28px] mx-3"
-      >
-        <section id="process" className="py-16 md:py-32 relative overflow-hidden">
-          <div className="max-w-[1280px] mx-auto px-10 relative z-10">
-            <div className="text-left md:text-center mb-12 md:mb-24 container-responsive">
-              <span className="text-body-sm md:text-body text-[#999999] mb-3 block font-medium">왜 kt ds와 함께 해야 할까요?</span>
-              <h1 className="text-heading-md md:text-heading-lg lg:text-display-md font-bold text-black mb-4 md:mb-6 tracking-tight leading-tight font-poppins">
-                Why kt ds
-              </h1>
-              <p className="text-black/80 text-body-sm md:text-body-sm lg:text-body max-w-2xl mx-0 md:mx-auto font-medium">
-                기업의 복잡한 요구사항을 기획부터 구축, 검증, 운영까지<br className="hidden md:block" />
-                표준화된 프로세스로 완성합니다.
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-3">
-              {[
-                {
-                  num: "01", title: "분석/설계", subtitle: "Retriever,\nAnalyst", color: "text-brand-primary",
-                  bullets: [
-                    "데이터 협의체 기반 분석 및 선별",
-                    "이를 기반으로 RAG 및 Agent 구현에 최적화된 체계 구축",
-                    "원인 분석, 옵션 비교, 리스크/영향 평가, 계획 수립"
-                  ]
-                },
-                {
-                  num: "02", title: "구축", subtitle: "Writer,\nExecutor", color: "text-brand-primary",
-                  bullets: [
-                    "17년 업력으로 안정성 및 보안성을 갖춘 시스템 구축",
-                    "답변/문서/코드/보고서 작성",
-                    "유연한 워크플로우 생성 기능으로 다양한 비즈니스에 최적화"
-                  ]
-                },
-                {
-                  num: "03", title: "테스트 및 이행", subtitle: "Validator,\nQuality", color: "text-brand-primary",
-                  bullets: [
-                    "단계적인 성능 검증 및 최적화",
-                    "검증, 규정/정책/보안/품질 체크, 근거 링크",
-                    "피드백 반영, 프롬프트/룰/플레이북/지식 업데이트"
-                  ]
-                },
-                {
-                  num: "04", title: "안정화", subtitle: "Maintainer,\nSRE", color: "text-brand-primary",
-                  bullets: [
-                    "KPI/SLA/SLO 모니터링, 이상탐지, 알림/에스컬레이션",
-                    "의사결정 근거·승인·변경 이력 기록(감사 대응)",
-                    "사용자/관리자 매뉴얼 제공 및 교육"
-                  ]
-                },
-              ].map((step, i) => (
-                <div
-                  key={i}
-                  className="group relative bg-[#F6F6F6] rounded-[20px] p-6 md:p-10 hover:-translate-y-2 hover:shadow-[0_20px_48px_rgba(0,0,0,0.08)] transition-all duration-300 flex flex-col min-h-[320px] md:min-h-[420px] overflow-hidden"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-b from-black/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-[20px] pointer-events-none" />
-                  <div className="relative min-h-[100px] md:min-h-[130px]">
-                    <span className={`${step.color} text-body-sm md:text-body-md font-bold mb-2 block`}>{step.num}</span>
-                    <h3 className="text-[24px] md:text-heading-md font-bold text-gray-900 leading-tight whitespace-pre-line">{step.subtitle}</h3>
-                  </div>
-                  <div className="relative flex-1" />
-                  <div className="relative min-h-[160px]">
-                    <h4 className="text-body-sm font-semibold text-gray-900 mb-3">{step.title}</h4>
-                    <ul className="space-y-2">
-                      {step.bullets.map((bullet, j) => (
-                        <li key={j} className="flex items-start gap-2 text-black/80 text-label-lg leading-relaxed font-normal">
-                          <span className="mt-[9px] w-1 h-1 rounded-full bg-black/25 shrink-0" />
-                          <span>{bullet}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      </div>
-    </div>
-  );
-};
+import { ChevronRight, ArrowUp } from 'lucide-react';
+import SolutionCard from './components/SolutionCard';
+import ProcessSection from './components/ProcessSection';
+import FAQList from './components/FAQList';
 
 const App = () => {
   const { isDark } = useTheme();
   const { scrollYProgress } = useScroll();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' ? window.innerWidth < 1024 : false);
-  const [scrolled, setScrolled] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
 
   useEffect(() => {
-    const checkMobile = () => {
+    const handleResize = debounce(() => {
       setIsMobile(window.innerWidth < 1024);
-    };
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    }, 150);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+    const handleScroll = throttle(() => {
       setShowScrollTop(window.scrollY > 400);
-    };
+    }, 100);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
 
   return (
     <div className="min-h-screen text-text-primary font-sans transition-colors duration-500" style={{ backgroundColor: isDark ? '#0A0A0A' : '#FFFFFF' }}>
@@ -552,7 +63,9 @@ const App = () => {
         <div className="absolute inset-0 z-[1] pointer-events-none" style={{ background: 'linear-gradient(to bottom, rgba(10,10,10,0.2) 0%, rgba(10,10,10,0.6) 30%, rgba(10,10,10,1) 60%)' }} />
 
         <div className="absolute inset-0 z-[2]">
-          <HeroSpline />
+          <Suspense fallback={null}>
+            <HeroSpline />
+          </Suspense>
         </div>
 
         <div className="relative z-10 w-full max-w-[1280px] mx-auto container-responsive flex items-center h-full pointer-events-none -mt-[160px] md:mt-0">
@@ -569,106 +82,50 @@ const App = () => {
       {/* Main Content Area */}
       <div className="relative z-20" style={{ backgroundColor: isDark ? '#0A0A0A' : '#FFFFFF' }}>
         <div className="relative w-full pt-10">
-          {/* Continuous gradient from the Hero section into the gap */}
 
-          <div
-            className="relative z-20 overflow-hidden mb-20 smooth-gpu rounded-[28px] mx-3 transition-colors duration-500 bg-white"
-          >
+          {/* AI Services 섹션 */}
+          <div className="relative z-20 overflow-hidden mb-20 smooth-gpu rounded-[28px] mx-3 transition-colors duration-500 bg-white">
             <section id="solution" className="py-16 md:py-32">
               <div className="max-w-[1280px] mx-auto px-10 relative">
                 <div className="text-left md:text-center mb-10 md:mb-20 font-pretendard flex flex-col items-start md:items-center relative z-10">
                   <span className="text-body-sm md:text-body text-[#999999] mb-3 block font-medium">AI 서비스</span>
-                  <h1 className="text-heading-md md:text-heading-lg lg:text-display-md font-bold mb-4 md:mb-6 tracking-tight leading-tight font-poppins text-black">
-                    AI Services by kt ds
+                  <h1 className="text-heading-md md:text-display-xs lg:text-display-md font-bold mb-4 md:mb-6 tracking-tight leading-tight font-poppins text-black">
+                    AI Services
                   </h1>
                 </div>
 
-
-                {/* 그룹 1: 전사 공통 */}
+                {/* 그룹 1: Agents */}
                 <div className="mb-16 md:mb-32 max-w-[1280px] mx-auto">
                   <div className="flex items-center gap-2 mb-5 ml-4">
                     <span className="text-body font-normal text-gray-800">Agents</span>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
-                    {[
-                      {
-                        image: "/ai-service-logos/logo_1.png",
-                        title: "WorksAI",
-                        desc: "AI Agent 기반으로 다양한 업무처리를 지원하는 사내 AI Agent Portal",
-                        highlight: "#효율 200% 향상"
-                      },
-                      {
-                        image: "/ai-service-logos/logo_2.png",
-                        title: "AI 회의록",
-                        desc: "음성 기반 회의 자동 기록 · 요약 · 업무 추출 AI 서비스",
-                        highlight: "#1분 회의록"
-                      },
-                      {
-                        image: "/ai-service-logos/logo_3.png",
-                        title: "국정감사 Agent",
-                        desc: "국정감사 자료 분석부터 핵심 이슈 도출까지 지원하는 AI 서비스",
-                        highlight: "#준비시간 70% 단축"
-                      },
-                      {
-                        image: "/ai-service-logos/logo_4.png",
-                        title: "RFP Agent",
-                        desc: "제안요청서(RFP) 분석, 요구사항 정리, 제안서 초안 작성을 지원하는 AI 서비스",
-                        highlight: "#작성시간 60% 절감"
-                      }
-                    ]
-                      .map((card, i) => (
-                        <div key={i}>
-                          <SolutionCard {...card} category="Agent" index={i} />
-                        </div>
-                      ))}
-                  </div>
-                </div>
-
-                {/* 그룹 2: IT 서비스/개발 직군 */}
-                <div className="mb-14 max-w-[1280px] mx-auto">
-                  <div className="flex items-center gap-2 mb-5 ml-4">
-                    <span className="text-body font-normal text-gray-800">Solutions</span>
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
-                    {[
-                      {
-                        image: "/ai-service-logos/logo_5.png",
-                        title: "AI:ON-U",
-                        desc: "엔터프라이즈 맞춤형 AI Agent를 빠르게 구축하는 No-Code 기반 Agent Builder",
-                        highlight: "#3분 완성"
-                      },
-                      {
-                        image: "/ai-service-logos/logo_6.png",
-                        title: "Beast AI Gateway",
-                        desc: "엔터프라이즈용 AI 기술, API를 통합 관리하는 솔루션",
-                        highlight: "#AI 기능 표준화"
-                      },
-                      {
-                        image: "/ai-service-logos/logo_7.png",
-                        title: "Codebox",
-                        desc: "폐쇄형 설치형 AI 코드 개발 어플라이언스",
-                        highlight: "#보안 특화 개발"
-                      },
-                      {
-                        image: "/ai-service-logos/logo_8.png",
-                        title: "CloudWiz",
-                        desc: "클라우드 운영 효율화와 자동화를 지원하는 관리 서비스",
-                        highlight: "#비용 30% 절감"
-                      }
-                    ].map((card, i) => (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+                    {AGENT_CARDS.map((card, i) => (
                       <div key={i}>
-                        <SolutionCard {...card} category="Solution" index={i} />
+                        <SolutionCard {...card} category="Agent" />
                       </div>
                     ))}
                   </div>
                 </div>
 
+                {/* 그룹 2: Solutions */}
+                <div className="mb-14 max-w-[1280px] mx-auto">
+                  <div className="flex items-center gap-2 mb-5 ml-4">
+                    <span className="text-body font-normal text-gray-800">Solutions</span>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+                    {SOLUTION_CARDS.map((card, i) => (
+                      <div key={i}>
+                        <SolutionCard {...card} category="Solution" />
+                      </div>
+                    ))}
+                  </div>
+                </div>
 
               </div>
             </section>
           </div>
         </div>
-
 
         {/* Use Cases 섹션 */}
         <section id="use-cases" className="py-16 md:py-24 relative" style={{ backgroundColor: '#0A0A0A' }}>
@@ -676,7 +133,7 @@ const App = () => {
             {/* Header */}
             <div className="text-center mb-16 md:mb-24">
               <span className="text-body-sm text-[#999999] mb-3 block font-medium">고객 사례</span>
-              <h1 className="text-heading-md md:text-heading-lg lg:text-display-md font-bold text-white tracking-tight leading-tight font-poppins">
+              <h1 className="text-heading-md md:text-display-xs lg:text-display-md font-bold text-white tracking-tight leading-tight font-poppins">
                 Use Cases
               </h1>
             </div>
@@ -699,7 +156,7 @@ const App = () => {
 
             {/* Image */}
             <div className="w-full mb-10 md:mb-14 rounded-[20px] overflow-hidden">
-              <img src="/works.png" alt="Use Cases" className="w-full h-auto object-cover" />
+              <img src="/works.png" alt="Use Cases" loading="lazy" className="w-full h-auto object-cover" />
             </div>
 
             {/* Content: 좌측 타이틀+칩 / 우측 설명 */}
@@ -742,10 +199,9 @@ const App = () => {
         {/* Why kt ds - 프로세스 섹션 */}
         <ProcessSection />
 
+        {/* 고객사 로고 섹션 */}
         <section id="logos" className="relative pt-10 pb-3 overflow-hidden" style={{ backgroundColor: isDark ? '#0A0A0A' : '#F6F6F6' }}>
-          {/* Hero와 동일한 그리드 배경 추가 */}
           <div className="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none" />
-          
           <div className="relative z-10 w-full text-center">
             <div className="relative overflow-hidden w-full py-4">
               <motion.div
@@ -769,9 +225,10 @@ const App = () => {
                       { name: "트루엔", logo: "/logos/true.png", scale: 1.2 }
                     ].map((brand, idx) => (
                       <div key={`${i}-${idx}`} className="flex items-center justify-center shrink-0 w-[180px] h-[80px]">
-                        <img 
-                          src={brand.logo} 
-                          alt={brand.name} 
+                        <img
+                          src={brand.logo}
+                          alt={brand.name}
+                          loading="lazy"
                           style={{ transform: `scale(${brand.scale})` }}
                           className={`max-h-[38px] max-w-[140px] w-auto h-auto object-contain opacity-100 transition-all duration-300 pointer-events-auto brightness-0 ${isDark ? 'invert' : ''}`}
                         />
@@ -784,115 +241,25 @@ const App = () => {
           </div>
         </section>
 
-
-
-
         {/* FAQ 섹션 */}
-        <section id="faq" className="py-12 md:py-24 relative overflow-hidden" style={{ backgroundColor: isDark ? '#0A0A0A' : '#F6F6F6' }} >
+        <section id="faq" className="py-12 md:py-24 relative overflow-hidden" style={{ backgroundColor: isDark ? '#0A0A0A' : '#F6F6F6' }}>
           <div className="max-w-[1280px] mx-auto container-responsive">
             <div className="flex flex-col lg:flex-row gap-10 md:gap-20">
-              {/* 왼쪽: 헤더 */}
               <div className="lg:w-1/3">
-                <h1 className="text-heading-md md:text-heading-lg lg:text-display-md font-bold mb-6 md:mb-8 tracking-tight leading-tight font-poppins text-text-primary">
+                <h1 className="text-heading-md md:text-display-xs lg:text-display-md font-bold mb-6 md:mb-8 tracking-tight leading-tight font-poppins text-text-primary">
                   FAQ
                 </h1>
               </div>
-
-              {/* 오른쪽: 아코디언 리스트 */}
               <div className="lg:w-2/3">
                 <div className="space-y-4">
-                  {/* self-invoking function을 사용하여 지역 상태(openFaqIndex)를 FAQ 목록 전체에서 관리합니다. */}
-                  {(() => {
-                    const FAQList = () => {
-                      const [openIndex, setOpenIndex] = useState<number | null>(null);
-
-                      const faqs = [
-                        {
-                          q: "기존 시스템과의 연계는 어떻게 지원하나요?",
-                          a: "REST API, DB 커넥터, 파일 기반 연계 등 표준 인터페이스를 지원합니다. ERP, 그룹웨어, 데이터 웨어하우스 등 기존 시스템과의 통합 구성이 가능합니다."
-                        },
-                        {
-                          q: "온프레미스 환경에서도 구축이 가능한가요?",
-                          a: "네. 온프레미스, 프라이빗 클라우드, 퍼블릭 클라우드 환경 모두 지원합니다. 기업 보안 정책에 따라 망분리 환경 구성도 가능합니다."
-                        },
-                        {
-                          q: "데이터는 외부 전송이 가능한가요?",
-                          a: "데이터 처리 방식은 구축 형태에 따라 달라집니다. 기업 내부 처리 구조 설계가 가능하며, 데이터 저장·전송·로그 정책은 고객사 기준에 맞춰 설정됩니다."
-                        },
-                        {
-                          q: "LLM 및 모델 구조는 어떻게 구성되나요?",
-                          a: "멀티에이전트 기반 아키텍처로 구성되며, 업무 목적에 따라 다양한 모델을 선택·조합할 수 있습니다. 사내 전용 모델 연계 또는 외부 API 연동도 지원합니다."
-                        },
-                        {
-                          q: "확장성과 운영 관리는 어떻게 이루어지나요?",
-                          a: "모듈형 구조로 설계되어 기능 단위 확장이 가능하며, 관리 콘솔을 통해 사용자 권한, 사용 이력, Agent 운영 현황을 통합 관리할 수 있습니다."
-                        }
-                      ];
-
-                      return (
-                        <>
-                          {faqs.map((item, i) => {
-                            const isOpen = openIndex === i;
-                            return (
-                              <motion.div
-                                key={i}
-                                className="border-b border-border-light"
-                                initial={false}
-                              >
-                                <Button
-                                  variant="ghost"
-                                  onClick={() => setOpenIndex(isOpen ? null : i)}
-                                  className="w-full py-8 flex items-center justify-between text-left group cursor-pointer h-auto px-0 hover:bg-transparent dark:hover:bg-transparent"
-                                >
-                                  <span className={`text-body-xs md:text-body-md font-bold tracking-tight transition-colors duration-300 ${isOpen ? 'text-text-primary' : 'text-text-secondary group-hover:text-text-primary'}`}>
-                                    {item.q}
-                                  </span>
-                                  <div className="relative w-6 h-6 flex items-center justify-center">
-                                    {/* Horizontal line (always visible) */}
-                                    <motion.div
-                                      className="absolute w-5 h-[2px] bg-brand-primary"
-                                      animate={{ rotate: 0 }}
-                                    />
-                                    {/* Vertical line (rotates to become horizontal to make '-') */}
-                                    <motion.div
-                                      className="absolute w-5 h-[2px] bg-brand-primary"
-                                      animate={{ rotate: isOpen ? 0 : 90 }}
-                                      transition={{ duration: 0.3, ease: "easeInOut" }}
-                                    />
-                                  </div>
-                                </Button>
-                                <AnimatePresence>
-                                  {isOpen && (
-                                    <motion.div
-                                      initial={{ height: 0, opacity: 0 }}
-                                      animate={{ height: "auto", opacity: 1 }}
-                                      exit={{ height: 0, opacity: 0 }}
-                                      transition={{ duration: 0.3, ease: "easeInOut" }}
-                                      className="overflow-hidden"
-                                    >
-                                      <p className="pb-8 text-body-sm leading-relaxed font-normal break-keep max-w-2xl text-text-secondary">
-                                        {item.a}
-                                      </p>
-                                    </motion.div>
-                                  )}
-                                </AnimatePresence>
-                              </motion.div>
-                            );
-                          })}
-                        </>
-                      );
-                    };
-                    return <FAQList />;
-                  })()}
+                  <FAQList />
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-
-
-        {/* CTA 배너 - Full Width (Premium Aurora Style) 복구 */}
+        {/* CTA 배너 */}
         <div className="w-full py-0">
           <section className="relative h-[500px] w-full overflow-hidden flex items-center justify-center bg-black">
             <div className="absolute inset-0 z-0">
