@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useScrollToTop } from './lib/useScrollToTop';
 import { Mail, Phone, FileText, Quote } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import { motion, useScroll } from 'motion/react';

@@ -27,12 +27,6 @@ import {
   Clock,
   ChevronRight,
   ArrowUp,
-  Youtube,
-  Linkedin,
-  Mail,
-  Smartphone,
-  Info,
-  Menu,
   X,
 } from 'lucide-react';
 
@@ -240,27 +234,10 @@ const InteractiveMockup = ({ image, frameImage, initialMouseX = -0.75, cursorCol
 
 const UseCaseVisual = ({ image, frameImage, initialMouseX, cursorColor, cursorName, index, setActive, isActive }: { image: string; frameImage: string; initialMouseX: number; cursorColor: string; cursorName: string; index: number; setActive: (idx: number) => void; isActive: boolean }) => {
   const ref = useRef(null);
-  // The isInView logic is now handled by the parent component's scroll progress
-  // and activeUseCase state. This component will just render based on isActive prop.
-  // const isInView = useInView(ref, { margin: "-20% 0px -20% 0px", amount: 0.5 });
-
-  // useEffect(() => {
-  //   if (isInView) setActive(index);
-  // }, [isInView, index, setActive]);
 
   return (
     <motion.div
       ref={ref}
-      // initial={{ opacity: 0, y: 40 }} // Initial state is now handled by parent motion.div
-      // animate={(isInView || isActive) ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }} // Animation is now handled by parent motion.div
-      // transition={{
-      //   type: "spring",
-      //   stiffness: 100,
-      //   damping: 30,
-      //   mass: 1,
-      //   restDelta: 0.001,
-      //   delay: 0.1
-      // }}
       className="w-full h-full smooth-gpu"
     >
       <InteractiveMockup image={image} frameImage={frameImage} initialMouseX={initialMouseX} cursorColor={cursorColor} cursorName={cursorName} />

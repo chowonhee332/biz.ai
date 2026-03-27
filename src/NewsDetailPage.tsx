@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useScrollToTop } from './lib/useScrollToTop';
 
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { motion, useScroll } from 'motion/react';
@@ -25,9 +25,7 @@ export default function NewsDetailPage() {
         return "text-brand-primary";
     };
 
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, []);
+    useScrollToTop();
 
     return (
         <div className="min-h-screen text-text-primary font-pretendard flex flex-col" style={{ backgroundColor: isDark ? '#0A0A0A' : '#FFFFFF' }}>
