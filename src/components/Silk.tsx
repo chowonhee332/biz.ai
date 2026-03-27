@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unknown-property */
 // @ts-nocheck
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { forwardRef, useRef, useMemo, useLayoutEffect } from 'react';
+import { forwardRef, useRef, useMemo, useLayoutEffect, useState, useEffect } from 'react';
 import { Color } from 'three';
 
 const hexToNormalizedRGB = (hex: string) => {
@@ -104,6 +104,19 @@ interface SilkProps {
 
 const Silk = ({ speed = 5, scale = 1, color = '#7B7481', noiseIntensity = 1.5, rotation = 0 }: SilkProps) => {
     const meshRef = useRef();
+    const containerRef = useRef<HTMLDivElement>(null);
+    const [isVisible, setIsVisible] = useState(false);
+
+    useEffect(() => {
+        const el = containerRef.current;
+        if (!el) return;
+        const observer = new IntersectionObserver(
+            ([entry]) => setIsVisible(entry.isIntersecting),
+            { threshold: 0 }
+        );
+        observer.observe(el);
+        return () => observer.disconnect();
+    }, []);
 
     const uniforms = useMemo(
         () => ({
@@ -118,8 +131,8 @@ const Silk = ({ speed = 5, scale = 1, color = '#7B7481', noiseIntensity = 1.5, r
     );
 
     return (
-        <div style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 }}>
-            <Canvas dpr={[1, 2]} frameloop="always">
+        <div ref={containerRef} style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 }}>
+            <Canvas dpr={[1, 1.5]} frameloop={isVisible ? "always" : "never"}>
                 <SilkPlane ref={meshRef} uniforms={uniforms} />
             </Canvas>
         </div>

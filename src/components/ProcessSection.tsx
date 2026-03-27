@@ -6,7 +6,7 @@ export default function ProcessSection() {
           <div className="max-w-[1280px] mx-auto px-10 relative z-10">
             <div className="text-left md:text-center mb-12 md:mb-24 container-responsive">
               <span className="text-body-sm md:text-body text-[#999999] mb-3 block font-medium">왜 kt ds와 함께 해야 할까요?</span>
-              <h1 className="text-heading-md md:text-display-xs lg:text-display-md font-bold text-black mb-4 md:mb-6 tracking-tight leading-tight font-poppins">
+              <h1 className="text-heading-md md:text-display-sm lg:text-display-md font-bold text-black mb-4 md:mb-6 tracking-tight leading-tight font-poppins">
                 Why kt ds
               </h1>
               <p className="text-black/80 text-body-sm md:text-body-sm lg:text-body max-w-2xl mx-0 md:mx-auto font-medium">
@@ -52,9 +52,8 @@ export default function ProcessSection() {
               ].map((step, i) => (
                 <div
                   key={i}
-                  className="group relative bg-[#F6F6F6] rounded-[20px] p-6 md:p-10 hover:-translate-y-2 hover:shadow-[0_20px_48px_rgba(0,0,0,0.08)] transition-all duration-300 flex flex-col min-h-[320px] md:min-h-[420px] overflow-hidden"
+                  className="relative bg-[#F6F6F6] rounded-[20px] p-6 md:p-10 flex flex-col min-h-[320px] md:min-h-[420px] overflow-hidden"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-b from-black/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-[20px] pointer-events-none" />
                   <div className="relative min-h-[100px] md:min-h-[130px]">
                     <span className={`${step.color} text-body-sm md:text-body-md font-bold mb-2 block`}>{step.num}</span>
                     <h3 className="text-[24px] md:text-heading-md font-bold text-gray-900 leading-tight whitespace-pre-line">{step.subtitle}</h3>

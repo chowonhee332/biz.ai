@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Button } from '@/components/ui/button';
 
@@ -25,7 +25,7 @@ const faqs = [
   }
 ];
 
-export default function FAQList() {
+const FAQList = memo(function FAQList() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
@@ -78,4 +78,6 @@ export default function FAQList() {
       })}
     </>
   );
-}
+});
+
+export default FAQList;

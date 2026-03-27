@@ -32,7 +32,7 @@ export default function UseCasePage() {
                         transition={{ duration: 0.8, ease: "easeOut" }}
                         className="relative z-10 text-center px-6"
                     >
-                        <h1 className="text-heading-lg lg:text-display-md font-extrabold tracking-tight leading-tight font-display text-white">
+                        <h1 className="text-heading-lg md:text-display-sm lg:text-display-md font-extrabold tracking-tight leading-tight font-display text-white">
                             Use Cases
                         </h1>
                         <p className="mt-4 text-[16px] text-white font-normal">다양한 산업과 업무 영역에서 검증된 AI 혁신 사례를 만나보세요</p>
@@ -73,13 +73,9 @@ export default function UseCasePage() {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-[60px]">
                         {
                             USE_CASES.filter(item => activeCategory === "전체" || item.카테고리 === activeCategory).map((item, i) => (
-                                <motion.div
+                                <div
                                     key={i}
                                     onClick={() => navigate(`/use-cases/${i + 1}`, { state: { news: item } })}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ delay: i * 0.05, duration: 0.5 }}
                                     className="group cursor-pointer flex flex-col"
                                 >
                                     <div className="relative aspect-video rounded-[20px] overflow-hidden mb-5 bg-bg-surface">
@@ -104,7 +100,7 @@ export default function UseCasePage() {
                                             #{item.태그}
                                         </span>
                                     </div>
-                                </motion.div>
+                                </div>
                             ))
                         }
                     </div>

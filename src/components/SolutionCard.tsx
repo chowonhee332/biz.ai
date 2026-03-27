@@ -1,4 +1,6 @@
-export default function SolutionCard({ image, title, desc, highlight, idx }: {
+import { memo } from 'react';
+
+const SolutionCard = memo(function SolutionCard({ image, title, desc, highlight, idx }: {
   image: string;
   title: string;
   desc: string;
@@ -33,4 +35,6 @@ export default function SolutionCard({ image, title, desc, highlight, idx }: {
       />
     </div>
   );
-}
+});
+
+export default SolutionCard;

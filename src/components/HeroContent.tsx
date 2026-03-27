@@ -57,13 +57,13 @@ export default function HeroContent({ isAnalyzing = false, align = 'center' }: H
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, ease: 'easeOut' }}
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-[15px] font-medium mb-4"
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-[16px] font-medium mb-4"
             >
               <span className="w-1 h-1 rounded-full bg-blue-400 animate-pulse" />
               {slide.category}
             </motion.div>
             <h1
-              className={`text-[40px] md:text-5xl lg:text-[64px] font-[600] font-pretendard mb-4 md:mb-6 leading-[1.25] tracking-tight w-full max-w-5xl flex flex-col ${isLeft ? 'items-center md:items-start' : 'items-center'}`}
+              className={`text-[40px] md:text-[56px] lg:text-[68px] font-[600] font-pretendard mb-4 md:mb-6 leading-[1.25] tracking-tight w-full max-w-5xl flex flex-col ${isLeft ? 'items-center md:items-start' : 'items-center'}`}
               style={{ textShadow: '0px 2px 1px rgba(0,0,0,0.06)' }}
             >
               {slide.main.map((line, i) => (

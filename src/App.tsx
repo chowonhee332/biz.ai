@@ -3,13 +3,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect, lazy, Suspense } from 'react';
+import React, { useState, useEffect, lazy, Suspense, useRef } from 'react';
 import { throttle, debounce } from './lib/utils';
 import { AGENT_CARDS, SOLUTION_CARDS } from './context/home/home-cards';
 import { useTheme } from './context/ThemeContext';
 const HeroSpline = lazy(() => import('./components/HeroSpline'));
 import Silk from './components/Silk';
-import { motion, AnimatePresence, useScroll } from 'motion/react';
+import { motion, AnimatePresence, useScroll, useInView } from 'motion/react';
 import { Button } from '@/components/ui/button';
 import HeroContent from './components/HeroContent';
 import Navbar from './components/Navbar';
@@ -24,6 +24,8 @@ const App = () => {
   const { scrollYProgress } = useScroll();
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' ? window.innerWidth < 1024 : false);
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const logoRef = useRef<HTMLDivElement>(null);
+  const isLogoInView = useInView(logoRef, { once: false, amount: 0 });
 
   useEffect(() => {
     const handleResize = debounce(() => {
@@ -89,7 +91,7 @@ const App = () => {
               <div className="max-w-[1280px] mx-auto px-10 relative">
                 <div className="text-left md:text-center mb-10 md:mb-20 font-pretendard flex flex-col items-start md:items-center relative z-10">
                   <span className="text-body-sm md:text-body text-[#999999] mb-3 block font-medium">AI 서비스</span>
-                  <h1 className="text-heading-md md:text-display-xs lg:text-display-md font-bold mb-4 md:mb-6 tracking-tight leading-tight font-poppins text-black">
+                  <h1 className="text-heading-md md:text-display-sm lg:text-display-md font-bold mb-4 md:mb-6 tracking-tight leading-tight font-poppins text-black">
                     AI Services
                   </h1>
                 </div>
@@ -133,7 +135,7 @@ const App = () => {
             {/* Header */}
             <div className="text-center mb-16 md:mb-24">
               <span className="text-body-sm text-[#999999] mb-3 block font-medium">고객 사례</span>
-              <h1 className="text-heading-md md:text-display-xs lg:text-display-md font-bold text-white tracking-tight leading-tight font-poppins">
+              <h1 className="text-heading-md md:text-display-sm lg:text-display-md font-bold text-white tracking-tight leading-tight font-poppins">
                 Use Cases
               </h1>
             </div>
@@ -203,10 +205,10 @@ const App = () => {
         <section id="logos" className="relative pt-10 pb-3 overflow-hidden" style={{ backgroundColor: isDark ? '#0A0A0A' : '#F6F6F6' }}>
           <div className="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none" />
           <div className="relative z-10 w-full text-center">
-            <div className="relative overflow-hidden w-full py-4">
+            <div ref={logoRef} className="relative overflow-hidden w-full py-4">
               <motion.div
                 className="flex items-center gap-x-12 whitespace-nowrap"
-                animate={{ x: ["0%", "-50%"] }}
+                animate={isLogoInView ? { x: ["0%", "-50%"] } : false}
                 transition={{
                   repeat: Infinity,
                   repeatType: "loop",
@@ -246,7 +248,7 @@ const App = () => {
           <div className="max-w-[1280px] mx-auto container-responsive">
             <div className="flex flex-col lg:flex-row gap-10 md:gap-20">
               <div className="lg:w-1/3">
-                <h1 className="text-heading-md md:text-display-xs lg:text-display-md font-bold mb-6 md:mb-8 tracking-tight leading-tight font-poppins text-text-primary">
+                <h1 className="text-heading-md md:text-display-sm lg:text-display-md font-bold mb-6 md:mb-8 tracking-tight leading-tight font-poppins text-text-primary">
                   FAQ
                 </h1>
               </div>
@@ -274,7 +276,7 @@ const App = () => {
               <motion.div
                 initial={isMobile ? false : { opacity: 0, scale: 0.95 }}
                 whileInView={isMobile ? {} : { opacity: 1, scale: 1 }}
-                viewport={{ once: false }}
+                viewport={{ once: true }}
                 transition={{ duration: 1, ease: "easeOut" }}
               >
                 <h2 className="text-white text-heading-sm md:text-display-sm font-bold mb-6 md:mb-10 tracking-tighter leading-[1.2] drop-shadow-[0_0_25px_rgba(255,255,255,0.2)]">
