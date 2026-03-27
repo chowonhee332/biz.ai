@@ -102,7 +102,7 @@ const App = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
                     {AGENT_CARDS.map((card, i) => (
                       <div key={i}>
-                        <SolutionCard {...card} category="Agent" />
+                        <SolutionCard {...card} idx={i} />
                       </div>
                     ))}
                   </div>
@@ -116,7 +116,7 @@ const App = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
                     {SOLUTION_CARDS.map((card, i) => (
                       <div key={i}>
-                        <SolutionCard {...card} category="Solution" />
+                        <SolutionCard {...card} idx={i} />
                       </div>
                     ))}
                   </div>
