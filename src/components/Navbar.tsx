@@ -44,8 +44,7 @@ export default function Navbar({ activePage, scrollLineProgress }: NavbarProps) 
       <div className="max-w-[1280px] mx-auto container-responsive flex items-center h-full">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2 shrink-0" onClick={() => window.scrollTo({ top: 0, behavior: 'instant' })}>
-          <img src="/bizai_logo.png" alt="Biz.AI" className="w-auto object-contain" style={{ height: 28, filter: isDark ? 'none' : 'brightness(0)' }} />
-          <span className={`text-[22px] ${isDark ? 'text-white' : 'text-black'}`} style={{ fontFamily: 'var(--font-poppins)', fontWeight: 600, letterSpacing: '-0.2px' }}>Biz.AI</span>
+          <img src="/logos/logo_bizai_dark.png" alt="Biz.AI" className="w-auto object-contain" style={{ height: 32, filter: isDark ? 'none' : 'brightness(0)' }} />
         </Link>
 
         {/* Desktop Navigation - 정중앙 */}

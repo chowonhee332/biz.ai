@@ -36,7 +36,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="text-6xl md:text-8xl font-bold mb-8 leading-[1.1] tracking-tighter text-white"
+          className="text-6xl md:text-8xl font-bold mb-8 leading-[1.1] tracking-tighter text-white text-center"
 >
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-gray-500">[데이터 활용 극대화]</span>
           <br />
@@ -75,25 +75,6 @@ export default function Hero() {
             <span>솔루션 문의하기</span>
             <ChevronRight size={20} className="absolute right-6 max-w-0 opacity-0 group-hover:max-w-[24px] group-hover:opacity-100 transition-all duration-300 overflow-hidden" />
           </Button>
-        </motion.div>
-
-        {/* Hero Image / Visual Placeholder (Framer style often has a UI preview here) */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="mt-20 w-full max-w-5xl aspect-video bg-[var(--color-surface)] rounded-2xl border border-[var(--color-border)] shadow-2xl overflow-hidden relative group"
->
-          <div className="absolute inset-0 bg-gradient-to-tr from-[var(--color-accent)]/10 to-purple-500/10 opacity-50" />
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="text-[var(--color-text-tertiary)] font-mono text-sm">Interactive 3D / UI Preview Area</div>
-          </div>
-          {/* Decorative UI elements */}
-          <div className="absolute top-4 left-4 right-4 h-8 bg-[var(--color-background)]/50 rounded-lg flex items-center px-3 gap-2">
-            <div className="w-3 h-3 rounded-full bg-red-500/20" />
-            <div className="w-3 h-3 rounded-full bg-yellow-500/20" />
-            <div className="w-3 h-3 rounded-full bg-green-500/20" />
-          </div>
         </motion.div>
       </div>
     </section>

@@ -67,7 +67,7 @@ export default function AiServicePage({ config, activePage, silkColor = '#c8d8ff
                 <div className="relative overflow-hidden bg-[#3a3a3a] mx-3 mt-[68px] mb-3 rounded-[28px] h-[300px] flex items-center justify-center">
                     {/* Silk background */}
                     <div className="absolute inset-0 z-0">
-                        <Silk speed={4} scale={0.7} color={silkColor} noiseIntensity={2} rotation={4.8} />
+                        <Silk speed={4} scale={0.7} color={silkColor} noiseIntensity={1.8} rotation={4.8} />
                     </div>
                     {/* Title */}
                     <motion.div

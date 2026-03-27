@@ -28,7 +28,7 @@ export default function UseCasePage() {
                 {/* Hero Banner with Silk */}
                 <div className="relative overflow-hidden bg-[#3a3a3a] mx-3 mt-[68px] mb-3 rounded-[28px] h-[300px] flex items-center justify-center">
                     <div className="absolute inset-0 z-0">
-                        <Silk speed={4} scale={0.7} color="#b8e4ff" noiseIntensity={2} rotation={4.8} />
+                        <Silk speed={4} scale={0.7} color="#b8e4ff" noiseIntensity={1.8} rotation={4.8} />
                     </div>
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
