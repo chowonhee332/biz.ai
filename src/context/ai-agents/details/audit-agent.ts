@@ -69,7 +69,7 @@ export const auditAgent: PlatformProduct = {
             설명: "공식 사이트 검색+내부 DB 분석을 결합하여 의원 성향을 파악하고 전략적 답변서를 작성할 수 있습니다."
         }
     ],
-    메인이미지: "/works.png",
+    메인이미지: "/images/works.png",
     주요특징이미지: [],
     주요기능: [
         "답변서 생성 Agent: 메타정보+통합 DB 기반 자동 초안 생성",

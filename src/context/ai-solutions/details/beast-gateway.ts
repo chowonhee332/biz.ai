@@ -67,7 +67,7 @@ export const beastGateway: PlatformProduct = {
             설명: "대규모 API 트래픽·모델 호출을 통합 제어하며 예측 불가능한 AI 호출량도 안정적으로 처리할 수 있습니다."
         }
     ],
-    메인이미지: "/works.png",
+    메인이미지: "/images/works.png",
     주요특징이미지: [],
     주요기능: [
         "API 통합 관리: 다양한 내부·외부 API를 표준 방식으로 통합 구성",

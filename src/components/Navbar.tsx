@@ -34,7 +34,7 @@ export default function Navbar({ activePage, scrollLineProgress }: NavbarProps) 
   const scrolledBg = isDark ? 'rgba(10, 10, 10, 1)' : 'rgba(255, 255, 255, 1)';
   const borderClass = isDark ? 'border-white/10' : 'border-black/10';
   const mobileMenuBg = isDark ? '#0A0A0A' : '#FFFFFF';
-  const ktdsLogo = isDark ? '/kt ds_dark.png' : '/kt ds_light.png';
+  const ktdsLogo = isDark ? '/logos/kt-ds-dark.png' : '/logos/kt-ds-light.png';
   const hoverBg = isDark ? 'hover:bg-white/5' : 'hover:bg-black/5';
 
   return (
@@ -45,7 +45,7 @@ export default function Navbar({ activePage, scrollLineProgress }: NavbarProps) 
       <div className="max-w-[1280px] mx-auto container-responsive flex items-center h-full">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2 shrink-0" onClick={() => window.scrollTo({ top: 0, behavior: 'instant' })}>
-          <img src="/logos/logo_bizai_dark.png" alt="Biz.AI" className="w-auto object-contain" style={{ height: 34, filter: isDark ? 'none' : 'brightness(0)' }} />
+          <img src={isDark ? '/logos/logo_bizai_dark.png' : '/logos/logo_bizai_light.png'} alt="Biz.AI" className="w-auto object-contain" style={{ height: 34 }} />
         </Link>
 
         {/* Desktop Navigation - 정중앙 */}

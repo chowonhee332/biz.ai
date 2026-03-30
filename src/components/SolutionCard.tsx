@@ -8,7 +8,7 @@ const SolutionCard = memo(function SolutionCard({ image, title, desc, highlight,
   idx: number;
 }) {
   return (
-    <div className="bg-[#F6F6F6] rounded-[20px] p-6 md:p-8 flex flex-col w-full h-[360px] cursor-pointer font-pretendard relative overflow-hidden">
+    <div className="bg-[#F6F6F6] rounded-[20px] p-6 md:p-8 flex flex-col w-full h-[360px] lg:h-[400px] cursor-pointer font-pretendard relative overflow-hidden">
       {/* 번호 */}
       <span className="text-black text-[20px] font-bold mb-2 block">
         {String(idx + 1).padStart(2, '0')}

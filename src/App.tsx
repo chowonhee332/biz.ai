@@ -130,7 +130,7 @@ const App = () => {
         </div>
 
         {/* Use Cases 섹션 */}
-        <section id="use-cases" className="py-16 md:py-24 relative" style={{ backgroundColor: '#0A0A0A' }}>
+        <section id="use-cases" className="py-16 md:py-32 relative" style={{ backgroundColor: '#0A0A0A' }}>
           <div className="max-w-[1280px] mx-auto container-responsive">
             {/* Header */}
             <div className="text-center mb-16 md:mb-24">
@@ -140,45 +140,38 @@ const App = () => {
               </h1>
             </div>
 
-            {/* Testimonial Quote */}
-            <div className="flex flex-col items-center text-center gap-5 mb-10 md:mb-14">
-              <svg width="28" height="22" viewBox="0 0 40 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="opacity-30">
-                <path d="M0 32V19.2C0 14.9333 1.06667 11.2 3.2 8C5.38667 4.74667 8.69333 2.13333 13.12 0.16L15.68 4C13.0133 5.28 11.04 6.82667 9.76 8.64C8.53333 10.4533 7.92 12.5333 7.92 14.88H15.68V32H0ZM24.32 32V19.2C24.32 14.9333 25.3867 11.2 27.52 8C29.7067 4.74667 33.0133 2.13333 37.44 0.16L40 4C37.3333 5.28 35.36 6.82667 34.08 8.64C32.8533 10.4533 32.24 12.5333 32.24 14.88H40V32H24.32Z" fill="white"/>
-              </svg>
-              <p className="text-[28px] font-normal italic text-white/70 leading-snug tracking-tight max-w-3xl" style={{ fontFamily: 'var(--font-nanum)' }}>
-                질문만으로 원하는 데이터(문서, 통계)를 바로 찾고,<br />
-                3개월 안에 업무에 적용한 AI 구축 사례
-              </p>
-              <div className="flex items-center gap-2 mt-1">
-                <div className="w-6 h-px bg-brand-primary/60" />
-                <span className="text-[16px] text-brand-primary font-medium tracking-wide">한국기계산업진흥원</span>
-                <div className="w-6 h-px bg-brand-primary/60" />
-              </div>
-            </div>
 
+            {/* Image + 텍스트: 최대 1000px */}
+            <div className="max-w-[1000px] mx-auto">
             {/* Image */}
             <div className="w-full mb-10 md:mb-14 rounded-[20px] overflow-hidden">
-              <img src="/works.png" alt="Use Cases" loading="lazy" className="w-full h-auto object-cover" />
+              <img src="/images/works.png" alt="Use Cases" loading="lazy" className="w-full h-auto object-cover" />
             </div>
 
-            {/* Content: 좌측 타이틀+칩 / 우측 설명 */}
-            <div className="flex flex-col md:flex-row gap-8 md:gap-[120px]">
-              <div className="md:w-1/3 flex flex-col gap-4">
-                <h2 className="text-[32px] md:text-[40px] font-bold text-white leading-tight">
-                  AI:ON-U · AI Works · SQL Agents
+            {/* 좌측 타이틀 + 우측 설명 */}
+            <div className="flex flex-col md:flex-row items-start gap-10 md:gap-[180px] mb-14 md:mb-40">
+              {/* 좌측: 타이틀 */}
+              <div className="md:w-2/5 flex flex-col gap-5">
+                <span className="text-[16px] text-brand-primary font-medium">한국기계산업진흥원</span>
+                <h2 className="text-[28px] md:text-[32px] font-bold text-white leading-snug">
+                  질문만으로 원하는 데이터<br />
+                  (문서, 통계)를 바로 찾고,<br />
+                  3개월 안에 업무에 적용한<br />
+                  AI 구축 사례
                 </h2>
+              </div>
+              {/* 우측: 설명 */}
+              <div className="md:w-3/5 flex flex-col gap-5 md:pt-[44px]">
+                <p className="text-[#CCCCCC] text-[16px] leading-relaxed font-normal">
+                  수많은 문서와 통계 데이터 속에서 원하는 정보를 찾기 어려운 환경에서,
+                  Works AI와 SQL Agent를 통해 질문만으로 필요한 데이터를 바로 확인할 수 있는 환경 구축하였습니다.
+                  AI:ON-U를 활용해 맞춤형 AI Agent를 빠르게 생성하여, 단기간 내 업무에 적용했습니다.<br /><br />
+                  그 결과, 복잡한 데이터 탐색 과정 없이도 원하는 결과를 즉시 확인할 수 있게 되었고 약 3개월 내에 실제 업무에 활용 가능한 AI 기반 업무 환경을 구현했습니다.
+                </p>
                 <div className="flex flex-wrap gap-2">
                   <span className="px-2 py-1.5 rounded-full bg-white/8 text-white text-[14px] font-medium">구축 기간 3개월</span>
                   <span className="px-2 py-1.5 rounded-full bg-white/8 text-white text-[14px] font-medium">데이터 접근성과 활용도 향상</span>
                 </div>
-              </div>
-              <div className="md:w-2/3 flex flex-col gap-6">
-                <p className="text-[#CCCCCC] text-[16px] leading-relaxed font-normal">
-                  수많은 문서와 통계 데이터 속에서 원하는 정보를 찾기 어려운 환경에서,<br className="hidden md:block" />
-                  Works AI와 SQL Agent를 통해 질문만으로 필요한 데이터를 바로 확인할 수 있는 환경 구축하였습니다.<br className="hidden md:block" />
-                  AI:ON-U를 활용해 맞춤형 AI Agent를 빠르게 생성하여, 단기간 내 업무에 적용했습니다.<br /><br />
-                  그 결과, 복잡한 데이터 탐색 과정 없이도 원하는 결과를 즉시 확인할 수 있게 되었고 약 3개월 내에 실제 업무에 활용 가능한 AI 기반 업무 환경을 구현했습니다.
-                </p>
                 <div className="rounded-[16px] border border-white/10 bg-white/5 px-6 py-5 flex flex-col gap-3">
                   {[
                     "자연어로 질문하면 관련 데이터와 결과를 바로 제공",
@@ -195,6 +188,95 @@ const App = () => {
                 </div>
               </div>
             </div>
+
+            {/* Circle Diagram */}
+            {(() => {
+              const items = [
+                { title: 'AI:ON-U', desc: '코딩 없이 간단한 설정만으로\n기업 맞춤형 AI Agent를\n빠르게 구축하고 운영', color: '#3b82f6', grad: 'linear-gradient(135deg, #60a5fa, #818cf8)', dur: '4s', dir: 'normal' as const },
+                { title: 'AI Works', desc: '자연어로 질문하면\n문서와 통계 데이터를\n즉시 검색하고 처리', color: '#22d3ee', grad: 'linear-gradient(135deg, #22d3ee, #34d399)', dur: '7s', dir: 'reverse' as const },
+                { title: 'SQL Agent', desc: '복잡한 쿼리 없이\n질문만으로 DB 결과를\n즉시 확인하고 활용', color: '#34d399', grad: 'linear-gradient(135deg, #34d399, #10b981)', dur: '5.5s', dir: 'normal' as const },
+              ];
+              return (
+                <>
+                  {/* Desktop - Venn Diagram (SVG) */}
+                  <div className="hidden md:block w-full mb-10 md:mb-14" style={{ overflow: 'visible' }}>
+                    <svg
+                      width="100%"
+                      viewBox="0 0 1080 360"
+                      style={{ overflow: 'visible', display: 'block' }}
+                    >
+                      <defs>
+                        {/* Static dim stroke gradient */}
+                        <linearGradient id="staticStroke" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1080" y2="0">
+                          <stop offset="0%" stopColor="white" stopOpacity="0.10" />
+                          <stop offset="100%" stopColor="white" stopOpacity="0.10" />
+                        </linearGradient>
+                        {/* Animated sweep gradient */}
+                        <linearGradient id="sweep" gradientUnits="userSpaceOnUse" x1="-150" y1="0" x2="150" y2="0">
+                          <stop offset="0%" stopColor="white" stopOpacity="0" />
+                          <stop offset="50%" stopColor="white" stopOpacity="0.85" />
+                          <stop offset="100%" stopColor="white" stopOpacity="0" />
+                          <animateTransform
+                            attributeName="gradientTransform"
+                            type="translate"
+                            from="-800 0"
+                            to="1880 0"
+                            dur="3.5s"
+                            repeatCount="indefinite"
+                            begin="0.5s"
+                          />
+                        </linearGradient>
+                      </defs>
+
+                      {/* Full-width horizontal line (static + sweep) - drawn first */}
+                      <line x1="-600" y1="180" x2="1680" y2="180" stroke="rgba(255,255,255,0.08)" strokeWidth="1" />
+                      <line x1="-600" y1="180" x2="1680" y2="180" stroke="url(#sweep)" strokeWidth="1" />
+
+                      {/* Dark fill covers line inside circles - drawn after lines */}
+                      {[180, 540, 900].map((cx, i) => (
+                        <circle key={i} cx={cx} cy={180} r={179} fill="#0A0A0A" />
+                      ))}
+
+                      {/* Circle borders (static + sweep) - drawn on top of fill */}
+                      {[180, 540, 900].map((cx, i) => (
+                        <circle key={i} cx={cx} cy={180} r={179} fill="none" stroke="rgba(255,255,255,0.10)" strokeWidth="1" />
+                      ))}
+                      {[180, 540, 900].map((cx, i) => (
+                        <circle key={i} cx={cx} cy={180} r={179} fill="none" stroke="url(#sweep)" strokeWidth="1.5" />
+                      ))}
+
+                      {/* Labels */}
+                      {items.map((item, i) => (
+                        <text
+                          key={i}
+                          x={180 + i * 360}
+                          y={188}
+                          textAnchor="middle"
+                          fill="white"
+                          fontSize="22"
+                          fontWeight="bold"
+                          fontFamily="Pretendard, sans-serif"
+                        >
+                          {item.title}
+                        </text>
+                      ))}
+                    </svg>
+                  </div>
+
+                  {/* Mobile */}
+                  <div className="md:hidden flex flex-col gap-3 mb-10">
+                    {items.map((item, i) => (
+                      <div key={i} className="rounded-2xl p-6 border border-white/10" style={{ backgroundColor: '#111', borderColor: item.color + '40' }}>
+                        <h3 className="text-[20px] font-bold mb-1 text-white">{item.title}</h3>
+                        <p className="text-[13px] leading-relaxed text-white/40">{item.desc.replace(/\n/g, ' ')}</p>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              );
+            })()}
+
+            </div>{/* max-w-[1000px] */}
           </div>
         </section>
 
@@ -202,7 +284,7 @@ const App = () => {
         <ProcessSection />
 
         {/* 고객사 로고 섹션 */}
-        <section id="logos" className="relative pt-10 pb-3 overflow-hidden" style={{ backgroundColor: isDark ? '#0A0A0A' : '#F6F6F6' }}>
+        <section id="logos" className="relative py-10 md:py-32 overflow-hidden" style={{ backgroundColor: isDark ? '#0A0A0A' : '#F6F6F6' }}>
           <div className="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none" />
           <div className="relative z-10 w-full text-center">
             <div ref={logoRef} className="relative overflow-hidden w-full py-4">
@@ -244,7 +326,7 @@ const App = () => {
         </section>
 
         {/* FAQ 섹션 */}
-        <section id="faq" className="py-12 md:py-24 relative overflow-hidden" style={{ backgroundColor: isDark ? '#0A0A0A' : '#F6F6F6' }}>
+        <section id="faq" className="py-12 md:py-32 relative overflow-hidden" style={{ backgroundColor: isDark ? '#0A0A0A' : '#F6F6F6' }}>
           <div className="max-w-[1280px] mx-auto container-responsive">
             <div className="flex flex-col lg:flex-row gap-10 md:gap-20">
               <div className="lg:w-1/3">
@@ -266,7 +348,7 @@ const App = () => {
           <section className="relative h-[500px] w-full overflow-hidden flex items-center justify-center bg-black">
             <div className="absolute inset-0 z-0">
               <img
-                src="/meeting-bg.jpg"
+                src="/images/meeting-bg.jpg"
                 alt="회의"
                 className="w-full h-full object-cover"
               />

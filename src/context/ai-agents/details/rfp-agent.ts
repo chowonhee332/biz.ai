@@ -43,7 +43,7 @@ export const rfpAgent: PlatformProduct = {
             설명: "업로드한 RFP에서 요구사항 영역을 자동 추출하고, 편집·업로드 시 초안에 자동 반영됩니다."
         }
     ],
-    메인이미지: "/works.png",
+    메인이미지: "/images/works.png",
     주요특징이미지: [],
     주요기능: [
         "RFP 유형 분류: 제안서 유형/분류에 따른 템플릿 자동 설정",

@@ -61,7 +61,7 @@ export const cloudwiz: PlatformProduct = {
             설명: "CSP 보안 규칙 기반 검사로 설정 오류를 사전에 탐지하고 보안팀·운영팀 협업 시간을 줄입니다."
         }
     ],
-    메인이미지: "/works.png",
+    메인이미지: "/images/works.png",
     주요특징이미지: [],
     주요기능: [
         "대시보드 모니터링: 계정·리소스·비용 현황 실시간 시각화",

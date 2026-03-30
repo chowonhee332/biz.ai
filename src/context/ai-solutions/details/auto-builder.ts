@@ -89,7 +89,7 @@ export const autoBuilder: PlatformProduct = {
             설명: "권한 제어, 배포 승인 흐름, 버전 롤백, 감사 로그로 엔터프라이즈 관리체계를 제공합니다."
         }
     ],
-    메인이미지: "/works.png",
+    메인이미지: "/images/works.png",
     주요특징이미지: [],
     주요기능: [
         "시각적 플로우 빌더: 대화·업무 플로우 시각적 설계",

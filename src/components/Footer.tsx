@@ -30,8 +30,8 @@ export default function Footer() {
       <div className="max-w-[1200px] w-full mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-6">
         {/* 좌측: 로고 + 주소 */}
         <div className="flex flex-col gap-5">
-          <img src="/kt ds_light.png" alt="kt ds" className="h-8 object-contain object-left dark:hidden" />
-          <img src="/kt ds_dark.png" alt="kt ds" className="h-8 object-contain object-left hidden dark:block" />
+          <img src="/logos/kt-ds-light.png" alt="kt ds" className="h-8 object-contain object-left dark:hidden" />
+          <img src="/logos/kt-ds-dark.png" alt="kt ds" className="h-8 object-contain object-left hidden dark:block" />
           <p className="text-[14px] font-medium text-text-secondary">
             (06707) 서울 서초구 효령로 176, 02-523-7029
           </p>

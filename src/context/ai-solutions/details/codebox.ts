@@ -58,7 +58,7 @@ export const codebox: PlatformProduct = {
             설명: "클라우드 사용이 불가한 기관도 사내 장비만으로 AI 기반 개발 생산성을 확보할 수 있습니다."
         }
     ],
-    메인이미지: "/works.png",
+    메인이미지: "/images/works.png",
     주요특징이미지: [],
     주요기능: [
         "코드 자동작성: 코드 초안 생성 및 자동완성 지원",

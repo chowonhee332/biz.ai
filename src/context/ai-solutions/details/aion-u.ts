@@ -72,7 +72,7 @@ export const aionU: PlatformProduct = {
             설명: "Agent‑to‑Agent 구조를 지원하여 복잡한 역할 기반 협업 Agent 구성으로 확장할 수 있도록 준비되어 있습니다."
         }
     ],
-    메인이미지: "/works.png",
+    메인이미지: "/images/works.png",
     주요특징이미지: [
         { 타이틀: "[AI_ON-U] Code Assistant.zip", 설명: "", 이미지URL: "#" },
         { 타이틀: "[AI_ON-U] Knowledge.zip", 설명: "", 이미지URL: "#" },

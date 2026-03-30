@@ -67,7 +67,7 @@ export default function HeroContent({ isAnalyzing = false, align = 'center' }: H
               style={{ textShadow: '0px 2px 1px rgba(0,0,0,0.06)' }}
             >
               {slide.main.map((line, i) => (
-                <span key={i} className={`block whitespace-nowrap ${slide.highlight === i ? 'text-white font-[800]' : 'text-white font-[400]'} ${isLeft ? 'text-center md:text-left' : 'text-center'}`}>
+                <span key={i} className={`block whitespace-nowrap ${slide.highlight === i ? 'text-white font-[800]' : 'text-white font-[300]'} ${isLeft ? 'text-center md:text-left' : 'text-center'}`}>
                   {line}
                 </span>
               ))}
