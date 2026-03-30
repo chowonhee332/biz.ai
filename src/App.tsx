@@ -26,6 +26,8 @@ const App = () => {
   const [showScrollTop, setShowScrollTop] = useState(false);
   const logoRef = useRef<HTMLDivElement>(null);
   const isLogoInView = useInView(logoRef, { once: false, amount: 0 });
+  const heroRef = useRef<HTMLElement>(null);
+  const isHeroInView = useInView(heroRef, { once: false, amount: 0 });
 
   useEffect(() => {
     const handleResize = debounce(() => {
@@ -49,17 +51,17 @@ const App = () => {
       <Navbar activePage="home" scrollLineProgress={scrollYProgress} />
 
       {/* Hero Section */}
-      <section id="hero" className="relative z-20 h-[calc(100vh-84px)] flex items-center justify-center overflow-clip font-poppins mx-3 mt-[68px] mb-3 rounded-[28px] bg-[#0A0A0A]">
+      <section ref={heroRef} id="hero" className="relative z-20 h-[calc(100vh-84px)] flex items-center justify-center overflow-clip font-poppins mx-3 mt-[68px] mb-3 rounded-[28px] bg-[#0A0A0A]">
 
-        {/* Silk Motion Background */}
+        {/* Silk Motion Background - 뷰포트 진입 시만 렌더링 */}
         <div className="absolute inset-0 z-0">
-          <Silk
-            speed={0.1}
+          {isHeroInView && <Silk
+            speed={0}
             scale={0.6}
             color="#c8d8ff"
             noiseIntensity={3}
             rotation={4.8}
-          />
+          />}
         </div>
         {/* Fade-out gradient overlay */}
         <div className="absolute inset-0 z-[1] pointer-events-none" style={{ background: 'linear-gradient(to bottom, rgba(10,10,10,0.2) 0%, rgba(10,10,10,0.6) 30%, rgba(10,10,10,1) 60%)' }} />
@@ -221,9 +223,9 @@ const App = () => {
                             type="translate"
                             from="-800 0"
                             to="1880 0"
-                            dur="3.5s"
+                            dur="5s"
                             repeatCount="indefinite"
-                            begin="0.5s"
+                            begin="0s"
                           />
                         </linearGradient>
                       </defs>

@@ -19,7 +19,7 @@ interface AiServicePageProps {
     silkScale?: number;
 }
 
-export default function AiServicePage({ config, activePage, silkColor = '#c8d8ff', silkScale = 0.8 }: AiServicePageProps) {
+export default function AiServicePage({ config, activePage, silkColor = '#c8d8ff', silkScale = 0.6 }: AiServicePageProps) {
     const { scrollYProgress } = useScroll();
     const [activeTab, setActiveTab] = useState(config.sidebarItems[0]);
 
