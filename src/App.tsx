@@ -9,7 +9,7 @@ import { AGENT_CARDS, SOLUTION_CARDS } from './context/home/home-cards';
 import { useTheme } from './context/ThemeContext';
 const HeroSpline = lazy(() => import('./components/HeroSpline'));
 import Silk from './components/Silk';
-import { motion, AnimatePresence, useScroll, useTransform, useInView } from 'motion/react';
+import { motion, AnimatePresence, useScroll, useTransform, useInView, useSpring } from 'motion/react';
 import { Button } from '@/components/ui/button';
 import HeroContent from './components/HeroContent';
 import Navbar from './components/Navbar';
@@ -33,14 +33,21 @@ const App = () => {
     target: aiServicesRef,
     offset: ["start start", "end end"]
   });
-  const agentsX = useTransform(aiScrollProgress, [0.3, 0.7], ['0%', '-100%']);
-  const solutionsX = useTransform(aiScrollProgress, [0.3, 0.7], ['100%', '0%']);
-  
-  // 페이지네이션 점을 위한 transform (너비와 투명도 동적 변화)
-  const agentDotWidth = useTransform(aiScrollProgress, [0.35, 0.65], [24, 8]);
-  const solutionDotWidth = useTransform(aiScrollProgress, [0.35, 0.65], [8, 24]);
-  const agentDotOpacity = useTransform(aiScrollProgress, [0.35, 0.65], [1, 0.2]);
-  const solutionDotOpacity = useTransform(aiScrollProgress, [0.35, 0.65], [0.2, 1]);
+
+  // 부드러운 스크롤 전환을 위한 useSpring 적용
+  const smoothAiProgress = useSpring(aiScrollProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
+
+  // 전환 및 페이지네이션을 위한 transform (체류 공간 확보를 위해 range 조정)
+  const agentsX = useTransform(smoothAiProgress, [0.25, 0.65], ['0%', '-100%']);
+  const solutionsX = useTransform(smoothAiProgress, [0.25, 0.65], ['100%', '0%']);
+  const agentDotWidth = useTransform(smoothAiProgress, [0.25, 0.65], [24, 8]);
+  const solutionDotWidth = useTransform(smoothAiProgress, [0.25, 0.65], [8, 24]);
+  const agentDotOpacity = useTransform(smoothAiProgress, [0.25, 0.65], [1, 0.2]);
+  const solutionDotOpacity = useTransform(smoothAiProgress, [0.25, 0.65], [0.2, 1]);
 
   useEffect(() => {
     const handleResize = debounce(() => {
@@ -111,8 +118,8 @@ const App = () => {
               </h1>
             </div>
 
-            {/* 카드 영역 - sticky */}
-            <div ref={aiServicesRef} style={{ height: '200vh' }}>
+            {/* 카드 영역 - sticky (체류 시간 조정을 위해 높이 증가) */}
+            <div ref={aiServicesRef} style={{ height: '250vh' }}>
               <div style={{ position: 'sticky', top: '20vh', height: '80vh', overflow: 'hidden' }}>
 
                 {/* 그룹 1: Agents */}
