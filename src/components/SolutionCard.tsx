@@ -1,6 +1,6 @@
 import { memo } from 'react';
 
-const SolutionCard = memo(function SolutionCard({ image, title, desc, highlight, idx }: {
+const SolutionCard = memo(function SolutionCard({ image, title, desc, highlight }: {
   image: string;
   title: string;
   desc: string;
@@ -8,30 +8,25 @@ const SolutionCard = memo(function SolutionCard({ image, title, desc, highlight,
   idx: number;
 }) {
   return (
-    <div className="bg-[#F6F6F6] rounded-[20px] p-6 md:p-8 flex flex-col w-full h-[360px] lg:h-[400px] cursor-pointer font-pretendard relative overflow-hidden">
-      {/* 번호 */}
-      <span className="text-black text-[20px] font-bold mb-2 block">
-        {String(idx + 1).padStart(2, '0')}
-      </span>
-
-      {/* 타이틀 + 설명 + 태그 묶음 */}
-      <div className="flex flex-col gap-3">
-        <h4 className="text-black text-[28px] font-bold tracking-tight leading-tight break-keep">
+    <div className="bg-[#F6F6F6] rounded-[24px] p-7 md:p-8 flex flex-row items-start gap-6 w-full h-[220px] cursor-pointer font-pretendard">
+      {/* 좌측: 텍스트 */}
+      <div className="flex flex-col flex-1 min-w-0 h-full">
+        <h4 className="text-black text-[26px] font-bold tracking-tight leading-tight break-keep mb-2">
           {title}
         </h4>
-        <p className="text-[#666666] text-[15px] leading-relaxed font-normal break-keep">
+        <p className="text-[#666666] text-[15px] leading-relaxed font-normal break-keep max-w-[320px]">
           {desc}
         </p>
-        <span className="text-brand-primary text-[15px] font-semibold">
+        <span className="text-brand-primary text-[14px] font-semibold mt-auto">
           {highlight.startsWith('#') ? highlight : `#${highlight}`}
         </span>
       </div>
 
-      {/* 로고 - 우측 하단 절대 위치 */}
+      {/* 우측: 아이콘 (최상단 정렬) */}
       <img
         src={image}
         alt={title}
-        className="absolute bottom-[-5px] right-6 w-[120px] h-[120px] object-contain"
+        className="w-[80px] h-[80px] object-contain shrink-0 -mt-2"
       />
     </div>
   );
