@@ -18,9 +18,11 @@ import { ChevronRight, ArrowUp, Quote } from 'lucide-react';
 import SolutionCard from './components/SolutionCard';
 import ProcessSection from './components/ProcessSection';
 import FAQList from './components/FAQList';
+import { useNavigate } from 'react-router-dom';
 
 const App = () => {
   const { isDark } = useTheme();
+  const navigate = useNavigate();
   const { scrollYProgress } = useScroll();
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' ? window.innerWidth < 1024 : false);
   const [showScrollTop, setShowScrollTop] = useState(false);
@@ -231,7 +233,7 @@ const App = () => {
                   <Button
                     variant="outline"
                     size="lg"
-                    onClick={() => window.location.href = '/use-cases'}
+                    onClick={() => navigate('/use-cases')}
                     className="w-[130px] h-12 text-[16px] relative group transition-all duration-300 !bg-transparent !text-white !border-white/10 hover:!bg-white/10 !rounded-[12px]"
                   >
                     <span className="transition-transform duration-300 group-hover:-translate-x-2">전체보기</span>

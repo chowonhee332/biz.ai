@@ -17,7 +17,8 @@ export default function NewsDetailPage() {
     const { isDark } = useTheme();
 
     const allNews = [...HIGHLIGHT_NEWS, ...REGULAR_NEWS];
-    const newsIndex = id ? parseInt(id) - 1 : 0;
+    const parsedId = id ? parseInt(id) : NaN;
+    const newsIndex = !isNaN(parsedId) && parsedId >= 1 && parsedId <= allNews.length ? parsedId - 1 : 0;
     const news = location.state?.news || allNews[newsIndex] || allNews[0];
 
     useScrollToTop();

@@ -63,7 +63,8 @@ export default function UseCaseDetailPage() {
     const { scrollYProgress } = useScroll();
     const { id } = useParams();
 
-    const caseIndex = id ? parseInt(id) - 1 : 0;
+    const parsedId = id ? parseInt(id) : NaN;
+    const caseIndex = !isNaN(parsedId) && parsedId >= 1 && parsedId <= USE_CASES.length ? parsedId - 1 : 0;
     const item = USE_CASES[caseIndex] || USE_CASES[0];
 
     const detail = item.상세내용 || null;
