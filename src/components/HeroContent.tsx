@@ -96,13 +96,14 @@ export default function HeroContent({ isAnalyzing = false, align = 'center' }: H
           className="w-[110px] md:w-[130px] h-10 md:h-12 text-[15px] relative group transition-all duration-300 !bg-white !text-black hover:!bg-white/90 !border-0 !rounded-[12px]"
           disabled={isAnalyzing}
         >
-          <span className="group-hover:-translate-x-2 transition-transform duration-300">무료체험 신청</span>
+          <span className="group-hover:-translate-x-2 transition-transform duration-300">더보기</span>
           <ChevronRight size={16} className="absolute right-3 max-w-0 opacity-0 group-hover:max-w-[20px] group-hover:opacity-100 transition-all duration-300 overflow-hidden" />
         </Button>
         <Button
           variant="outline"
           size="lg"
           className="w-[110px] md:w-[130px] h-10 md:h-12 text-[15px] relative group transition-all duration-300 !bg-transparent !text-white !border-white/10 hover:!bg-white/10 !rounded-[12px]"
+          onClick={() => window.location.href = 'mailto:bizai@kt.com'}
         >
           <span className="group-hover:-translate-x-2 transition-transform duration-300">솔루션 문의</span>
           <ChevronRight size={16} className="absolute right-3 max-w-0 opacity-0 group-hover:max-w-[20px] group-hover:opacity-100 transition-all duration-300 overflow-hidden" />
