@@ -100,7 +100,7 @@ export const aiPortal: PlatformProduct = {
         전화번호: "02-523-7029"
     },
     관련리소스: [
-        { 타이틀: "KTDS_Works AI_브로셔", 파일타입: "PDF", URL: "/download/ai-portal/worksai.pdf" },
+        { 타이틀: "Works AI 브로슈어", 파일타입: "PDF", URL: "/download/aiportal/works-ai-brochure.pdf" },
     ],
     소개영상: [
         {
