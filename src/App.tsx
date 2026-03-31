@@ -272,7 +272,7 @@ const App = () => {
                     <span className="px-2 py-1.5 rounded-full bg-white/8 text-white text-[14px] font-medium">#구축 기간 3개월</span>
                     <span className="px-2 py-1.5 rounded-full bg-white/8 text-white text-[14px] font-medium">#데이터 접근성과 활용도 향상</span>
                   </div>
-                  <div className="rounded-[16px] border border-white/10 bg-white/5 px-6 py-5 flex flex-col gap-3">
+                  <div className="rounded-[16px] border border-white/10 px-6 py-5 flex flex-col gap-3">
                     {[
                       "자연어로 질문하면 관련 데이터와 결과를 바로 제공",
                       "문서, 통계, 데이터베이스를 한 번에 통합 검색",
