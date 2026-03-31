@@ -6,6 +6,7 @@
 import React, { useState, useEffect, lazy, Suspense, useRef } from 'react';
 import { throttle, debounce } from './lib/utils';
 import { AGENT_CARDS, SOLUTION_CARDS } from './context/home/home-cards';
+import { HOME_USE_CASE, HOME_LOGOS, HOME_CTA } from './context/home/home-data';
 import { useTheme } from './context/ThemeContext';
 const HeroSpline = lazy(() => import('./components/HeroSpline'));
 import Silk from './components/Silk';
@@ -141,9 +142,9 @@ const App = () => {
           <div className="max-w-[1280px] mx-auto container-responsive">
             {/* Header */}
             <div className="text-center mb-0">
-              <span className="text-body-sm text-[#999999] mb-3 block font-medium">고객 사례</span>
+              <span className="text-body-sm text-[#999999] mb-3 block font-medium">{HOME_USE_CASE.sectionLabel}</span>
               <h1 className="text-heading-md md:text-display-sm lg:text-display-md font-bold text-white tracking-tight leading-tight font-poppins">
-                Use Cases
+                {HOME_USE_CASE.sectionTitle}
               </h1>
             </div>
 
@@ -159,10 +160,11 @@ const App = () => {
             <div className="text-center mb-12">
               <Quote size={32} className="mx-auto mb-4 fill-white text-white" strokeWidth={0} />
               <h2 className="text-[24px] md:text-[36px] font-bold text-white leading-snug mb-4">
-                질문만으로 원하는 데이터(문서, 통계)를 바로 찾고,<br />
-                3개월 안에 업무에 적용한 AI 구축 사례
+                {HOME_USE_CASE.quote.split('\n').map((line, i, arr) => (
+                  <React.Fragment key={i}>{line}{i < arr.length - 1 && <br />}</React.Fragment>
+                ))}
               </h2>
-              <span className="text-[16px] md:text-[18px] text-brand-primary font-medium">-한국기계산업진흥원</span>
+              <span className="text-[16px] md:text-[18px] text-brand-primary font-medium">-{HOME_USE_CASE.company}</span>
             </div>
 
             {/* 연결 라인 */}
@@ -210,9 +212,9 @@ const App = () => {
                 <circle cx="170" cy="522" r="210" fill="none" stroke="url(#sweep)" strokeWidth="1.5" />
                 <circle cx="530" cy="522" r="210" fill="none" stroke="url(#sweep)" strokeWidth="1.5" />
                 {/* 텍스트 */}
-                <text x="350" y="210" textAnchor="middle" dominantBaseline="middle" fill="white" fontSize="26" fontWeight="bold" fontFamily="Poppins, sans-serif">AI:ON-U</text>
-                <text x="170" y="522" textAnchor="middle" dominantBaseline="middle" fill="white" fontSize="26" fontWeight="bold" fontFamily="Poppins, sans-serif">AI Works</text>
-                <text x="530" y="522" textAnchor="middle" dominantBaseline="middle" fill="white" fontSize="26" fontWeight="bold" fontFamily="Poppins, sans-serif">SQL Agent</text>
+                {HOME_USE_CASE.venn.desktop.map((v, i) => (
+                  <text key={i} x={v.cx} y={v.cy} textAnchor="middle" dominantBaseline="middle" fill="white" fontSize="26" fontWeight="bold" fontFamily="Poppins, sans-serif">{v.label}</text>
+                ))}
               </svg>
             </motion.div>
 
@@ -248,9 +250,9 @@ const App = () => {
                 <circle cx="300" cy="150" r="149" fill="none" stroke="url(#sweep-mobile)" strokeWidth="1.5" />
                 <circle cx="150" cy="410" r="149" fill="none" stroke="url(#sweep-mobile)" strokeWidth="1.5" />
                 <circle cx="450" cy="410" r="149" fill="none" stroke="url(#sweep-mobile)" strokeWidth="1.5" />
-                <text x="300" y="150" textAnchor="middle" dominantBaseline="middle" fill="white" fontSize="22" fontWeight="bold" fontFamily="Poppins, sans-serif">AI:ON-U</text>
-                <text x="150" y="410" textAnchor="middle" dominantBaseline="middle" fill="white" fontSize="22" fontWeight="bold" fontFamily="Poppins, sans-serif">AI Works</text>
-                <text x="450" y="410" textAnchor="middle" dominantBaseline="middle" fill="white" fontSize="22" fontWeight="bold" fontFamily="Poppins, sans-serif">SQL Agent</text>
+                {HOME_USE_CASE.venn.mobile.map((v, i) => (
+                  <text key={i} x={v.cx} y={v.cy} textAnchor="middle" dominantBaseline="middle" fill="white" fontSize="22" fontWeight="bold" fontFamily="Poppins, sans-serif">{v.label}</text>
+                ))}
               </svg>
             </div>
 
@@ -258,28 +260,23 @@ const App = () => {
             <div className="flex flex-col md:flex-row items-stretch gap-10 md:gap-[60px] mb-10 md:mb-16">
               {/* 좌측: 이미지 */}
               <div className="w-full md:w-1/2 shrink-0 rounded-[20px] overflow-hidden">
-                <img src="/images/img.png" alt="Use Cases" loading="lazy" className="w-full h-auto object-cover" />
+                <img src={HOME_USE_CASE.image} alt="Use Cases" loading="lazy" className="w-full h-auto object-cover" />
               </div>
               {/* 우측: 설명 */}
               <div className="flex-1 flex flex-col justify-between">
                 <div className="flex flex-col gap-5">
                   <p className="text-[#CCCCCC] text-[16px] leading-relaxed font-normal">
-                    수많은 문서와 통계 데이터 속에서 원하는 정보를 찾기 어려운 환경에서, Works AI와 SQL Agent를 통해 질문만으로 필요한 데이터를 바로 확인할 수 있는 환경 구축하였습니다. AI:ON-U를 활용해 맞춤형 AI Agent를 빠르게 생성하여, 단기간 내 업무에 적용했습니다.
+                    {HOME_USE_CASE.description[0]}
                     <br /><br />
-                    그 결과, 복잡한 데이터 탐색 과정 없이도 원하는 결과를 즉시 확인할 수 있게 되었고 약 3개월 내에 실제 업무에 활용 가능한 AI 기반 업무 환경을 구현했습니다.
+                    {HOME_USE_CASE.description[1]}
                   </p>
                   <div className="flex flex-wrap gap-2">
-                    <span className="px-2 py-1.5 rounded-full bg-white/8 text-white text-[14px] font-medium">#구축 기간 3개월</span>
-                    <span className="px-2 py-1.5 rounded-full bg-white/8 text-white text-[14px] font-medium">#데이터 접근성과 활용도 향상</span>
+                    {HOME_USE_CASE.tags.map((tag, i) => (
+                      <span key={i} className="px-2 py-1.5 rounded-full bg-white/8 text-white text-[14px] font-medium">{tag}</span>
+                    ))}
                   </div>
                   <div className="rounded-[16px] border border-white/10 px-6 py-5 flex flex-col gap-3">
-                    {[
-                      "자연어로 질문하면 관련 데이터와 결과를 바로 제공",
-                      "문서, 통계, 데이터베이스를 한 번에 통합 검색",
-                      "결과뿐만 아니라 출처 문서와 데이터 함께 제시",
-                      "단순 조회가 아닌 실제 업무 흐름에 맞춘 Agent 제공",
-                      "단계별 구축 없이도 단기간 내 적용 가능",
-                    ].map((item, i) => (
+                    {HOME_USE_CASE.bullets.map((item, i) => (
                       <div key={i} className="flex items-center gap-3 text-[15px] leading-relaxed text-[#CCCCCC]">
                         <span className="shrink-0 w-1.5 h-1.5 rounded-full bg-brand-primary" />
                         <span>{item}</span>
@@ -326,14 +323,7 @@ const App = () => {
               >
                 {[...Array(2)].map((_, i) => (
                   <React.Fragment key={i}>
-                    {[
-                      { name: "KT", logo: "/logos/kt.png", scale: 1 },
-                      { name: "경기도", logo: "/logos/gyeonggido.png", scale: 1 },
-                      { name: "현대그린푸드", logo: "/logos/hwell.png", scale: 1.2 },
-                      { name: "한국철도공사", logo: "/logos/kr.png", scale: 1.2 },
-                      { name: "건국대학교 미래지식교육원", logo: "/logos/konmi.png", scale: 1.2 },
-                      { name: "트루엔", logo: "/logos/true.png", scale: 1.2 }
-                    ].map((brand, idx) => (
+                    {HOME_LOGOS.map((brand, idx) => (
                       <div key={`${i}-${idx}`} className="flex items-center justify-center shrink-0 w-[180px] h-[80px]">
                         <img
                           src={brand.logo}
@@ -374,7 +364,7 @@ const App = () => {
           <section className="relative h-[500px] w-full overflow-hidden flex items-center justify-center bg-black">
             <div className="absolute inset-0 z-0">
               <img
-                src="/images/meeting-bg.jpg"
+                src={HOME_CTA.image}
                 alt="회의"
                 className="w-full h-full object-cover"
               />
@@ -388,17 +378,18 @@ const App = () => {
                 transition={{ duration: 1, ease: "easeOut" }}
               >
                 <h2 className="text-white text-heading-sm md:text-display-sm font-bold mb-6 md:mb-10 tracking-tighter leading-[1.2] drop-shadow-[0_0_25px_rgba(255,255,255,0.2)]">
-                  Biz.AI와 함께<br />
-                  AI 혁신을 지금 실행하세요.
+                  {HOME_CTA.heading.split('\n').map((line, i, arr) => (
+                    <React.Fragment key={i}>{line}{i < arr.length - 1 && <br />}</React.Fragment>
+                  ))}
                 </h2>
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                   <Button
                     variant="outline"
                     size="lg"
                     className="w-[110px] md:w-[130px] h-10 md:h-12 text-[15px] mt-3 sm:mt-0 relative group transition-all duration-300 !bg-transparent !text-white !border-white/10 hover:!bg-white/10 !rounded-full"
-                    onClick={() => window.location.href = 'mailto:bizai@kt.com'}
+                    onClick={() => window.location.href = HOME_CTA.buttonHref}
                   >
-                    <span className="group-hover:-translate-x-2 transition-transform duration-300">솔루션 문의</span>
+                    <span className="group-hover:-translate-x-2 transition-transform duration-300">{HOME_CTA.buttonLabel}</span>
                     <ChevronRight size={18} className="absolute right-4 max-w-0 opacity-0 group-hover:max-w-[24px] group-hover:opacity-100 transition-all duration-300 overflow-hidden" />
                   </Button>
                 </div>

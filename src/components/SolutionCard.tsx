@@ -17,7 +17,7 @@ const SolutionCard = memo(function SolutionCard({ image, title, desc, highlight,
   return (
     <motion.div
       onClick={link ? () => navigate(link) : undefined}
-      className={`group relative bg-[#F6F6F6] rounded-[20px] p-9 flex flex-col w-full h-[420px] font-pretendard overflow-hidden transition-all duration-300 ${link ? 'cursor-pointer hover:-translate-y-1 hover:bg-[#EBEBEB]' : ''}`}
+      className={`group relative bg-[#F6F6F6] rounded-[20px] p-9 flex flex-col w-full h-[420px] font-pretendard overflow-hidden transition-colors duration-300 ${link ? 'cursor-pointer hover:bg-[#EBEBEB]' : ''}`}
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: false, amount: 0.15 }}

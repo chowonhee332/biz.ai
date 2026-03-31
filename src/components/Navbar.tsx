@@ -4,6 +4,7 @@ import { motion, AnimatePresence, MotionValue } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 import { throttle } from '../lib/utils';
+import { NAV_LINKS, NAV_CTA_LINKS } from '../context/home/home-data';
 
 interface NavbarProps {
   activePage?: 'home' | 'platform' | 'ai-agents' | 'ai-solutions' | 'use-cases' | 'news';
@@ -23,12 +24,7 @@ export default function Navbar({ activePage, scrollLineProgress }: NavbarProps) 
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navLinks = [
-    { name: 'AI 에이전트', path: '/ai-agents', id: 'ai-agents' },
-    { name: 'AI 솔루션', path: '/ai-solutions', id: 'ai-solutions' },
-    { name: '고객 사례', path: '/use-cases', id: 'use-cases' },
-    { name: '새로운 소식', path: '/news', id: 'news' },
-  ];
+  const navLinks = NAV_LINKS;
 
   const textColor = 'text-text-primary';
   const scrolledBg = isDark ? 'rgba(10, 10, 10, 1)' : 'rgba(255, 255, 255, 1)';
@@ -64,12 +60,12 @@ export default function Navbar({ activePage, scrollLineProgress }: NavbarProps) 
         {/* CTA Buttons */}
         <div className="hidden lg:flex items-center gap-2 ml-auto">
           <div className="flex items-center gap-0">
-            <a href="https://www.ktds.com/" target="_blank" rel="noopener noreferrer" className={`${textColor} flex items-center gap-0.5 px-3 h-10 rounded-full ${hoverBg} transition-colors group`}>
+            <a href={NAV_CTA_LINKS[0].href} target="_blank" rel="noopener noreferrer" className={`${textColor} flex items-center gap-0.5 px-3 h-10 rounded-full ${hoverBg} transition-colors group`}>
               <img src={ktdsLogo} alt="kt ds" className="h-[17px] w-auto object-contain" />
               <ArrowUpRight size={20} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300" />
             </a>
-            <a href="https://studio.abclab.ktds.com/auth/login" target="_blank" rel="noopener noreferrer" className={`${textColor} flex items-center gap-0.5 px-3 h-10 rounded-full ${hoverBg} transition-colors text-[15px] font-bold group`}>
-              AI Agent 스튜디오
+            <a href={NAV_CTA_LINKS[1].href} target="_blank" rel="noopener noreferrer" className={`${textColor} flex items-center gap-0.5 px-3 h-10 rounded-full ${hoverBg} transition-colors text-[15px] font-bold group`}>
+              {NAV_CTA_LINKS[1].label}
               <ArrowUpRight size={20} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300" />
             </a>
           </div>
@@ -122,18 +118,14 @@ export default function Navbar({ activePage, scrollLineProgress }: NavbarProps) 
               ))}
               <div className={`h-px my-2 ${isDark ? 'bg-border-light' : 'bg-black/10'}`} />
               <div className="flex flex-col gap-5">
-                <a href="https://www.ktds.com/" target="_blank" rel="noopener noreferrer" className={`flex items-center gap-1.5 font-medium py-1 ${isDark ? 'text-text-secondary/60' : 'text-gray-500'}`}>
-                  <span className="text-body-sm">kt ds 홈페이지</span>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M7 17L17 7M17 7H7M17 7V17" />
-                  </svg>
-                </a>
-                <a href="https://studio.abclab.ktds.com/auth/login" target="_blank" rel="noopener noreferrer" className={`flex items-center gap-1.5 font-medium py-1 ${isDark ? 'text-text-secondary/60' : 'text-gray-500'}`}>
-                  <span className="text-body-sm">AI Agent 스튜디오</span>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M7 17L17 7M17 7H7M17 7V17" />
-                  </svg>
-                </a>
+                {NAV_CTA_LINKS.map((link) => (
+                  <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer" className={`flex items-center gap-1.5 font-medium py-1 ${isDark ? 'text-text-secondary/60' : 'text-gray-500'}`}>
+                    <span className="text-body-sm">{link.label}</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M7 17L17 7M17 7H7M17 7V17" />
+                    </svg>
+                  </a>
+                ))}
               </div>
             </div>
           </motion.div>
