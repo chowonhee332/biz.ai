@@ -3,6 +3,7 @@ export interface HomeCard {
   title: string;
   desc: string;
   highlight: string;
+  link?: string;
 }
 
 export const AGENT_CARDS: HomeCard[] = [
@@ -10,25 +11,29 @@ export const AGENT_CARDS: HomeCard[] = [
     image: "/ai-service-logos/logo_1.png",
     title: "WorksAI",
     desc: "AI Agent 기반으로 다양한 업무처리를 지원하는 사내 AI Agent Portal",
-    highlight: "#효율 200% 향상"
+    highlight: "#효율 200% 향상",
+    link: "/ai-agents?tab=AI 포털"
   },
   {
     image: "/ai-service-logos/logo_2.png",
     title: "AI 회의록",
     desc: "음성 기반 회의 자동 기록 · 요약 · 업무 추출 AI 서비스",
-    highlight: "#1분 회의록"
+    highlight: "#1분 회의록",
+    link: "/ai-agents?tab=AI 회의록"
   },
   {
     image: "/ai-service-logos/logo_3.png",
     title: "국정감사 Agent",
     desc: "국정감사 자료 분석부터 핵심 이슈 도출까지 지원하는 AI 서비스",
-    highlight: "#준비시간 70% 단축"
+    highlight: "#준비시간 70% 단축",
+    link: "/ai-agents?tab=Audit Agent"
   },
   {
     image: "/ai-service-logos/logo_4.png",
     title: "RFP Agent",
     desc: "제안요청서(RFP) 분석, 요구사항 정리, 제안서 초안 작성을 지원하는 AI 서비스",
-    highlight: "#작성시간 60% 절감"
+    highlight: "#작성시간 60% 절감",
+    link: "/ai-agents?tab=RFP Agent"
   }
 ];
 

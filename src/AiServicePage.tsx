@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useScroll } from 'motion/react';
+import { useSearchParams } from 'react-router-dom';
 import { PlatformProduct } from './context/types';
 import Layout from './components/Layout';
 import ServiceHero from './components/service-page/ServiceHero';
@@ -21,7 +22,10 @@ interface AiServicePageProps {
 
 export default function AiServicePage({ config, activePage, silkColor = '#c8d8ff', silkScale = 0.6 }: AiServicePageProps) {
     const { scrollYProgress } = useScroll();
-    const [activeTab, setActiveTab] = useState(config.sidebarItems[0]);
+    const [searchParams] = useSearchParams();
+    const tabParam = searchParams.get('tab');
+    const initialTab = (tabParam && config.sidebarItems.includes(tabParam)) ? tabParam : config.sidebarItems[0];
+    const [activeTab, setActiveTab] = useState(initialTab);
 
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'instant' });

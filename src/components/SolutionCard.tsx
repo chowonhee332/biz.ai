@@ -1,16 +1,21 @@
 import { memo } from 'react';
 import { motion } from 'motion/react';
+import { useNavigate } from 'react-router-dom';
 
-const SolutionCard = memo(function SolutionCard({ image, title, desc, highlight, idx }: {
+const SolutionCard = memo(function SolutionCard({ image, title, desc, highlight, idx, link }: {
   image: string;
   title: string;
   desc: string;
   highlight: string;
   idx: number;
+  link?: string;
 }) {
+  const navigate = useNavigate();
+
   return (
     <motion.div
-      className="relative bg-[#F6F6F6] rounded-[20px] p-10 flex flex-col w-full h-[400px] cursor-pointer font-pretendard overflow-hidden"
+      onClick={link ? () => navigate(link) : undefined}
+      className={`relative bg-[#F6F6F6] rounded-[20px] p-10 flex flex-col w-full h-[400px] font-pretendard overflow-hidden ${link ? 'cursor-pointer' : ''}`}
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: false, amount: 0.15 }}
