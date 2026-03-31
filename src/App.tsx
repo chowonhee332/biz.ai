@@ -114,7 +114,7 @@ const App = () => {
                   <span className="w-1.5 h-1.5 rounded-full bg-black inline-block" />
                   Agent
                 </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
                   {AGENT_CARDS.map((card, i) => (
                     <SolutionCard key={i} {...card} idx={i} />
                   ))}
@@ -125,7 +125,7 @@ const App = () => {
                   <span className="w-1.5 h-1.5 rounded-full bg-black inline-block" />
                   Solution
                 </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
                   {SOLUTION_CARDS.map((card, i) => (
                     <SolutionCard key={i} {...card} idx={i} />
                   ))}
