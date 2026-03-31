@@ -5,8 +5,7 @@
 
 import React, { useState, useEffect, lazy, Suspense, useRef } from 'react';
 import { throttle, debounce } from './lib/utils';
-import { AGENT_CARDS, SOLUTION_CARDS } from './context/home/home-cards';
-import { HOME_USE_CASE, HOME_LOGOS, HOME_CTA } from './context/home/home-data';
+import { HOME_USE_CASE, HOME_LOGOS, HOME_CTA, AGENT_CARDS, SOLUTION_CARDS } from './context/home/home-data';
 import { useTheme } from './context/ThemeContext';
 const HeroSpline = lazy(() => import('./components/HeroSpline'));
 import Silk from './components/Silk';
@@ -167,6 +166,11 @@ const App = () => {
               <span className="text-[16px] md:text-[18px] text-brand-primary font-medium">-{HOME_USE_CASE.company}</span>
             </div>
 
+            {/* 이미지 */}
+            <div className="w-full max-w-[1000px] mx-auto rounded-[20px] overflow-hidden mb-12 md:mb-20">
+              <img src={HOME_USE_CASE.image} alt="Use Cases" loading="lazy" className="w-full h-auto object-cover" />
+            </div>
+
             {/* 연결 라인 */}
             <div className="hidden md:flex justify-center mb-12">
               <div className="w-px h-16 bg-white/20" />
@@ -204,9 +208,9 @@ const App = () => {
                   </linearGradient>
                 </defs>
                 {/* 삼각형 대형: 상단 중앙, 하단 좌우 */}
-                <circle cx="350" cy="210" r="210" fill="url(#rg1)" style={{ filter: 'blur(1px)' }} />
-                <circle cx="170" cy="522" r="210" fill="url(#rg2)" style={{ filter: 'blur(1px)' }} />
-                <circle cx="530" cy="522" r="210" fill="url(#rg3)" style={{ filter: 'blur(1px)' }} />
+                <circle cx="350" cy="210" r="210" fill="url(#rg1)" />
+                <circle cx="170" cy="522" r="210" fill="url(#rg2)" />
+                <circle cx="530" cy="522" r="210" fill="url(#rg3)" />
                 {/* 스윕 모션만 */}
                 <circle cx="350" cy="210" r="210" fill="none" stroke="url(#sweep)" strokeWidth="1.5" />
                 <circle cx="170" cy="522" r="210" fill="none" stroke="url(#sweep)" strokeWidth="1.5" />
@@ -256,46 +260,35 @@ const App = () => {
               </svg>
             </div>
 
-            {/* 이미지(좌) + 설명(우) */}
-            <div className="flex flex-col md:flex-row items-stretch gap-10 md:gap-[60px] mb-10 md:mb-16">
-              {/* 좌측: 이미지 */}
-              <div className="w-full md:w-1/2 shrink-0 rounded-[20px] overflow-hidden">
-                <img src={HOME_USE_CASE.image} alt="Use Cases" loading="lazy" className="w-full h-auto object-cover" />
+            {/* 텍스트 */}
+            <div className="flex flex-col items-center gap-5 text-center">
+              <div className="flex flex-wrap justify-center gap-2">
+                {HOME_USE_CASE.tags.map((tag, i) => (
+                  <span key={i} className="px-2 py-1.5 rounded-full bg-white/8 text-white text-[14px] font-medium">{tag}</span>
+                ))}
               </div>
-              {/* 우측: 설명 */}
-              <div className="flex-1 flex flex-col justify-between">
-                <div className="flex flex-col gap-5">
-                  <p className="text-[#CCCCCC] text-[16px] leading-relaxed font-normal">
-                    {HOME_USE_CASE.description[0]}
-                    <br /><br />
-                    {HOME_USE_CASE.description[1]}
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {HOME_USE_CASE.tags.map((tag, i) => (
-                      <span key={i} className="px-2 py-1.5 rounded-full bg-white/8 text-white text-[14px] font-medium">{tag}</span>
-                    ))}
+              <p className="text-[#CCCCCC] text-[18px] leading-relaxed font-normal max-w-[800px]">
+                {HOME_USE_CASE.description[0]}
+                <br /><br />
+                {HOME_USE_CASE.description[1]}
+              </p>
+              <div className="w-full max-w-[720px] mt-10 rounded-[16px] border border-white/10 px-6 py-5 flex flex-col gap-3">
+                {HOME_USE_CASE.bullets.map((item, i) => (
+                  <div key={i} className="flex items-center gap-3 text-[15px] leading-relaxed text-[#CCCCCC]">
+                    <span className="shrink-0 w-1.5 h-1.5 rounded-full bg-brand-primary" />
+                    <span>{item}</span>
                   </div>
-                  <div className="rounded-[16px] border border-white/10 px-6 py-5 flex flex-col gap-3">
-                    {HOME_USE_CASE.bullets.map((item, i) => (
-                      <div key={i} className="flex items-center gap-3 text-[15px] leading-relaxed text-[#CCCCCC]">
-                        <span className="shrink-0 w-1.5 h-1.5 rounded-full bg-brand-primary" />
-                        <span>{item}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                <div className="flex justify-start">
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    onClick={() => navigate('/use-cases')}
-                    className="w-[130px] h-12 text-[16px] relative group transition-all duration-300 !bg-transparent !text-white !border-white/10 hover:!bg-white/10 !rounded-[12px]"
-                  >
-                    <span className="transition-transform duration-300 group-hover:-translate-x-2">전체보기</span>
-                    <ChevronRight size={16} className="absolute right-3 max-w-0 opacity-0 group-hover:max-w-[20px] group-hover:opacity-100 transition-all duration-300 overflow-hidden" />
-                  </Button>
-                </div>
+                ))}
               </div>
+              <Button
+                variant="outline"
+                size="lg"
+                onClick={() => navigate('/use-cases')}
+                className="w-[120px] h-12 text-[16px] mt-5 relative group transition-all duration-300 !bg-transparent !text-white !border-white/10 hover:!bg-white/10 !rounded-[12px]"
+              >
+                <span className="transition-transform duration-300 group-hover:-translate-x-2">전체보기</span>
+                <ChevronRight size={16} className="absolute right-3 max-w-0 opacity-0 group-hover:max-w-[20px] group-hover:opacity-100 transition-all duration-300 overflow-hidden" />
+              </Button>
             </div>
 
             </div>{/* max-w-[1200px] */}
