@@ -2,7 +2,7 @@ import { PlatformProduct } from '../../types';
 
 export const codebox: PlatformProduct = {
     관련리소스: [
-        { 타이틀: "CodeBox 브로슈어", 파일타입: "PDF", URL: "/download/codebox/CodeBox 브로슈어.pdf" }
+        { 타이틀: "CodeBox 브로슈어", 파일타입: "PDF", URL: "/download/codebox/CodeBox%20브로슈어.pdf" }
     ],
     제품상세문의: { 이메일: "bizai@kt.com", 전화번호: "02-523-7029" },
     오퍼링: [],

@@ -2,7 +2,7 @@ import { PlatformProduct } from '../../types';
 
 export const aionU: PlatformProduct = {
     관련리소스: [
-        { 타이틀: "AI:ON-U 브로슈어", 파일타입: "PDF", URL: "/download/aion-u/AI-ON-U 브로슈어.pdf" }
+        { 타이틀: "AI:ON-U 브로슈어", 파일타입: "PDF", URL: "/download/aion-u/AI-ON-U%20브로슈어.pdf" }
     ],
     제품상세문의: { 이메일: "aion-u@ktds.com", 전화번호: "02-523-7074" },
     오퍼링: [],
