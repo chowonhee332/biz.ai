@@ -17,11 +17,15 @@ export interface PlatformProduct {
     }[];
     고객사례: {
         고객조직: string;
+        기업명?: string;
+        산업분야?: string;
         적용범위: string;
         적용기간: string;
         핵심적용기능: string[];
         성과정량: string;
         성과정성: string;
+        담당자코멘트?: string;
+        상세링크?: string;
     }[];
     소개영상: {
         타이틀: string;

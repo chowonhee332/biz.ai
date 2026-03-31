@@ -62,8 +62,8 @@ export default function Navbar({ activePage, scrollLineProgress }: NavbarProps) 
         </div>
 
         {/* CTA Buttons */}
-        <div className="hidden lg:flex items-center gap-4 ml-auto">
-          <div className="flex items-center gap-1">
+        <div className="hidden lg:flex items-center gap-2 ml-auto">
+          <div className="flex items-center gap-0">
             <a href="https://www.ktds.com/" target="_blank" rel="noopener noreferrer" className={`${textColor} flex items-center gap-0.5 px-3 h-10 rounded-full ${hoverBg} transition-colors group`}>
               <img src={ktdsLogo} alt="kt ds" className="h-[17px] w-auto object-contain" />
               <ArrowUpRight size={20} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300" />

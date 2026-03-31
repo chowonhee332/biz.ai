@@ -352,74 +352,70 @@ export default function ServiceContent({ activeTab, content }: ServiceContentPro
                 </div>
 
                 {/* 8. 소개영상 */}
+                {content.소개영상 && content.소개영상.length > 0 && (
                 <div id="section-videos" className="pt-[32px] mb-[32px] scroll-mt-32">
                     <h3 className="text-body-xl font-bold text-text-primary mb-3">소개영상</h3>
-                    {content.소개영상 && content.소개영상.length > 0 ? (
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                            {content.소개영상.map((video, i) => {
-                                const getYoutubeThumbnail = (url: string) => {
-                                    const match = url.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/);
-                                    return match && match[2].length === 11
-                                        ? `https://img.youtube.com/vi/${match[2]}/maxresdefault.jpg`
-                                        : null;
-                                };
-                                const thumbnail = getYoutubeThumbnail(video.URL);
-                                return (
-                                    <a key={i} href={video.URL} target="_blank" rel="noopener noreferrer" className="block group">
-                                        <div className="aspect-video bg-bg-surface rounded-[20px] border border-border-light/50 flex items-center justify-center relative overflow-hidden transition-all hover:border-brand-primary/40 mb-4">
-                                            {thumbnail ? (
-                                                <>
-                                                    <img src={thumbnail} alt={video.타이틀} className="absolute inset-0 w-full h-full object-cover" />
-                                                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-500" />
-                                                </>
-                                            ) : (
-                                                <div className="absolute inset-0 bg-gradient-to-br from-brand-primary/10 to-transparent" />
-                                            )}
-                                            <div className="size-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center opacity-0 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500 z-10 border border-white/30 shadow-2xl">
-                                                <Play className="size-5 text-white fill-white ml-0.5" />
-                                            </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        {content.소개영상.map((video, i) => {
+                            const getYoutubeThumbnail = (url: string) => {
+                                const match = url.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/);
+                                return match && match[2].length === 11
+                                    ? `https://img.youtube.com/vi/${match[2]}/maxresdefault.jpg`
+                                    : null;
+                            };
+                            const thumbnail = getYoutubeThumbnail(video.URL);
+                            return (
+                                <a key={i} href={video.URL} target="_blank" rel="noopener noreferrer" className="block group">
+                                    <div className="aspect-video bg-bg-surface rounded-[20px] border border-border-light/50 flex items-center justify-center relative overflow-hidden transition-all hover:border-brand-primary/40 mb-4">
+                                        {thumbnail ? (
+                                            <>
+                                                <img src={thumbnail} alt={video.타이틀} className="absolute inset-0 w-full h-full object-cover" />
+                                                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-500" />
+                                            </>
+                                        ) : (
+                                            <div className="absolute inset-0 bg-gradient-to-br from-brand-primary/10 to-transparent" />
+                                        )}
+                                        <div className="size-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center opacity-0 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500 z-10 border border-white/30 shadow-2xl">
+                                            <Play className="size-5 text-white fill-white ml-0.5" />
                                         </div>
-                                        <h4 className="text-body-base font-bold text-text-primary group-hover:text-text-secondary transition-colors break-keep leading-snug pl-1">
-                                            {video.타이틀}
-                                        </h4>
-                                    </a>
-                                );
-                            })}
-                        </div>
-                    ) : (
-                        <EmptyPlaceholder label="소개영상" />
-                    )}
+                                    </div>
+                                    <h4 className="text-body-base font-bold text-text-primary group-hover:text-text-secondary transition-colors break-keep leading-snug pl-1">
+                                        {video.타이틀}
+                                    </h4>
+                                </a>
+                            );
+                        })}
+                    </div>
                 </div>
+                )}
 
                 {/* 9. 오퍼링 */}
+                {content.오퍼링 && content.오퍼링.length > 0 && (
                 <div id="section-offerings" className="pt-[32px] mb-[32px] scroll-mt-32">
                     <h3 className="text-body-xl font-bold text-text-primary mb-3">오퍼링</h3>
-                    {content.오퍼링 && content.오퍼링.length > 0 ? (
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            {content.오퍼링.map((offering, i) => (
-                                <div key={i} className="bg-bg-surface rounded-[20px] p-7 flex flex-col justify-between group">
-                                    <div>
-                                        <h4 className="text-body font-bold text-text-primary leading-snug mb-3">{offering.타이틀}</h4>
-                                        <p className="text-body-sm mb-7 leading-relaxed font-normal text-text-secondary">{offering.설명}</p>
-                                    </div>
-                                    {offering.상세링크 && (
-                                        <Link to={offering.상세링크} className="flex">
-                                            <Button
-                                                variant="ghost"
-                                                className="h-auto !p-0 text-label-md font-normal relative transition-all duration-300 hover:bg-transparent hover:text-white flex items-center gap-0"
-                                            >
-                                                <span>자세히 보기</span>
-                                                <ChevronRight size={14} className="max-w-0 opacity-0 group-hover:max-w-[14px] group-hover:opacity-100 transition-all duration-300 overflow-hidden" />
-                                            </Button>
-                                        </Link>
-                                    )}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {content.오퍼링.map((offering, i) => (
+                            <div key={i} className="bg-bg-surface rounded-[20px] p-7 flex flex-col justify-between group">
+                                <div>
+                                    <h4 className="text-body font-bold text-text-primary leading-snug mb-3">{offering.타이틀}</h4>
+                                    <p className="text-body-sm mb-7 leading-relaxed font-normal text-text-secondary">{offering.설명}</p>
                                 </div>
-                            ))}
-                        </div>
-                    ) : (
-                        <EmptyPlaceholder label="오퍼링" />
-                    )}
+                                {offering.상세링크 && (
+                                    <Link to={offering.상세링크} className="flex">
+                                        <Button
+                                            variant="ghost"
+                                            className="h-auto !p-0 text-label-md font-normal relative transition-all duration-300 hover:bg-transparent hover:text-white flex items-center gap-0"
+                                        >
+                                            <span>자세히 보기</span>
+                                            <ChevronRight size={14} className="max-w-0 opacity-0 group-hover:max-w-[14px] group-hover:opacity-100 transition-all duration-300 overflow-hidden" />
+                                        </Button>
+                                    </Link>
+                                )}
+                            </div>
+                        ))}
+                    </div>
                 </div>
+                )}
 
                 {/* 10. 문의/리소스 */}
                 <div id="section-contact" className="pt-[32px] border-t border-border-light mb-12 scroll-mt-32">

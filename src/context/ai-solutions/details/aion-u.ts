@@ -2,14 +2,9 @@ import { PlatformProduct } from '../../types';
 
 export const aionU: PlatformProduct = {
     관련리소스: [
-        { 타이틀: "01.Offering Pack(AION-U Works AI)_v1.0.pdf", 파일타입: "PDF", URL: "#" },
-        { 타이틀: "(고객사명)_ktds_솔루션오퍼링_v0.61_251027.pptx", 파일타입: "PPTX", URL: "#" },
-        { 타이틀: "[AI_ON-U] Templates.zip", 파일타입: "ZIP", URL: "#" },
-        { 타이틀: "[AI_ON-U] Tools.zip", 파일타입: "ZIP", URL: "#" },
-        { 타이틀: "[AI_ON-U] Knowledge.zip", 파일타입: "ZIP", URL: "#" },
-        { 타이틀: "[AI_ON-U] Code Assistant.zip", 파일타입: "ZIP", URL: "#" }
+        { 타이틀: "01.Offering Pack(AION-U Works AI)_v1.0.pdf", 파일타입: "PDF", URL: "#" }
     ],
-    제품상세문의: { 이메일: "bizai@kt.com", 전화번호: "02-523-7074" },
+    제품상세문의: { 이메일: "aion-u@ktds.com", 전화번호: "02-523-7074" },
     오퍼링: [],
     다운로드: [],
     노출뉴스: [],
@@ -72,12 +67,12 @@ export const aionU: PlatformProduct = {
             설명: "Agent‑to‑Agent 구조를 지원하여 복잡한 역할 기반 협업 Agent 구성으로 확장할 수 있도록 준비되어 있습니다."
         }
     ],
-    메인이미지: "/images/works.png",
+    메인이미지: "/works.png",
     주요특징이미지: [
-        { 타이틀: "[AI_ON-U] Code Assistant.zip", 설명: "", 이미지URL: "#" },
-        { 타이틀: "[AI_ON-U] Knowledge.zip", 설명: "", 이미지URL: "#" },
-        { 타이틀: "[AI_ON-U] Templates.zip", 설명: "", 이미지URL: "#" },
-        { 타이틀: "[AI_ON-U] Tools.zip", 설명: "", 이미지URL: "#" }
+        { 타이틀: "[AI_ON-U] Code Assistant", 설명: "", 이미지URL: "/ai-solutions/AI_ON-U-1.png" },
+        { 타이틀: "[AI_ON-U] Knowledge", 설명: "", 이미지URL: "/ai-solutions/AI_ON-U-2.png" },
+        { 타이틀: "[AI_ON-U] Templates", 설명: "", 이미지URL: "/ai-solutions/AI_ON-U-3.png" },
+        { 타이틀: "[AI_ON-U] Tools", 설명: "", 이미지URL: "/ai-solutions/AI_ON-U-4.png" }
     ],
     주요기능: [
         "지식 업로드/임베딩: 텍스트·PDF·HTML·이미지 문서를 업로드해 벡터화하여 지식화",
