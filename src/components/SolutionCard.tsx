@@ -1,6 +1,7 @@
 import { memo } from 'react';
+import { motion } from 'motion/react';
 
-const SolutionCard = memo(function SolutionCard({ image, title, desc, highlight }: {
+const SolutionCard = memo(function SolutionCard({ image, title, desc, highlight, idx }: {
   image: string;
   title: string;
   desc: string;
@@ -8,27 +9,36 @@ const SolutionCard = memo(function SolutionCard({ image, title, desc, highlight 
   idx: number;
 }) {
   return (
-    <div className="bg-[#F6F6F6] rounded-[24px] p-7 md:p-8 flex flex-row items-start gap-6 w-full h-[220px] cursor-pointer font-pretendard">
-      {/* 좌측: 텍스트 */}
-      <div className="flex flex-col flex-1 min-w-0 h-full">
-        <h4 className="text-black text-[26px] font-bold tracking-tight leading-tight break-keep mb-2">
+    <motion.div
+      className="relative bg-[#F6F6F6] rounded-[20px] p-10 flex flex-col w-full h-[400px] cursor-pointer font-pretendard overflow-hidden"
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: false, amount: 0.15 }}
+      transition={{ duration: 0.5, ease: 'easeOut', delay: idx * 0.08 }}
+    >
+      {/* 상단: 번호 + 제목 + 설명 */}
+      <div className="flex flex-col">
+        <span className="text-black text-[16px] font-extrabold mb-2">
+          {String(idx + 1).padStart(2, '0')}
+        </span>
+        <h4 className="text-black text-[26px] font-extrabold tracking-tight leading-tight break-keep mb-3">
           {title}
         </h4>
-        <p className="text-[#666666] text-[15px] leading-relaxed font-normal break-keep max-w-[320px]">
+        <p className="text-[#666666] text-[15px] leading-relaxed font-normal break-keep">
           {desc}
         </p>
-        <span className="text-brand-primary text-[14px] font-semibold mt-auto">
-          {highlight.startsWith('#') ? highlight : `#${highlight}`}
-        </span>
       </div>
-
-      {/* 우측: 아이콘 (최상단 정렬) */}
+      {/* 해시태그: 절대 위치 고정 */}
+      <span className="absolute bottom-[180px] left-10 text-brand-primary text-[15px] font-semibold">
+        {highlight.startsWith('#') ? highlight : `#${highlight}`}
+      </span>
+      {/* 아이콘: 우측 하단 고정 */}
       <img
         src={image}
         alt={title}
-        className="w-[80px] h-[80px] object-contain shrink-0 -mt-2"
+        className="absolute bottom-[10px] right-[40px] w-[100px] h-[100px] object-contain"
       />
-    </div>
+    </motion.div>
   );
 });
 

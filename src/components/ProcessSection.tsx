@@ -1,3 +1,5 @@
+import { motion } from 'motion/react';
+
 export default function ProcessSection() {
   return (
     <div className="relative w-full py-10">
@@ -50,9 +52,13 @@ export default function ProcessSection() {
                   ]
                 },
               ].map((step, i) => (
-                <div
+                <motion.div
                   key={i}
                   className="relative bg-[#F6F6F6] rounded-[20px] p-6 md:p-10 flex flex-col min-h-[320px] md:min-h-[420px] overflow-hidden"
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: false, amount: 0.15 }}
+                  transition={{ duration: 0.5, ease: 'easeOut', delay: i * 0.08 }}
                 >
                   <div className="relative min-h-[100px] md:min-h-[130px]">
                     <span className={`${step.color} text-body-sm md:text-body-md font-bold mb-2 block`}>{step.num}</span>
@@ -70,7 +76,7 @@ export default function ProcessSection() {
                       ))}
                     </ul>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>
