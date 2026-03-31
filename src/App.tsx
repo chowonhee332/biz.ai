@@ -116,7 +116,7 @@ const App = () => {
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
                   {AGENT_CARDS.map((card, i) => (
-                    <SolutionCard key={i} {...card} idx={i} />
+                    <SolutionCard key={i} {...card} idx={i} hideNumber />
                   ))}
                 </div>
               </div>

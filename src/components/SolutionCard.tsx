@@ -2,13 +2,14 @@ import { memo } from 'react';
 import { motion } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
 
-const SolutionCard = memo(function SolutionCard({ image, title, desc, highlight, idx, link }: {
+const SolutionCard = memo(function SolutionCard({ image, title, desc, highlight, idx, link, hideNumber }: {
   image: string;
   title: string;
   desc: string;
   highlight: string;
   idx: number;
   link?: string;
+  hideNumber?: boolean;
 }) {
   const navigate = useNavigate();
 
@@ -23,9 +24,11 @@ const SolutionCard = memo(function SolutionCard({ image, title, desc, highlight,
     >
       {/* 상단: 번호 + 제목 + 설명 */}
       <div className="flex flex-col">
-        <span className="text-black text-[16px] font-extrabold mb-2">
-          {String(idx + 1).padStart(2, '0')}
-        </span>
+        {!hideNumber && (
+          <span className="text-black text-[16px] font-extrabold mb-2">
+            {String(idx + 1).padStart(2, '0')}
+          </span>
+        )}
         <h4 className="text-black text-[26px] font-extrabold tracking-tight leading-tight break-keep mb-3">
           {title}
         </h4>
