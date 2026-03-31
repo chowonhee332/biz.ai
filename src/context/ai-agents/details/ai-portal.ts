@@ -24,17 +24,17 @@ export const aiPortal: PlatformProduct = {
             타이틀: "Works AI 메인 화면",
             설명: `Works AI 메인 화면으로 추천 키워드와 함께 날씨 및 회사 이벤트 등의 내용이 메인 영역에 표시됩니다.
 우측으로는 회사 배너 및 게시판, 일정, 마이서비스(주요 업무서비스 링크) 등 위젯을 제공하고 있으며, 업무/행사 등 맞춤형 게시판 및 링크로 구성할 수 있습니다.`,
-            이미지URL: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1200"
+            이미지URL: "/ai-agents/WorksAI_01.png"
         },
         {
             타이틀: "Works AI 에이전트 활용 및 배포",
-            설명: "AI Makers에서는 직원들이 만든 Agent들을 공유하고, 사용하는 공간입니다. 내부적으로 평가·관리 되는 고품질의 Agents들을 제공합니다.",
-            이미지URL: "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=1200"
+            설명: "AI Makers에서는 직원들이 만든 Agent들ㅓㅌ을 공유하고, 사용하는 공간입니다. 내부적으로 평가·관리 되는 고품질의 Agents들을 제공합니다.",
+            이미지URL: "/ai-agents/WorksAI_02.png"
         },
         {
             타이틀: "Works AI 개인 맞춤 설정",
             설명: "AI가 답변 할 때 참고할 직무, 채팅 기록 및 프롬프트를 설정할 수 있습니다.",
-            이미지URL: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=1200"
+            이미지URL: "/ai-agents/WorksAI_03.png"
         }
     ],
     메인이미지: "/images/platform/ai-portal-main.png",
@@ -101,7 +101,6 @@ export const aiPortal: PlatformProduct = {
     },
     관련리소스: [
         { 타이틀: "KTDS_Works AI_브로셔", 파일타입: "PDF", URL: "/download/ai-portal/worksai.pdf" },
-        { 타이틀: "KTDS_Works AI_소개자료_v1.2", 파일타입: "PDF", URL: "#" }
     ],
     소개영상: [
         {

@@ -95,7 +95,7 @@ export const USE_CASES: UseCaseItem[] = [
         산업군: "공공/기업",
         태그: "Beast AI Gateway",
         카테고리: "강력한 보안",
-        이미지: "/usecase/beast.jpg",
+        이미지: "/usecase/beast.png",
         설명: "엔터프라이즈 전역의 AI 활용을 표준화하고, 보안·규제 환경에서도 확장 가능한 AI 운영 체계를 확보하다",
         상세내용: BEAST_GATEWAY_DETAIL
     },
