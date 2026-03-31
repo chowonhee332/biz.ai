@@ -140,17 +140,37 @@ const App = () => {
         <section id="use-cases" className="py-[160px] relative" style={{ backgroundColor: '#0A0A0A' }}>
           <div className="max-w-[1280px] mx-auto container-responsive">
             {/* Header */}
-            <div className="text-center mb-16 md:mb-24">
+            <div className="text-center mb-0">
               <span className="text-body-sm text-[#999999] mb-3 block font-medium">고객 사례</span>
               <h1 className="text-heading-md md:text-display-sm lg:text-display-md font-bold text-white tracking-tight leading-tight font-poppins">
                 Use Cases
               </h1>
             </div>
 
+            {/* 연결 라인 */}
+            <div className="flex justify-center my-12">
+              <div className="w-px h-16 bg-white/20" />
+            </div>
+
             {/* Image + 텍스트: 최대 1000px */}
             <div className="max-w-[1200px] mx-auto">
 
-            {/* Venn Diagram - 이미지 위쪽 */}
+            {/* 가운데 타이틀 */}
+            <div className="text-center mb-12">
+              <Quote size={32} className="mx-auto mb-4 fill-white text-white" strokeWidth={0} />
+              <h2 className="text-[24px] md:text-[36px] font-bold text-white leading-snug mb-4">
+                질문만으로 원하는 데이터(문서, 통계)를 바로 찾고,<br />
+                3개월 안에 업무에 적용한 AI 구축 사례
+              </h2>
+              <span className="text-[16px] md:text-[18px] text-brand-primary font-medium">-한국기계산업진흥원</span>
+            </div>
+
+            {/* 연결 라인 */}
+            <div className="hidden md:flex justify-center mb-12">
+              <div className="w-px h-16 bg-white/20" />
+            </div>
+
+            {/* Venn Diagram - 데스크탑 (가로) */}
             <motion.div
               className="hidden md:block w-full max-w-[900px] mx-auto mb-[128px]"
               style={{ overflow: 'visible' }}
@@ -158,7 +178,7 @@ const App = () => {
               whileInView="visible"
               viewport={{ once: false, margin: "200px" }}
             >
-              <svg width="100%" viewBox="0 0 1080 360" style={{ overflow: 'visible', display: 'block' }}>
+              <svg width="100%" viewBox="0 0 1075 360" style={{ overflow: 'visible', display: 'block' }}>
                 <defs>
                   <linearGradient id="sweep" gradientUnits="userSpaceOnUse" x1="-150" y1="0" x2="150" y2="0">
                     <stop offset="0%" stopColor="white" stopOpacity="0" />
@@ -167,33 +187,52 @@ const App = () => {
                     <animateTransform attributeName="gradientTransform" type="translate" from="-800 0" to="1880 0" dur="5s" repeatCount="indefinite" begin="0s" />
                   </linearGradient>
                 </defs>
-                <line x1="-600" y1="180" x2="1680" y2="180" stroke="rgba(255,255,255,0.08)" strokeWidth="1" />
+                <line x1="-600" y1="180" x2="1680" y2="180" stroke="rgba(255,255,255,0.20)" strokeWidth="1" />
                 <line x1="-600" y1="180" x2="1680" y2="180" stroke="url(#sweep)" strokeWidth="1" />
-                {[180, 520, 860].map((cx, i) => (
+                {[180, 538, 896].map((cx, i) => (
                   <circle key={i} cx={cx} cy={180} r={179} fill="#0A0A0A" />
                 ))}
-                {[180, 520, 860].map((cx, i) => (
-                  <circle key={i} cx={cx} cy={180} r={179} fill="none" stroke="rgba(255,255,255,0.10)" strokeWidth="1" />
+                {[180, 538, 896].map((cx, i) => (
+                  <circle key={i} cx={cx} cy={180} r={179} fill="none" stroke="rgba(255,255,255,0.20)" strokeWidth="1" />
                 ))}
-                {[180, 520, 860].map((cx, i) => (
+                {[180, 538, 896].map((cx, i) => (
                   <circle key={i} cx={cx} cy={180} r={179} fill="none" stroke="url(#sweep)" strokeWidth="1.5" />
                 ))}
                 {['AI:ON-U', 'AI Works', 'SQL Agent'].map((title, i) => (
-                  <text key={i} x={180 + i * 340} y={188} textAnchor="middle" fill="white" fontSize="28" fontWeight="bold" fontFamily="Poppins, sans-serif">
+                  <text key={i} x={180 + i * 358} y={188} textAnchor="middle" fill="white" fontSize="28" fontWeight="bold" fontFamily="Poppins, sans-serif">
                     {title}
                   </text>
                 ))}
               </svg>
             </motion.div>
 
-            {/* 가운데 타이틀 */}
-            <div className="text-center mb-[160px]">
-              <Quote size={32} className="mx-auto mb-4 fill-white text-white" strokeWidth={0} />
-              <h2 className="text-[28px] md:text-[36px] font-bold text-white leading-snug mb-4">
-                질문만으로 원하는 데이터(문서, 통계)를 바로 찾고,<br />
-                3개월 안에 업무에 적용한 AI 구축 사례
-              </h2>
-              <span className="text-[18px] text-brand-primary font-medium">-한국기계산업진흥원</span>
+            {/* Venn Diagram - 모바일 (삼각형) */}
+            <div className="md:hidden w-full max-w-[320px] mx-auto mb-16">
+              <svg width="100%" viewBox="0 0 600 560" style={{ display: 'block' }}>
+                <defs>
+                  <linearGradient id="sweep-mobile" gradientUnits="userSpaceOnUse" x1="-150" y1="0" x2="150" y2="0">
+                    <stop offset="0%" stopColor="white" stopOpacity="0" />
+                    <stop offset="50%" stopColor="white" stopOpacity="0.85" />
+                    <stop offset="100%" stopColor="white" stopOpacity="0" />
+                    <animateTransform attributeName="gradientTransform" type="translate" from="-600 0" to="1200 0" dur="5s" repeatCount="indefinite" begin="0s" />
+                  </linearGradient>
+                </defs>
+                {/* 삼각형 대형: 상단 중앙, 하단 좌우 */}
+                {[[300, 150], [150, 410], [450, 410]].map(([cx, cy], i) => (
+                  <circle key={i} cx={cx} cy={cy} r={149} fill="#0A0A0A" />
+                ))}
+                {[[300, 150], [150, 410], [450, 410]].map(([cx, cy], i) => (
+                  <circle key={i} cx={cx} cy={cy} r={149} fill="none" stroke="rgba(255,255,255,0.20)" strokeWidth="1" />
+                ))}
+                {[[300, 150], [150, 410], [450, 410]].map(([cx, cy], i) => (
+                  <circle key={i} cx={cx} cy={cy} r={149} fill="none" stroke="url(#sweep-mobile)" strokeWidth="1.5" />
+                ))}
+                {[['AI:ON-U', 300, 158], ['AI Works', 150, 418], ['SQL Agent', 450, 418]].map(([title, cx, cy], i) => (
+                  <text key={i} x={cx as number} y={cy as number} textAnchor="middle" fill="white" fontSize="24" fontWeight="bold" fontFamily="Poppins, sans-serif">
+                    {title as string}
+                  </text>
+                ))}
+              </svg>
             </div>
 
             {/* 이미지(좌) + 설명(우) */}
@@ -206,9 +245,9 @@ const App = () => {
               <div className="flex-1 flex flex-col justify-between">
                 <div className="flex flex-col gap-5">
                   <p className="text-[#CCCCCC] text-[16px] leading-relaxed font-normal">
-                    수많은 문서와 통계 데이터 속에서 원하는 정보를 찾기 어려운 환경에서,
-                    Works AI와 SQL Agent를 통해 질문만으로 필요한 데이터를 바로 확인할 수 있는 환경 구축하였습니다.
-                    AI:ON-U를 활용해 맞춤형 AI Agent를 빠르게 생성하여, 단기간 내 업무에 적용했습니다.
+                    수많은 문서와 통계 데이터 속에서 원하는 정보를 찾기 어려운 환경에서, Works AI와 SQL Agent를 통해 질문만으로 필요한 데이터를 바로 확인할 수 있는 환경 구축하였습니다. AI:ON-U를 활용해 맞춤형 AI Agent를 빠르게 생성하여, 단기간 내 업무에 적용했습니다.
+                    <br /><br />
+                    그 결과, 복잡한 데이터 탐색 과정 없이도 원하는 결과를 즉시 확인할 수 있게 되었고 약 3개월 내에 실제 업무에 활용 가능한 AI 기반 업무 환경을 구현했습니다.
                   </p>
                   <div className="flex flex-wrap gap-2">
                     <span className="px-2 py-1.5 rounded-full bg-white/8 text-white text-[14px] font-medium">#구축 기간 3개월</span>
