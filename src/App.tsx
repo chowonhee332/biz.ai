@@ -202,9 +202,9 @@ const App = () => {
                   </linearGradient>
                 </defs>
                 {/* 삼각형 대형: 상단 중앙, 하단 좌우 */}
-                <circle cx="350" cy="210" r="210" fill="url(#rg1)" />
-                <circle cx="170" cy="522" r="210" fill="url(#rg2)" />
-                <circle cx="530" cy="522" r="210" fill="url(#rg3)" />
+                <circle cx="350" cy="210" r="210" fill="url(#rg1)" style={{ filter: 'blur(1px)' }} />
+                <circle cx="170" cy="522" r="210" fill="url(#rg2)" style={{ filter: 'blur(1px)' }} />
+                <circle cx="530" cy="522" r="210" fill="url(#rg3)" style={{ filter: 'blur(1px)' }} />
                 {/* 스윕 모션만 */}
                 <circle cx="350" cy="210" r="210" fill="none" stroke="url(#sweep)" strokeWidth="1.5" />
                 <circle cx="170" cy="522" r="210" fill="none" stroke="url(#sweep)" strokeWidth="1.5" />
@@ -393,17 +393,10 @@ const App = () => {
                 </h2>
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                   <Button
-                    variant="default"
-                    size="lg"
-                    className="w-[110px] md:w-[130px] h-10 md:h-12 text-[15px] relative group transition-all duration-300 !bg-brand-primary !text-white hover:!bg-brand-primary/90 !border-0 !rounded-full"
-                  >
-                    <span className="group-hover:-translate-x-2 transition-transform duration-300">무료체험 신청</span>
-                    <ChevronRight size={18} className="absolute right-4 max-w-0 opacity-0 group-hover:max-w-[24px] group-hover:opacity-100 transition-all duration-300 overflow-hidden" />
-                  </Button>
-                  <Button
                     variant="outline"
                     size="lg"
                     className="w-[110px] md:w-[130px] h-10 md:h-12 text-[15px] mt-3 sm:mt-0 relative group transition-all duration-300 !bg-transparent !text-white !border-white/10 hover:!bg-white/10 !rounded-full"
+                    onClick={() => window.location.href = 'mailto:bizai@kt.com'}
                   >
                     <span className="group-hover:-translate-x-2 transition-transform duration-300">솔루션 문의</span>
                     <ChevronRight size={18} className="absolute right-4 max-w-0 opacity-0 group-hover:max-w-[24px] group-hover:opacity-100 transition-all duration-300 overflow-hidden" />
