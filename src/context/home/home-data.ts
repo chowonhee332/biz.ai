@@ -52,7 +52,7 @@ export const HOME_USE_CASE = {
   sectionTitle: 'Use Cases',
   quote: '질문만으로 원하는 데이터(문서, 통계)를 바로 찾고,\n3개월 안에 업무에 적용한 AI 구축 사례',
   company: '한국기계산업진흥원',
-  image: '/images/autobuilder.jpeg',
+  image: '/images/img.png',
   description: [
     '수많은 문서와 통계 데이터 속에서 원하는 정보를 찾기 어려운 환경에서, Works AI와 SQL Agent를 통해 질문만으로 필요한 데이터를 바로 확인할 수 있는 환경 구축하였습니다. AI:ON-U를 활용해 맞춤형 AI Agent를 빠르게 생성하여, 단기간 내 업무에 적용했습니다.',
     '그 결과, 복잡한 데이터 탐색 과정 없이도 원하는 결과를 즉시 확인할 수 있게 되었고 약 3개월 내에 실제 업무에 활용 가능한 AI 기반 업무 환경을 구현했습니다.',
