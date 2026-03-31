@@ -172,66 +172,85 @@ const App = () => {
 
             {/* Venn Diagram - 데스크탑 (가로) */}
             <motion.div
-              className="hidden md:block w-full max-w-[900px] mx-auto mb-[128px]"
-              style={{ overflow: 'visible' }}
+              className="hidden md:block w-full max-w-[700px] mx-auto mb-[128px]"
               initial="hidden"
               whileInView="visible"
               viewport={{ once: false, margin: "200px" }}
             >
-              <svg width="100%" viewBox="0 0 1075 360" style={{ overflow: 'visible', display: 'block' }}>
+              <svg width="100%" viewBox="-60 0 820 750" style={{ display: 'block' }}>
                 <defs>
+                  <radialGradient id="rg1" gradientUnits="userSpaceOnUse" cx="350" cy="420" r="460">
+                    <stop offset="0%" stopColor="#0073FF" stopOpacity="0.7" />
+                    <stop offset="90%" stopColor="#0073FF" stopOpacity="0" />
+                    <stop offset="100%" stopColor="#0073FF" stopOpacity="0" />
+                  </radialGradient>
+                  <radialGradient id="rg2" gradientUnits="userSpaceOnUse" cx="350" cy="420" r="460">
+                    <stop offset="0%" stopColor="#0073FF" stopOpacity="0.7" />
+                    <stop offset="90%" stopColor="#0073FF" stopOpacity="0" />
+                    <stop offset="100%" stopColor="#0073FF" stopOpacity="0" />
+                  </radialGradient>
+                  <radialGradient id="rg3" gradientUnits="userSpaceOnUse" cx="350" cy="420" r="460">
+                    <stop offset="0%" stopColor="#0073FF" stopOpacity="0.7" />
+                    <stop offset="90%" stopColor="#0073FF" stopOpacity="0" />
+                    <stop offset="100%" stopColor="#0073FF" stopOpacity="0" />
+                  </radialGradient>
                   <linearGradient id="sweep" gradientUnits="userSpaceOnUse" x1="-150" y1="0" x2="150" y2="0">
-                    <stop offset="0%" stopColor="white" stopOpacity="0" />
-                    <stop offset="50%" stopColor="white" stopOpacity="0.85" />
-                    <stop offset="100%" stopColor="white" stopOpacity="0" />
-                    <animateTransform attributeName="gradientTransform" type="translate" from="-800 0" to="1880 0" dur="5s" repeatCount="indefinite" begin="0s" />
+                    <stop offset="0%" stopColor="#7DD4FC" stopOpacity="0" />
+                    <stop offset="50%" stopColor="#7DD4FC" stopOpacity="1" />
+                    <stop offset="100%" stopColor="#7DD4FC" stopOpacity="0" />
+                    <animateTransform attributeName="gradientTransform" type="translate" from="-800 0" to="1500 0" dur="5s" repeatCount="indefinite" begin="0s" />
                   </linearGradient>
                 </defs>
-                <line x1="-600" y1="180" x2="1680" y2="180" stroke="rgba(255,255,255,0.20)" strokeWidth="1" />
-                <line x1="-600" y1="180" x2="1680" y2="180" stroke="url(#sweep)" strokeWidth="1" />
-                {[180, 538, 896].map((cx, i) => (
-                  <circle key={i} cx={cx} cy={180} r={179} fill="#0A0A0A" />
-                ))}
-                {[180, 538, 896].map((cx, i) => (
-                  <circle key={i} cx={cx} cy={180} r={179} fill="none" stroke="rgba(255,255,255,0.20)" strokeWidth="1" />
-                ))}
-                {[180, 538, 896].map((cx, i) => (
-                  <circle key={i} cx={cx} cy={180} r={179} fill="none" stroke="url(#sweep)" strokeWidth="1.5" />
-                ))}
-                {['AI:ON-U', 'AI Works', 'SQL Agent'].map((title, i) => (
-                  <text key={i} x={180 + i * 358} y={188} textAnchor="middle" fill="white" fontSize="28" fontWeight="bold" fontFamily="Poppins, sans-serif">
-                    {title}
-                  </text>
-                ))}
+                {/* 삼각형 대형: 상단 중앙, 하단 좌우 */}
+                <circle cx="350" cy="210" r="210" fill="url(#rg1)" />
+                <circle cx="170" cy="522" r="210" fill="url(#rg2)" />
+                <circle cx="530" cy="522" r="210" fill="url(#rg3)" />
+                {/* 스윕 모션만 */}
+                <circle cx="350" cy="210" r="210" fill="none" stroke="url(#sweep)" strokeWidth="1.5" />
+                <circle cx="170" cy="522" r="210" fill="none" stroke="url(#sweep)" strokeWidth="1.5" />
+                <circle cx="530" cy="522" r="210" fill="none" stroke="url(#sweep)" strokeWidth="1.5" />
+                {/* 텍스트 */}
+                <text x="350" y="210" textAnchor="middle" dominantBaseline="middle" fill="white" fontSize="26" fontWeight="bold" fontFamily="Poppins, sans-serif">AI:ON-U</text>
+                <text x="170" y="522" textAnchor="middle" dominantBaseline="middle" fill="white" fontSize="26" fontWeight="bold" fontFamily="Poppins, sans-serif">AI Works</text>
+                <text x="530" y="522" textAnchor="middle" dominantBaseline="middle" fill="white" fontSize="26" fontWeight="bold" fontFamily="Poppins, sans-serif">SQL Agent</text>
               </svg>
             </motion.div>
 
             {/* Venn Diagram - 모바일 (삼각형) */}
             <div className="md:hidden w-full max-w-[320px] mx-auto mb-16">
-              <svg width="100%" viewBox="0 0 600 560" style={{ display: 'block' }}>
+              <svg width="100%" viewBox="-20 0 640 590" style={{ display: 'block' }}>
                 <defs>
+                  <radialGradient id="mrg1" gradientUnits="userSpaceOnUse" cx="300" cy="330" r="350">
+                    <stop offset="0%" stopColor="#0073FF" stopOpacity="0.7" />
+                    <stop offset="90%" stopColor="#0073FF" stopOpacity="0" />
+                    <stop offset="100%" stopColor="#0073FF" stopOpacity="0" />
+                  </radialGradient>
+                  <radialGradient id="mrg2" gradientUnits="userSpaceOnUse" cx="300" cy="330" r="350">
+                    <stop offset="0%" stopColor="#0073FF" stopOpacity="0.7" />
+                    <stop offset="90%" stopColor="#0073FF" stopOpacity="0" />
+                    <stop offset="100%" stopColor="#0073FF" stopOpacity="0" />
+                  </radialGradient>
+                  <radialGradient id="mrg3" gradientUnits="userSpaceOnUse" cx="300" cy="330" r="350">
+                    <stop offset="0%" stopColor="#0073FF" stopOpacity="0.7" />
+                    <stop offset="90%" stopColor="#0073FF" stopOpacity="0" />
+                    <stop offset="100%" stopColor="#0073FF" stopOpacity="0" />
+                  </radialGradient>
                   <linearGradient id="sweep-mobile" gradientUnits="userSpaceOnUse" x1="-150" y1="0" x2="150" y2="0">
-                    <stop offset="0%" stopColor="white" stopOpacity="0" />
-                    <stop offset="50%" stopColor="white" stopOpacity="0.85" />
-                    <stop offset="100%" stopColor="white" stopOpacity="0" />
+                    <stop offset="0%" stopColor="#7DD4FC" stopOpacity="0" />
+                    <stop offset="50%" stopColor="#7DD4FC" stopOpacity="1" />
+                    <stop offset="100%" stopColor="#7DD4FC" stopOpacity="0" />
                     <animateTransform attributeName="gradientTransform" type="translate" from="-600 0" to="1200 0" dur="5s" repeatCount="indefinite" begin="0s" />
                   </linearGradient>
                 </defs>
-                {/* 삼각형 대형: 상단 중앙, 하단 좌우 */}
-                {[[300, 150], [150, 410], [450, 410]].map(([cx, cy], i) => (
-                  <circle key={i} cx={cx} cy={cy} r={149} fill="#0A0A0A" />
-                ))}
-                {[[300, 150], [150, 410], [450, 410]].map(([cx, cy], i) => (
-                  <circle key={i} cx={cx} cy={cy} r={149} fill="none" stroke="rgba(255,255,255,0.20)" strokeWidth="1" />
-                ))}
-                {[[300, 150], [150, 410], [450, 410]].map(([cx, cy], i) => (
-                  <circle key={i} cx={cx} cy={cy} r={149} fill="none" stroke="url(#sweep-mobile)" strokeWidth="1.5" />
-                ))}
-                {[['AI:ON-U', 300, 158], ['AI Works', 150, 418], ['SQL Agent', 450, 418]].map(([title, cx, cy], i) => (
-                  <text key={i} x={cx as number} y={cy as number} textAnchor="middle" fill="white" fontSize="24" fontWeight="bold" fontFamily="Poppins, sans-serif">
-                    {title as string}
-                  </text>
-                ))}
+                <circle cx="300" cy="150" r="149" fill="url(#mrg1)" />
+                <circle cx="150" cy="410" r="149" fill="url(#mrg2)" />
+                <circle cx="450" cy="410" r="149" fill="url(#mrg3)" />
+                <circle cx="300" cy="150" r="149" fill="none" stroke="url(#sweep-mobile)" strokeWidth="1.5" />
+                <circle cx="150" cy="410" r="149" fill="none" stroke="url(#sweep-mobile)" strokeWidth="1.5" />
+                <circle cx="450" cy="410" r="149" fill="none" stroke="url(#sweep-mobile)" strokeWidth="1.5" />
+                <text x="300" y="150" textAnchor="middle" dominantBaseline="middle" fill="white" fontSize="22" fontWeight="bold" fontFamily="Poppins, sans-serif">AI:ON-U</text>
+                <text x="150" y="410" textAnchor="middle" dominantBaseline="middle" fill="white" fontSize="22" fontWeight="bold" fontFamily="Poppins, sans-serif">AI Works</text>
+                <text x="450" y="410" textAnchor="middle" dominantBaseline="middle" fill="white" fontSize="22" fontWeight="bold" fontFamily="Poppins, sans-serif">SQL Agent</text>
               </svg>
             </div>
 
