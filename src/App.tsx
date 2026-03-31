@@ -280,8 +280,8 @@ const App = () => {
                       "단순 조회가 아닌 실제 업무 흐름에 맞춘 Agent 제공",
                       "단계별 구축 없이도 단기간 내 적용 가능",
                     ].map((item, i) => (
-                      <div key={i} className="flex items-start gap-3 text-[15px] leading-relaxed text-[#CCCCCC]">
-                        <span className="shrink-0 text-brand-primary font-bold w-6">{String(i + 1).padStart(2, '0')}</span>
+                      <div key={i} className="flex items-center gap-3 text-[15px] leading-relaxed text-[#CCCCCC]">
+                        <span className="shrink-0 w-1.5 h-1.5 rounded-full bg-brand-primary" />
                         <span>{item}</span>
                       </div>
                     ))}
