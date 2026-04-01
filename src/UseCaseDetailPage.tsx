@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useTheme } from './context/ThemeContext';
 import { Mail, Phone, FileText, Quote } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import { motion, useScroll } from 'motion/react';
@@ -62,6 +63,7 @@ function BulletList({ items, bulletType }: { items: { title: string | null; desc
 export default function UseCaseDetailPage() {
     const { scrollYProgress } = useScroll();
     const { id } = useParams();
+    const { isDark } = useTheme();
 
     const parsedId = id ? parseInt(id) : NaN;
     const caseIndex = !isNaN(parsedId) && parsedId >= 1 && parsedId <= USE_CASES.length ? parsedId - 1 : 0;
@@ -196,10 +198,12 @@ export default function UseCaseDetailPage() {
                                     ) : (
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                                             {section.items.map((it: UseCaseDetailItem, idx: number) => (
-                                                <div key={idx} className="p-7 rounded-[20px] flex flex-col gap-3 bg-bg-surface">
-                                                    <span className="text-brand-primary text-body-sm font-bold shrink-0 leading-none mt-0.5">{(idx + 1).toString().padStart(2, '0')}</span>
-                                                    <div className="font-bold leading-tight text-body text-text-primary">{it.타이틀}</div>
-                                                    <p className="text-body-sm leading-relaxed break-keep font-normal text-text-secondary">{it.설명}</p>
+                                                <div key={idx} className={`p-7 rounded-[20px] flex flex-col gap-3 ${section.id === 'results' ? `${isDark ? 'bg-[#0B0F16]' : 'bg-[#EEF4FF]'}` : 'bg-bg-surface'}`}>
+                                                    {section.id !== 'results' && (
+                                                        <span className="text-brand-primary text-body-sm font-bold shrink-0 leading-none mt-0.5">{(idx + 1).toString().padStart(2, '0')}</span>
+                                                    )}
+                                                    <div className={`font-bold leading-tight text-body ${section.id === 'results' ? 'text-brand-primary' : 'text-text-primary'}`}>{it.타이틀}</div>
+                                                    <p className={`text-body-sm leading-relaxed break-keep font-normal ${section.id === 'results' ? (isDark ? 'text-white/70' : 'text-text-secondary') : 'text-text-secondary'}`}>{it.설명}</p>
                                                 </div>
                                             ))}
                                         </div>
