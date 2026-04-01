@@ -6,7 +6,7 @@ export default function ProcessSection() {
     <div className="relative w-full py-10">
       <div className="bg-white relative z-20 overflow-hidden smooth-gpu rounded-[28px] mx-3">
         <section id="process" className="py-16 md:py-32 relative overflow-hidden">
-          <div className="max-w-[1280px] mx-auto px-10 relative z-10">
+          <div className="max-w-[1280px] mx-auto px-6 md:px-10 relative z-10">
             <div className="text-left md:text-center mb-12 md:mb-24 container-responsive">
               <span className="text-body-sm md:text-body text-[#999999] mb-3 block font-medium">{HOME_WHY_KTDS.sectionLabel}</span>
               <h1 className="text-heading-md md:text-display-sm lg:text-display-md font-bold text-black mb-4 md:mb-6 tracking-tight leading-tight font-poppins">

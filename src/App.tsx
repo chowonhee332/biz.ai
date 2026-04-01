@@ -100,7 +100,7 @@ const App = () => {
           <div className="rounded-[28px] mx-3 mb-3 bg-white">
 
             {/* 타이틀 - 일반 플로우 */}
-            <div className="text-center pt-32 pb-24 font-pretendard max-w-[1200px] mx-auto px-6">
+            <div className="text-center pt-16 pb-12 md:pt-32 md:pb-24 font-pretendard max-w-[1280px] mx-auto px-6 md:px-10">
               <span className="text-body-sm md:text-body text-[#999999] mb-3 block font-medium">AI 서비스</span>
               <h1 className="text-heading-md md:text-display-sm lg:text-display-md font-bold tracking-tight leading-tight font-poppins text-black">
                 AI Services
@@ -108,7 +108,7 @@ const App = () => {
             </div>
 
             {/* 카드 영역 - 4열 그리드 */}
-            <div className="max-w-[1200px] mx-auto w-full pb-32 flex flex-col gap-20">
+            <div className="max-w-[1280px] mx-auto w-full pb-16 md:pb-32 px-6 md:px-10 flex flex-col gap-12 md:gap-20">
               <div className="flex flex-col gap-4">
                 <h2 className="text-black text-[18px] font-bold flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-black inline-block" />
@@ -116,7 +116,7 @@ const App = () => {
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
                   {AGENT_CARDS.map((card, i) => (
-                    <SolutionCard key={i} {...card} idx={i} hideNumber />
+                    <SolutionCard key={i} {...card} idx={i} />
                   ))}
                 </div>
               </div>
@@ -127,7 +127,7 @@ const App = () => {
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
                   {SOLUTION_CARDS.map((card, i) => (
-                    <SolutionCard key={i} {...card} idx={i} hideNumber />
+                    <SolutionCard key={i} {...card} idx={i} />
                   ))}
                 </div>
               </div>
@@ -137,7 +137,7 @@ const App = () => {
         </div>
 
         {/* Use Cases 섹션 */}
-        <section id="use-cases" className="py-[160px] relative" style={{ backgroundColor: '#0A0A0A' }}>
+        <section id="use-cases" className="py-20 md:py-[160px] relative" style={{ backgroundColor: '#0A0A0A' }}>
           <div className="max-w-[1280px] mx-auto container-responsive">
             {/* Header */}
             <div className="text-center mb-0">
@@ -156,7 +156,7 @@ const App = () => {
             <div className="max-w-[1200px] mx-auto">
 
             {/* 가운데 타이틀 */}
-            <div className="text-center mb-12">
+            <div className="text-center mb-[60px]">
               <Quote size={32} className="mx-auto mb-4 fill-white text-white" strokeWidth={0} />
               <h2 className="text-[24px] md:text-[36px] font-bold text-white leading-snug mb-4">
                 {HOME_USE_CASE.quote.split('\n').map((line, i, arr) => (
@@ -166,115 +166,77 @@ const App = () => {
               <span className="text-[16px] md:text-[18px] text-brand-primary font-medium">-{HOME_USE_CASE.company}</span>
             </div>
 
-            {/* 연결 라인 */}
-            <div className="hidden md:flex justify-center mb-12">
-              <div className="w-px h-16 bg-white/20" />
-            </div>
-
-            {/* Venn Diagram - 데스크탑 (가로) */}
+            {/* UI 이미지 */}
             <motion.div
-              className="hidden md:block w-full max-w-[700px] mx-auto mb-[128px]"
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: false, margin: "200px" }}
+              className="w-full rounded-[20px] overflow-hidden mb-10 md:mb-16"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: false }}
+              transition={{ duration: 0.6, ease: 'easeOut' }}
             >
-              <svg width="100%" viewBox="-60 0 820 750" style={{ display: 'block' }}>
-                <defs>
-                  <radialGradient id="rg1" gradientUnits="userSpaceOnUse" cx="350" cy="420" r="460">
-                    <stop offset="0%" stopColor="#0073FF" stopOpacity="0.7" />
-                    <stop offset="90%" stopColor="#0073FF" stopOpacity="0" />
-                    <stop offset="100%" stopColor="#0073FF" stopOpacity="0" />
-                  </radialGradient>
-                  <radialGradient id="rg2" gradientUnits="userSpaceOnUse" cx="350" cy="420" r="460">
-                    <stop offset="0%" stopColor="#0073FF" stopOpacity="0.7" />
-                    <stop offset="90%" stopColor="#0073FF" stopOpacity="0" />
-                    <stop offset="100%" stopColor="#0073FF" stopOpacity="0" />
-                  </radialGradient>
-                  <radialGradient id="rg3" gradientUnits="userSpaceOnUse" cx="350" cy="420" r="460">
-                    <stop offset="0%" stopColor="#0073FF" stopOpacity="0.7" />
-                    <stop offset="90%" stopColor="#0073FF" stopOpacity="0" />
-                    <stop offset="100%" stopColor="#0073FF" stopOpacity="0" />
-                  </radialGradient>
-                  <linearGradient id="sweep" gradientUnits="userSpaceOnUse" x1="-150" y1="0" x2="150" y2="0">
-                    <stop offset="0%" stopColor="#7DD4FC" stopOpacity="0" />
-                    <stop offset="50%" stopColor="#7DD4FC" stopOpacity="1" />
-                    <stop offset="100%" stopColor="#7DD4FC" stopOpacity="0" />
-                    <animateTransform attributeName="gradientTransform" type="translate" from="-800 0" to="1500 0" dur="5s" repeatCount="indefinite" begin="0s" />
-                  </linearGradient>
-                </defs>
-                {/* 삼각형 대형: 상단 중앙, 하단 좌우 */}
-                <circle cx="350" cy="210" r="210" fill="url(#rg1)" />
-                <circle cx="170" cy="522" r="210" fill="url(#rg2)" />
-                <circle cx="530" cy="522" r="210" fill="url(#rg3)" />
-                {/* 스윕 모션만 */}
-                <circle cx="350" cy="210" r="210" fill="none" stroke="url(#sweep)" strokeWidth="1.5" />
-                <circle cx="170" cy="522" r="210" fill="none" stroke="url(#sweep)" strokeWidth="1.5" />
-                <circle cx="530" cy="522" r="210" fill="none" stroke="url(#sweep)" strokeWidth="1.5" />
-                {/* 텍스트 */}
-                {HOME_USE_CASE.venn.desktop.map((v, i) => (
-                  <text key={i} x={v.cx} y={v.cy} textAnchor="middle" dominantBaseline="middle" fill="white" fontSize="26" fontWeight="bold" fontFamily="Poppins, sans-serif">{v.label}</text>
-                ))}
-              </svg>
+              <img src="/images/aioun-u_agentbuilder_ui_3.png" alt="AI:ON-U Agent Builder" loading="lazy" className="w-full h-auto object-cover" />
             </motion.div>
 
-            {/* Venn Diagram - 모바일 (삼각형) */}
-            <div className="md:hidden w-full max-w-[320px] mx-auto mb-16">
-              <svg width="100%" viewBox="-20 0 640 590" style={{ display: 'block' }}>
-                <defs>
-                  <radialGradient id="mrg1" gradientUnits="userSpaceOnUse" cx="300" cy="330" r="350">
-                    <stop offset="0%" stopColor="#0073FF" stopOpacity="0.7" />
-                    <stop offset="90%" stopColor="#0073FF" stopOpacity="0" />
-                    <stop offset="100%" stopColor="#0073FF" stopOpacity="0" />
-                  </radialGradient>
-                  <radialGradient id="mrg2" gradientUnits="userSpaceOnUse" cx="300" cy="330" r="350">
-                    <stop offset="0%" stopColor="#0073FF" stopOpacity="0.7" />
-                    <stop offset="90%" stopColor="#0073FF" stopOpacity="0" />
-                    <stop offset="100%" stopColor="#0073FF" stopOpacity="0" />
-                  </radialGradient>
-                  <radialGradient id="mrg3" gradientUnits="userSpaceOnUse" cx="300" cy="330" r="350">
-                    <stop offset="0%" stopColor="#0073FF" stopOpacity="0.7" />
-                    <stop offset="90%" stopColor="#0073FF" stopOpacity="0" />
-                    <stop offset="100%" stopColor="#0073FF" stopOpacity="0" />
-                  </radialGradient>
-                  <linearGradient id="sweep-mobile" gradientUnits="userSpaceOnUse" x1="-150" y1="0" x2="150" y2="0">
-                    <stop offset="0%" stopColor="#7DD4FC" stopOpacity="0" />
-                    <stop offset="50%" stopColor="#7DD4FC" stopOpacity="1" />
-                    <stop offset="100%" stopColor="#7DD4FC" stopOpacity="0" />
-                    <animateTransform attributeName="gradientTransform" type="translate" from="-600 0" to="1200 0" dur="5s" repeatCount="indefinite" begin="0s" />
-                  </linearGradient>
-                </defs>
-                <circle cx="300" cy="150" r="149" fill="url(#mrg1)" />
-                <circle cx="150" cy="410" r="149" fill="url(#mrg2)" />
-                <circle cx="450" cy="410" r="149" fill="url(#mrg3)" />
-                <circle cx="300" cy="150" r="149" fill="none" stroke="url(#sweep-mobile)" strokeWidth="1.5" />
-                <circle cx="150" cy="410" r="149" fill="none" stroke="url(#sweep-mobile)" strokeWidth="1.5" />
-                <circle cx="450" cy="410" r="149" fill="none" stroke="url(#sweep-mobile)" strokeWidth="1.5" />
-                {HOME_USE_CASE.venn.mobile.map((v, i) => (
-                  <text key={i} x={v.cx} y={v.cy} textAnchor="middle" dominantBaseline="middle" fill="white" fontSize="22" fontWeight="bold" fontFamily="Poppins, sans-serif">{v.label}</text>
-                ))}
-              </svg>
-            </div>
-
-            {/* 이미지(좌) + 설명(우) */}
+            {/* 다이어그램(좌) + 설명(우) */}
             <div className="flex flex-col md:flex-row items-stretch gap-10 md:gap-[60px] mb-10 md:mb-16">
-              {/* 좌측: 이미지 */}
-              <div className="w-full md:w-1/2 shrink-0 rounded-[20px] overflow-hidden">
-                <img src={HOME_USE_CASE.image} alt="Use Cases" loading="lazy" className="w-full h-auto object-cover" />
+              {/* 좌측: 벤다이어그램 */}
+              <div className="w-full md:w-1/2 shrink-0 relative">
+                <svg width="auto" height={560} viewBox="0 0 500 560" style={{ display: 'block' }}>
+                  <defs>
+                    <linearGradient id="sweep3b" gradientUnits="userSpaceOnUse" x1="-150" y1="0" x2="150" y2="0">
+                      <stop offset="0%" stopColor="#ffffff" stopOpacity="0" />
+                      <stop offset="50%" stopColor="#ffffff" stopOpacity="0.5" />
+                      <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
+                      <animateTransform attributeName="gradientTransform" type="translate" from="-600 0" to="1100 0" dur="5s" repeatCount="indefinite" begin="0s" />
+                    </linearGradient>
+                    <marker id="arrow-cw" markerWidth="14" markerHeight="14" refX="0" refY="5" orient="auto">
+                      <path d="M0,10 L0,5 L9,5" stroke="rgba(255,255,255,0.75)" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M6,2 L9,5 L6,8" stroke="rgba(255,255,255,0.75)" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+                    </marker>
+                  </defs>
+                  {/* 큰 외부 원 */}
+                  <circle cx="250" cy="280" r="246" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="1" strokeDasharray="4 4" />
+                  {/* 시계방향 회전 화살표 x3 */}
+                  <g>
+                    <animateTransform attributeName="transform" type="rotate" from="0 250 280" to="360 250 280" dur="50s" repeatCount="indefinite" />
+                    <path d="M247,29 L252,34 L247,39" stroke="rgba(255,255,255,0.7)" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+                    <g transform="rotate(120 250 280)">
+                      <path d="M247,29 L252,34 L247,39" stroke="rgba(255,255,255,0.7)" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+                    </g>
+                    <g transform="rotate(240 250 280)">
+                      <path d="M247,29 L252,34 L247,39" stroke="rgba(255,255,255,0.7)" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+                    </g>
+                  </g>
+                  {/* 타이틀 (큰 원 안 상단) */}
+                  <text x="250" y="90" textAnchor="middle" dominantBaseline="middle" fill="white" fontSize="22" fontWeight="700" fontFamily="Pretendard, sans-serif">활용 Agent</text>
+                  {/* 상단 좌: AI:ON-U */}
+                  <circle cx="142" cy="230" r="118" fill="rgba(10,10,10,0.7)" stroke="rgba(255,255,255,0.2)" strokeWidth="1" strokeDasharray="4 4" />
+                  <circle cx="142" cy="230" r="118" fill="none" stroke="url(#sweep3b)" strokeWidth="1" />
+                  <text x="142" y="230" textAnchor="middle" dominantBaseline="middle" fill="white" fontSize="18" fontWeight="400" fontFamily="Poppins, sans-serif">{HOME_USE_CASE.venn.desktop[0]?.label}</text>
+                  {/* 상단 우: SQL Agents */}
+                  <circle cx="358" cy="230" r="118" fill="rgba(10,10,10,0.7)" stroke="rgba(255,255,255,0.2)" strokeWidth="1" strokeDasharray="4 4" />
+                  <circle cx="358" cy="230" r="118" fill="none" stroke="url(#sweep3b)" strokeWidth="1" />
+                  <text x="358" y="230" textAnchor="middle" dominantBaseline="middle" fill="white" fontSize="18" fontWeight="400" fontFamily="Poppins, sans-serif">{HOME_USE_CASE.venn.desktop[2]?.label}</text>
+                  {/* 하단 중앙: AI Works */}
+                  <circle cx="250" cy="408" r="118" fill="rgba(10,10,10,0.7)" stroke="rgba(255,255,255,0.2)" strokeWidth="1" strokeDasharray="4 4" />
+                  <circle cx="250" cy="408" r="118" fill="none" stroke="url(#sweep3b)" strokeWidth="1" />
+                  <text x="250" y="408" textAnchor="middle" dominantBaseline="middle" fill="white" fontSize="18" fontWeight="400" fontFamily="Poppins, sans-serif">{HOME_USE_CASE.venn.desktop[1]?.label}</text>
+                </svg>
               </div>
               {/* 우측: 설명 */}
-              <div className="flex-1 flex flex-col justify-between">
+              <div className="flex-1 flex flex-col justify-center">
                 <div className="flex flex-col gap-5">
-                  <p className="text-[#CCCCCC] text-[16px] leading-relaxed font-normal">
-                    {HOME_USE_CASE.description[0]}
-                    <br /><br />
-                    {HOME_USE_CASE.description[1]}
-                  </p>
                   <div className="flex flex-wrap gap-2">
                     {HOME_USE_CASE.tags.map((tag, i) => (
                       <span key={i} className="px-2 py-1.5 rounded-full bg-white/8 text-white text-[14px] font-medium">{tag}</span>
                     ))}
                   </div>
-                  <div className="rounded-[16px] border border-white/10 px-6 py-5 flex flex-col gap-3">
+                  <p className="text-[#CCCCCC] text-[16px] leading-relaxed font-normal">
+                    {HOME_USE_CASE.description[0]}
+                    <br /><br />
+                    {HOME_USE_CASE.description[1]}
+                  </p>
+                  <div className="rounded-[16px] border border-white/10 px-6 py-5 flex flex-col gap-3 mt-5">
                     {HOME_USE_CASE.bullets.map((item, i) => (
                       <div key={i} className="flex items-center gap-3 text-[15px] leading-relaxed text-[#CCCCCC]">
                         <span className="shrink-0 w-1.5 h-1.5 rounded-full bg-brand-primary" />
@@ -283,18 +245,20 @@ const App = () => {
                     ))}
                   </div>
                 </div>
-                <div className="flex justify-start">
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    onClick={() => navigate('/use-cases')}
-                    className="w-[130px] h-12 text-[16px] relative group transition-all duration-300 !bg-transparent !text-white !border-white/10 hover:!bg-white/10 !rounded-[12px]"
-                  >
-                    <span className="transition-transform duration-300 group-hover:-translate-x-2">전체보기</span>
-                    <ChevronRight size={16} className="absolute right-3 max-w-0 opacity-0 group-hover:max-w-[20px] group-hover:opacity-100 transition-all duration-300 overflow-hidden" />
-                  </Button>
-                </div>
               </div>
+            </div>
+
+            {/* 전체보기 버튼 */}
+            <div className="flex justify-center mt-12">
+              <Button
+                variant="outline"
+                size="lg"
+                onClick={() => navigate('/use-cases')}
+                className="w-[130px] h-12 text-[16px] relative group transition-all duration-300 !bg-transparent !text-white !border-white/10 hover:!bg-white/10 !rounded-[12px]"
+              >
+                <span className="transition-transform duration-300 group-hover:-translate-x-2">전체보기</span>
+                <ChevronRight size={16} className="absolute right-3 max-w-0 opacity-0 group-hover:max-w-[20px] group-hover:opacity-100 transition-all duration-300 overflow-hidden" />
+              </Button>
             </div>
 
             </div>{/* max-w-[1200px] */}

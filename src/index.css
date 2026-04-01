@@ -101,7 +101,7 @@ body {
 
 @media (max-width: 767px) {
   :root {
-    --responsive-padding: 20px;
+    --responsive-padding: 24px;
   }
 }
 

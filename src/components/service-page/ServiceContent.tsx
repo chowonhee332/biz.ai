@@ -122,22 +122,24 @@ export default function ServiceContent({ activeTab, content }: ServiceContentPro
                                         </div>
                                     ))}
                                 </div>
-                                <button
-                                    onClick={() => scrollRef.current?.scrollBy({ left: -(scrollRef.current.clientWidth / 2 + 8), behavior: 'smooth' })}
-                                    className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 size-9 rounded-full bg-white dark:bg-bg-surface border border-border-light flex items-center justify-center shadow-sm hover:bg-gray-50 dark:hover:bg-bg-main transition-colors"
-                                >
-                                    <ChevronLeft className="size-4 text-gray-700 dark:text-text-secondary" strokeWidth={2.5} />
-                                </button>
-                                <button
-                                    onClick={() => scrollRef.current?.scrollBy({ left: scrollRef.current.clientWidth / 2 + 8, behavior: 'smooth' })}
-                                    className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 size-9 rounded-full bg-white dark:bg-bg-surface border border-border-light flex items-center justify-center shadow-sm hover:bg-gray-50 dark:hover:bg-bg-main transition-colors"
-                                >
-                                    <ChevronRight className="size-4 text-gray-700 dark:text-text-secondary" strokeWidth={2.5} />
-                                </button>
+                                {content.주요특징이미지.length > 2 && (
+                                    <>
+                                        <button
+                                            onClick={() => scrollRef.current?.scrollBy({ left: -(scrollRef.current.clientWidth / 2 + 8), behavior: 'smooth' })}
+                                            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 size-9 rounded-full bg-white dark:bg-bg-surface border border-border-light flex items-center justify-center shadow-sm hover:bg-gray-50 dark:hover:bg-bg-main transition-colors"
+                                        >
+                                            <ChevronLeft className="size-4 text-gray-700 dark:text-text-secondary" strokeWidth={2.5} />
+                                        </button>
+                                        <button
+                                            onClick={() => scrollRef.current?.scrollBy({ left: scrollRef.current.clientWidth / 2 + 8, behavior: 'smooth' })}
+                                            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 size-9 rounded-full bg-white dark:bg-bg-surface border border-border-light flex items-center justify-center shadow-sm hover:bg-gray-50 dark:hover:bg-bg-main transition-colors"
+                                        >
+                                            <ChevronRight className="size-4 text-gray-700 dark:text-text-secondary" strokeWidth={2.5} />
+                                        </button>
+                                    </>
+                                )}
                             </div>
-                        ) : (
-                            <EmptyPlaceholder label="주요 특징" />
-                        )}
+                        ) : null}
                     </div>
                 </div>
 

@@ -90,7 +90,7 @@ export const autoBuilder: PlatformProduct = {
         }
     ],
     메인이미지: "/images/works.png",
-    주요특징이미지: [],
+    주요특징이미지: [{ 타이틀: "Auto Builder", 설명: "", 이미지URL: "/ai-solutions/autobuilder.jpeg" }],
     주요기능: [
         "시각적 플로우 빌더: 대화·업무 플로우 시각적 설계",
         "프롬프트 템플릿 관리: 버전 관리 기반 프롬프트 운영",
