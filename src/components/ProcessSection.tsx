@@ -2,6 +2,7 @@ import { motion } from 'motion/react';
 import { HOME_WHY_KTDS } from '@/context/home/home-data';
 
 export default function ProcessSection() {
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
   return (
     <div className="relative w-full py-10">
       <div className="bg-white relative z-20 overflow-hidden smooth-gpu rounded-[28px] mx-3">
@@ -24,8 +25,8 @@ export default function ProcessSection() {
                 <motion.div
                   key={i}
                   className="relative bg-[#F6F6F6] rounded-[20px] p-6 md:p-10 flex flex-col min-h-[320px] md:min-h-[420px] overflow-hidden"
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+                  initial={isMobile ? false : { opacity: 0, y: 40 }}
+                  whileInView={isMobile ? {} : { opacity: 1, y: 0 }}
                   viewport={{ once: false, amount: 0.15 }}
                   transition={{ duration: 0.5, ease: 'easeOut', delay: i * 0.08 }}
                 >

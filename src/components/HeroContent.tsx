@@ -38,7 +38,7 @@ export default function HeroContent({ isAnalyzing = false, align = 'center' }: H
       {/* 콘텐츠 영역 */}
       <div className={`max-w-6xl mx-auto px-0 pt-10 pb-20 md:pt-14 md:pb-24 min-h-[300px] flex flex-col ${isLeft ? 'items-center text-center md:items-start md:text-left' : 'items-center justify-center text-center'}`}>
 
-      <div className="relative h-[290px] md:h-[340px] w-full flex flex-col items-center justify-center">
+      <div className="relative h-auto min-h-[290px] md:h-[340px] w-full flex flex-col items-center justify-center">
         <AnimatePresence mode="wait">
           <motion.div
             key={index}
@@ -59,11 +59,11 @@ export default function HeroContent({ isAnalyzing = false, align = 'center' }: H
               {slide.category}
             </motion.div>
             <h1
-              className={`text-[40px] md:text-[56px] lg:text-[68px] font-[600] font-pretendard mb-4 md:mb-6 leading-[1.25] tracking-tight w-full max-w-5xl flex flex-col ${isLeft ? 'items-center md:items-start' : 'items-center'}`}
+              className={`text-[32px] md:text-[56px] lg:text-[68px] font-[600] font-pretendard mb-4 md:mb-6 leading-[1.25] tracking-tight w-full max-w-5xl flex flex-col ${isLeft ? 'items-center md:items-start' : 'items-center'}`}
               style={{ textShadow: '0px 2px 1px rgba(0,0,0,0.06)' }}
             >
               {slide.main.map((line, i) => (
-                <span key={i} className={`block whitespace-nowrap ${slide.highlight === i ? 'text-white font-[800]' : 'text-white font-[300]'} ${isLeft ? 'text-center md:text-left' : 'text-center'}`}>
+                <span key={i} className={`block break-keep md:whitespace-nowrap ${slide.highlight === i ? 'text-white font-[800]' : 'text-white font-[300]'} ${isLeft ? 'text-center md:text-left' : 'text-center'}`}>
                   {line}
                 </span>
               ))}

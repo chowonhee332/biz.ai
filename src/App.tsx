@@ -274,7 +274,7 @@ const App = () => {
           <div className="relative z-10 w-full text-center">
             <div ref={logoRef} className="relative overflow-hidden w-full py-4">
               <motion.div
-                className="flex items-center gap-x-12 whitespace-nowrap"
+                className="flex items-center gap-x-6 md:gap-x-12 whitespace-nowrap"
                 animate={isLogoInView ? { x: ["0%", "-50%"] } : { x: "0%" }}
                 transition={{
                   repeat: Infinity,
@@ -287,13 +287,13 @@ const App = () => {
                 {[...Array(2)].map((_, i) => (
                   <React.Fragment key={i}>
                     {HOME_LOGOS.map((brand, idx) => (
-                      <div key={`${i}-${idx}`} className="flex items-center justify-center shrink-0 w-[180px] h-[80px]">
+                      <div key={`${i}-${idx}`} className="flex items-center justify-center shrink-0 w-[120px] h-[56px] md:w-[180px] md:h-[80px]">
                         <img
                           src={brand.logo}
                           alt={brand.name}
                           loading="lazy"
                           style={{ transform: `scale(${brand.scale})` }}
-                          className={`max-h-[38px] max-w-[140px] w-auto h-auto object-contain opacity-100 transition-all duration-300 pointer-events-auto brightness-0 ${isDark ? 'invert' : ''}`}
+                          className={`max-h-[24px] max-w-[100px] md:max-h-[38px] md:max-w-[140px] w-auto h-auto object-contain opacity-100 transition-all duration-300 pointer-events-auto brightness-0 ${isDark ? 'invert' : ''}`}
                         />
                       </div>
                     ))}
@@ -324,7 +324,7 @@ const App = () => {
 
         {/* CTA 배너 */}
         <div className="w-full py-0">
-          <section className="relative h-[500px] w-full overflow-hidden flex items-center justify-center bg-black">
+          <section className="relative h-[320px] md:h-[500px] w-full overflow-hidden flex items-center justify-center bg-black">
             <div className="absolute inset-0 z-0">
               <img
                 src={HOME_CTA.image}

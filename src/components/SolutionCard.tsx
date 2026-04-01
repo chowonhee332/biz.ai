@@ -12,13 +12,14 @@ const SolutionCard = memo(function SolutionCard({ image, title, desc, highlight,
   hideNumber?: boolean;
 }) {
   const navigate = useNavigate();
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
   return (
     <motion.div
       onClick={link ? () => navigate(link) : undefined}
       className={`group relative bg-[#F6F6F6] rounded-[20px] p-9 flex flex-col w-full h-[320px] md:h-[360px] font-pretendard overflow-hidden transition-colors duration-300 ${link ? 'cursor-pointer hover:bg-[#EBEBEB]' : ''}`}
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={isMobile ? false : { opacity: 0, y: 40 }}
+      whileInView={isMobile ? {} : { opacity: 1, y: 0 }}
       viewport={{ once: false, amount: 0.15 }}
       transition={{ duration: 0.5, ease: 'easeOut', delay: idx * 0.08 }}
     >
@@ -29,7 +30,7 @@ const SolutionCard = memo(function SolutionCard({ image, title, desc, highlight,
             {String(idx + 1).padStart(2, '0')}
           </span>
         )}
-        <h4 className="text-black text-[26px] font-extrabold tracking-tight leading-tight break-keep">
+        <h4 className="text-black text-[24px] md:text-[26px] font-extrabold tracking-tight leading-tight break-keep">
           {title}
         </h4>
         <p className="text-[#666666] text-[16px] leading-relaxed font-normal break-keep">
