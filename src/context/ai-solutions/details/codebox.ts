@@ -2,7 +2,7 @@ import { PlatformProduct } from '../../types';
 
 export const codebox: PlatformProduct = {
     관련리소스: [
-        { 타이틀: "CodeBox 브로슈어", 파일타입: "PDF", URL: "/download/codebox/codebox-brochure.pdf" }
+        { 타이틀: "codebox-brochure.pdf", 파일타입: "PDF", URL: "/download/codebox/codebox-brochure.pdf" }
     ],
     제품상세문의: { 이메일: "bizai@kt.com", 전화번호: "02-523-7029" },
     오퍼링: [],
@@ -60,7 +60,7 @@ export const codebox: PlatformProduct = {
             설명: "클라우드 사용이 불가한 기관도 사내 장비만으로 AI 기반 개발 생산성을 확보할 수 있습니다."
         }
     ],
-    메인이미지: "/images/works.png",
+    메인이미지: "/works.png",
     주요특징이미지: [],
     주요기능: [
         "코드 자동작성: 코드 초안 생성 및 자동완성 지원",

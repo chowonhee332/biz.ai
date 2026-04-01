@@ -2,7 +2,7 @@ import { PlatformProduct } from '../../types';
 
 export const aionU: PlatformProduct = {
     관련리소스: [
-        { 타이틀: "AI:ON-U 브로슈어", 파일타입: "PDF", URL: "/download/aion-u/aion-u-brochure.pdf" }
+        { 타이틀: "aion-u-brochure.pdf", 파일타입: "PDF", URL: "/download/aion-u/aion-u-brochure.pdf" }
     ],
     제품상세문의: { 이메일: "aion-u@ktds.com", 전화번호: "02-523-7074" },
     오퍼링: [],
@@ -67,12 +67,13 @@ export const aionU: PlatformProduct = {
             설명: "Agent‑to‑Agent 구조를 지원하여 복잡한 역할 기반 협업 Agent 구성으로 확장할 수 있도록 준비되어 있습니다."
         }
     ],
-    메인이미지: "/works.png",
+    메인이미지: "/ai-solutions/aion-u_agent_playground.png",
     주요특징이미지: [
-        { 타이틀: "[AI_ON-U] Code Assistant", 설명: "", 이미지URL: "/ai-solutions/AI_ON-U-1.png" },
-        { 타이틀: "[AI_ON-U] Knowledge", 설명: "", 이미지URL: "/ai-solutions/AI_ON-U-2.png" },
-        { 타이틀: "[AI_ON-U] Templates", 설명: "", 이미지URL: "/ai-solutions/AI_ON-U-3.png" },
-        { 타이틀: "[AI_ON-U] Tools", 설명: "", 이미지URL: "/ai-solutions/AI_ON-U-4.png" }
+        { 타이틀: "[AI:ON-U] API Key", 설명: "", 이미지URL: "/ai-solutions/aion-u_agent_apikey.png" },
+        { 타이틀: "[AI:ON-U] Custom Agent", 설명: "", 이미지URL: "/ai-solutions/aion-u_agent_custumagent(workflow).png" },
+        { 타이틀: "[AI:ON-U] Playground", 설명: "", 이미지URL: "/ai-solutions/aion-u_agent_playground.png" },
+        { 타이틀: "[AI:ON-U] Knowledge", 설명: "", 이미지URL: "/ai-solutions/aion-u_knowledge.png" },
+        { 타이틀: "[AI:ON-U] Knowledge Setting", 설명: "", 이미지URL: "/ai-solutions/aion-u_knowledge_setting.png" }
     ],
     주요기능: [
         "지식 업로드/임베딩: 텍스트·PDF·HTML·이미지 문서를 업로드해 벡터화하여 지식화",

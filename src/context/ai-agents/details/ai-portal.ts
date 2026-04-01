@@ -28,7 +28,7 @@ export const aiPortal: PlatformProduct = {
         },
         {
             타이틀: "Works AI 에이전트 활용 및 배포",
-            설명: "AI Makers에서는 직원들이 만든 Agent들ㅓㅌ을 공유하고, 사용하는 공간입니다. 내부적으로 평가·관리 되는 고품질의 Agents들을 제공합니다.",
+            설명: "AI Makers에서는 직원들이 만든 Agent들을 공유하고, 사용하는 공간입니다. 내부적으로 평가·관리 되는 고품질의 Agents들을 제공합니다.",
             이미지URL: "/ai-agents/WorksAI_02.png"
         },
         {
@@ -37,7 +37,7 @@ export const aiPortal: PlatformProduct = {
             이미지URL: "/ai-agents/WorksAI_03.png"
         }
     ],
-    메인이미지: "/images/platform/ai-portal-main.png",
+    메인이미지: "/ai-agents/WorksAI_01.png",
     특장점: [
         { 타이틀: "1. AI 중심 업무 환경으로의 자연스러운 전환", 설명: "기존 게시판형 그룹웨어 메인 화면에 AI 서비스를 직관적으로 배치하여 직원들이 별도의 학습 부담 없이 자연스럽게 AI를 사용할 수 있는 환경을 제공합니다. 이러한 접근 방식은 AI 활용 장벽을 낮추고 조직 전체의 AI 리터러시를 빠르게 향상시킵니다." },
         { 타이틀: "2. 나만의 AI Agent로 개인별 최적화된 환경 제공", 설명: "Personal Agent가 사용자의 메일, 일정 데이터를 실시간으로 분석하여 사용자가 해야 할 업무를 정리하고, 관심사 기반의 맞춤형 트렌드 뉴스를 제공함으로써 불필요한 정보 탐색 과정을 줄입니다. 이를 통해 업무 몰입도를 높입니다." },
@@ -96,11 +96,12 @@ export const aiPortal: PlatformProduct = {
         { 타이틀: "Enterprise", 설명: "고성능 하이브리드 RAG 엔진 + 엔터프라이즈 보안 패키지", 상세링크: "#" }
     ],
     제품상세문의: {
-        이메일: "bizai@kt.com",
-        전화번호: "02-523-7029"
+        이메일: "gworks.helpdesk@kt.com",
+        전화번호: "02-1234-5678"
     },
     관련리소스: [
-        { 타이틀: "Works AI 브로슈어", 파일타입: "PDF", URL: "/download/aiportal/works-ai-brochure.pdf" },
+        { 타이틀: "KTDS_Works AI_브로셔", 파일타입: "PDF", URL: "/download/ai-portal/worksai.pdf" },
+
     ],
     소개영상: [
         {

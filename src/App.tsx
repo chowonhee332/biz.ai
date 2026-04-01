@@ -20,6 +20,44 @@ import ProcessSection from './components/ProcessSection';
 import FAQList from './components/FAQList';
 import { useNavigate } from 'react-router-dom';
 
+function UseCaseImageCarousel() {
+  const [imgIdx, setImgIdx] = React.useState(0);
+
+  React.useEffect(() => {
+    const t = setInterval(() => {
+      setImgIdx(i => (i + 1) % HOME_USE_CASE.images.length);
+    }, 4000);
+    return () => clearInterval(t);
+  }, []);
+
+  const goTo = (i: number) => {
+    setImgIdx(i);
+  };
+
+  return (
+    <div className="w-full mb-10 md:mb-16 relative">
+      <div className="overflow-hidden rounded-[20px]">
+        <motion.div
+          className="flex gap-4"
+          animate={{ x: `calc(-${imgIdx * 100}% - ${imgIdx * 16}px)` }}
+          transition={{ duration: 0.5, ease: 'easeInOut' }}
+        >
+          {HOME_USE_CASE.images.map((src, i) => (
+            <div key={i} className="aspect-[16/8] rounded-[20px] overflow-hidden shrink-0 w-full">
+              <img src={src} alt={`slide-${i}`} className="w-full h-full object-cover" />
+            </div>
+          ))}
+        </motion.div>
+      </div>
+      <div className="flex justify-center gap-2 mt-5">
+        {HOME_USE_CASE.images.map((_, i) => (
+          <button key={i} onClick={() => goTo(i)} className={`h-1.5 rounded-full transition-all duration-300 ${i === imgIdx ? 'bg-white w-6' : 'bg-white/40 w-1.5'}`} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 const App = () => {
   const { isDark } = useTheme();
   const navigate = useNavigate();
@@ -166,16 +204,8 @@ const App = () => {
               <span className="text-[16px] md:text-[18px] text-brand-primary font-medium">-{HOME_USE_CASE.company}</span>
             </div>
 
-            {/* UI 이미지 */}
-            <motion.div
-              className="w-full rounded-[20px] overflow-hidden mb-10 md:mb-16"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: false }}
-              transition={{ duration: 0.6, ease: 'easeOut' }}
-            >
-              <img src="/images/aioun-u_agentbuilder_ui_3.png" alt="AI:ON-U Agent Builder" loading="lazy" className="w-full h-auto object-cover" />
-            </motion.div>
+            {/* UI 이미지 롤링 */}
+            <UseCaseImageCarousel />
 
             {/* 다이어그램(좌) + 설명(우) */}
             <div className="flex flex-col md:flex-row items-stretch gap-10 md:gap-[60px] mb-10 md:mb-16">
