@@ -6,9 +6,9 @@ import { motion, useScroll } from 'motion/react';
 import Layout from './components/Layout';
 
 import { USE_CASES, USE_CASE_CATEGORY_COLORS, type UseCaseDetailSection, type UseCaseDetailGroup, type UseCaseDetailItem, type UseCaseDetailQuote } from '@/context/use-cases/use-case-data';
-const accentColor  = '#00ABFF';
-const accentBg     = '#00ABFF0D';
-const accentBorder = '#00ABFF33';
+const accentColor  = '#1A75FF';
+const accentBg     = '#1A75FF0D';
+const accentBorder = '#1A75FF33';
 
 type BulletType = 'number' | 'dot' | 'bar';
 
@@ -139,7 +139,7 @@ export default function UseCaseDetailPage() {
                                 {section.id === 'summary' ? (
                                     <div className="p-7 rounded-[20px] flex gap-4" style={{ backgroundColor: accentBg, border: `1px solid ${accentBorder}` }}>
                                         <FileText className="size-5 shrink-0 mt-0.5" style={{ color: accentColor }} />
-                                        <div className="leading-relaxed break-keep font-normal text-body-sm" style={{ color: accentColor }}>
+                                        <div className="leading-relaxed break-keep text-body-sm" style={{ color: accentColor, fontWeight: 500 }}>
                                             {section.content}
                                         </div>
                                     </div>
@@ -227,9 +227,9 @@ export default function UseCaseDetailPage() {
 
                                 {/* 하단 강조 블록 */}
                                 {section.footer && (
-                                    <div className="mt-6 p-7 rounded-[20px] flex gap-4" style={{ backgroundColor: accentBg, border: `1px solid ${accentBorder}` }}>
+                                    <div className="mt-2 p-7 rounded-[20px] flex gap-4" style={{ backgroundColor: accentBg, border: `1px solid ${accentBorder}` }}>
                                         <FileText className="size-5 shrink-0 mt-0.5" style={{ color: accentColor }} />
-                                        <div className="leading-relaxed break-keep font-normal text-body-sm" style={{ color: accentColor }}>
+                                        <div className="leading-relaxed break-keep text-body-sm" style={{ color: accentColor, fontWeight: 500 }}>
                                             {section.footer}
                                         </div>
                                     </div>
