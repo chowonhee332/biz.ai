@@ -17,7 +17,7 @@ const SolutionCard = memo(function SolutionCard({ image, title, desc, highlight,
   return (
     <motion.div
       onClick={link ? () => navigate(link) : undefined}
-      className={`group relative bg-[#F6F6F6] rounded-[20px] p-9 flex flex-col w-full h-[320px] md:h-[360px] font-pretendard overflow-hidden transition-colors duration-300 ${link ? 'cursor-pointer hover:bg-[#EBEBEB]' : ''}`}
+      className={`group relative bg-[var(--color-fixed-surface)] rounded-[20px] p-9 flex flex-col w-full h-[320px] md:h-[360px] font-pretendard overflow-hidden transition-colors duration-300 ${link ? 'cursor-pointer hover:bg-[#EBEBEB]' : ''}`}
       initial={isMobile ? false : { opacity: 0, y: 40 }}
       whileInView={isMobile ? {} : { opacity: 1, y: 0 }}
       viewport={{ once: false, amount: 0.15 }}
@@ -26,17 +26,17 @@ const SolutionCard = memo(function SolutionCard({ image, title, desc, highlight,
       {/* 좌상단: 번호 + 타이틀 + 설명 + 태그 */}
       <div className="flex flex-col gap-2">
         {!hideNumber && (
-          <span className="text-black text-[15px] font-extrabold">
+          <span className="text-[var(--color-fixed-text-primary)] text-[15px] font-extrabold">
             {String(idx + 1).padStart(2, '0')}
           </span>
         )}
-        <h4 className="text-black text-[24px] md:text-[26px] font-extrabold tracking-tight leading-tight break-keep">
+        <h4 className="text-[var(--color-fixed-text-primary)] text-[24px] md:text-[26px] font-extrabold tracking-tight leading-tight break-keep">
           {title}
         </h4>
-        <p className="text-[#666666] text-[16px] leading-relaxed font-normal break-keep">
+        <p className="text-[var(--color-fixed-text-dim)] text-[16px] leading-relaxed font-normal break-keep">
           {desc}
         </p>
-        <span className="inline-flex items-center self-start mt-1 text-[#0066FF] text-[14px] font-medium">
+        <span className="inline-flex items-center self-start mt-1 text-brand-primary text-[14px] font-medium">
           {highlight}
         </span>
       </div>

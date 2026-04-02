@@ -139,8 +139,8 @@ const App = () => {
 
             {/* 타이틀 - 일반 플로우 */}
             <div className="text-center pt-16 pb-12 md:pt-32 md:pb-24 font-pretendard max-w-[1280px] mx-auto px-6 md:px-10">
-              <span className="text-body-sm md:text-body text-[#999999] mb-3 block font-medium">AI 서비스</span>
-              <h1 className="text-heading-md md:text-display-sm lg:text-display-md font-bold tracking-tight leading-tight font-poppins text-black">
+              <span className="text-body-sm md:text-body text-[var(--color-fixed-text-dim)] mb-3 block font-medium">AI 서비스</span>
+              <h1 className="text-heading-md md:text-display-sm lg:text-display-md font-bold tracking-tight leading-tight font-poppins text-[var(--color-fixed-text-primary)]">
                 AI Services
               </h1>
             </div>
@@ -148,8 +148,8 @@ const App = () => {
             {/* 카드 영역 - 4열 그리드 */}
             <div className="max-w-[1280px] mx-auto w-full pb-16 md:pb-32 px-6 md:px-10 flex flex-col gap-12 md:gap-20">
               <div className="flex flex-col gap-4">
-                <h2 className="text-black text-[18px] font-bold flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-black inline-block" />
+                <h2 className="text-[var(--color-fixed-text-primary)] text-[18px] font-bold flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-fixed-text-primary)] inline-block" />
                   Agent
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
@@ -159,8 +159,8 @@ const App = () => {
                 </div>
               </div>
               <div className="flex flex-col gap-4">
-                <h2 className="text-black text-[18px] font-bold flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-black inline-block" />
+                <h2 className="text-[var(--color-fixed-text-primary)] text-[18px] font-bold flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-fixed-text-primary)] inline-block" />
                   Solution
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
@@ -179,7 +179,7 @@ const App = () => {
           <div className="max-w-[1280px] mx-auto container-responsive">
             {/* Header */}
             <div className="text-center mb-0">
-              <span className="text-body-sm text-[#999999] mb-3 block font-medium">{HOME_USE_CASE.sectionLabel}</span>
+              <span className="text-body-sm text-text-hint mb-3 block font-medium">{HOME_USE_CASE.sectionLabel}</span>
               <h1 className="text-heading-md md:text-display-sm lg:text-display-md font-bold text-white tracking-tight leading-tight font-poppins">
                 {HOME_USE_CASE.sectionTitle}
               </h1>
@@ -299,7 +299,7 @@ const App = () => {
         <ProcessSection />
 
         {/* 고객사 로고 섹션 */}
-        <section id="logos" className="relative py-10 md:py-32 overflow-hidden" style={{ backgroundColor: isDark ? '#0A0A0A' : '#F6F6F6' }}>
+        <section id="logos" className="relative py-10 md:py-32 overflow-hidden bg-bg-section">
           <div className="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none" />
           <div className="relative z-10 w-full text-center">
             <div ref={logoRef} className="relative overflow-hidden w-full py-4">
@@ -335,7 +335,7 @@ const App = () => {
         </section>
 
         {/* FAQ 섹션 */}
-        <section id="faq" className="py-12 md:py-32 relative overflow-hidden" style={{ backgroundColor: isDark ? '#0A0A0A' : '#F6F6F6' }}>
+        <section id="faq" className="py-12 md:py-32 relative overflow-hidden bg-bg-section">
           <div className="max-w-[1280px] mx-auto container-responsive">
             <div className="flex flex-col lg:flex-row gap-10 md:gap-20">
               <div className="lg:w-1/3">
