@@ -187,11 +187,9 @@ export default function ServiceContent({ activeTab, content }: ServiceContentPro
                                                     const isAsIs = /^As-Is/i.test(h.중타이틀);
                                                     const isEffect = /^기대/.test(h.중타이틀);
                                                     const isToBe = /^To-Be/i.test(h.중타이틀);
-                                                    const labelColor = isAsIs
-                                                        ? 'text-text-secondary/60'
+                                                    const labelColor = isAsIs || isToBe
+                                                        ? 'text-text-primary'
                                                         : isEffect
-                                                        ? 'text-emerald-400'
-                                                        : isToBe
                                                         ? 'text-brand-primary'
                                                         : 'text-text-secondary';
                                                     return (
@@ -257,7 +255,7 @@ export default function ServiceContent({ activeTab, content }: ServiceContentPro
                                             <>
                                                 <div className="border-t border-border-light/50" />
                                                 <div className="flex flex-col gap-1.5">
-                                                    <div className="text-body-sm font-bold flex items-center gap-1 text-text-secondary">
+                                                    <div className="text-body-sm font-bold flex items-center gap-1 text-text-primary">
                                                         <span className="w-6 shrink-0 flex items-center justify-start font-bold leading-none" style={{ fontSize: '32px' }}>·</span>
                                                         적용범위
                                                     </div>
@@ -272,7 +270,7 @@ export default function ServiceContent({ activeTab, content }: ServiceContentPro
                                             <>
                                                 <div className="border-t border-border-light/50" />
                                                 <div className="flex flex-col gap-1.5">
-                                                    <div className="text-body-sm font-bold flex items-center gap-1 text-text-secondary">
+                                                    <div className="text-body-sm font-bold flex items-center gap-1 text-text-primary">
                                                         <span className="w-6 shrink-0 flex items-center justify-start font-bold leading-none" style={{ fontSize: '32px' }}>·</span>
                                                         적용기간
                                                     </div>
@@ -285,12 +283,12 @@ export default function ServiceContent({ activeTab, content }: ServiceContentPro
                                             <>
                                                 <div className="border-t border-border-light/50" />
                                                 <div className="flex flex-col gap-1.5">
-                                                    <div className="text-body-sm font-bold flex items-center gap-1 text-emerald-400">
+                                                    <div className="text-body-sm font-bold flex items-center gap-1 text-brand-primary">
                                                         <span className="w-6 shrink-0 flex items-center justify-start font-bold leading-none" style={{ fontSize: '32px' }}>·</span>
                                                         성과
                                                     </div>
                                                     <div className="pl-7 flex flex-col gap-1">
-                                                        {item.성과정량 && <p className="text-body-sm font-bold leading-snug break-keep" style={{ color: '#34d399' }}>{item.성과정량}</p>}
+                                                        {item.성과정량 && <p className="text-body-sm font-bold leading-snug break-keep text-brand-primary">{item.성과정량}</p>}
                                                         {item.성과정성 && <p className="text-body-sm leading-[1.6] break-keep text-text-secondary">{item.성과정성}</p>}
                                                     </div>
                                                 </div>
@@ -301,7 +299,7 @@ export default function ServiceContent({ activeTab, content }: ServiceContentPro
                                             <>
                                                 <div className="border-t border-border-light/50" />
                                                 <div className="flex flex-col gap-1.5">
-                                                    <div className="text-body-sm font-bold flex items-center gap-1 text-text-secondary">
+                                                    <div className="text-body-sm font-bold flex items-center gap-1 text-text-primary">
                                                         <span className="w-6 shrink-0 flex items-center justify-start font-bold leading-none" style={{ fontSize: '32px' }}>·</span>
                                                         코멘트
                                                     </div>
