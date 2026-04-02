@@ -18,7 +18,7 @@ export const HERO_SLIDES = [
   {
     category: 'Biz.AI',
     main: ['kt ds의 기업용 AI 서비스로', '비즈니스를 성장시키세요'] as [string, string],
-    sub: '귀사에 필요한 AI Agents만 쏙쏙 모아, 기업 환경에 최적화된 솔루션을 만들어요.\n실제 성과로 이어지는 변화를 경험하세요.',
+    sub: '귀사에 필요한 AI Agents만 쏙쏙 모아, 기업환경에 최적화된 솔루션을 만들어요.\n실제 성과로 이어지는 변화를 경험하세요.',
     highlight: 1,
     link: '/ai-agents',
   },
@@ -32,7 +32,7 @@ export const HERO_SLIDES = [
   {
     category: 'Works AI',
     main: ['내 일을 대신하는 개인 비서', 'AI 사내 업무 포털'] as [string, string],
-    sub: '여러 시스템 이동 없이, 필요한 정보 제공부터 업무 처리까지,\nAI 사내 업무 포털로 복잡한 업무와 흩어진 정보를 한 곳에 모아\n더 쉽고 빠르게 일할 수 있도록 도와줍니다.',
+    sub: '여러 시스템 이동 없이, 필요한 정보 제공부터 업무 처리까지,\nAI 사내 업무 포털로 복잡한 업무와 흩어진 정보를 한 곳에 모아 더 쉽고 빠르게 일할 수 있도록 도와줍니다.',
     highlight: 1,
     link: '/ai-agents?tab=AI 포털',
   },

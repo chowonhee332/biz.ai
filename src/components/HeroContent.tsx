@@ -74,7 +74,9 @@ export default function HeroContent({ isAnalyzing = false, align = 'center' }: H
               transition={{ duration: 0.5, ease: 'easeOut' }}
               className={`text-[16px] md:text-[16px] lg:text-[16px] font-normal text-white/60 max-w-[500px] md:max-w-[600px] w-full leading-relaxed line-clamp-2 ${isLeft ? 'text-center md:text-left' : 'text-center'} px-1`}
             >
-              {slide.sub}
+              {slide.sub.split('\n').map((line, i, arr) => (
+                <span key={i}>{line}{i < arr.length - 1 && <br />}</span>
+              ))}
             </motion.p>
           </motion.div>
         </AnimatePresence>
