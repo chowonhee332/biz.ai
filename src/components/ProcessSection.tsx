@@ -25,10 +25,10 @@ export default function ProcessSection() {
                 <motion.div
                   key={i}
                   className="relative bg-[var(--color-fixed-surface)] rounded-[20px] p-6 md:p-10 flex flex-col min-h-[320px] md:min-h-[420px] overflow-hidden"
-                  initial={isMobile ? false : { opacity: 0, y: 40 }}
-                  whileInView={isMobile ? {} : { opacity: 1, y: 0 }}
+                  initial={isMobile ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+                  whileInView={isMobile ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
                   viewport={{ once: false, amount: 0.15 }}
-                  transition={{ duration: 0.5, ease: 'easeOut', delay: i * 0.08 }}
+                  transition={isMobile ? { duration: 0 } : { duration: 0.5, ease: 'easeOut', delay: i * 0.08 }}
                 >
                   <div className="relative min-h-[100px] md:min-h-[130px]">
                     <span className="text-brand-primary text-body-sm md:text-body-md font-bold mb-2 block">{step.num}</span>
