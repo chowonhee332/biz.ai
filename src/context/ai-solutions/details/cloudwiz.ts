@@ -2,7 +2,6 @@ import { PlatformProduct } from '../../types';
 
 export const cloudwiz: PlatformProduct = {
     관련리소스: [
-        { 타이틀: "KTDS_CloudWiz_홍보영상.mp4", 파일타입: "mp4", URL: "#" },
         { 타이틀: "KTDS_CloudWiz_소개자료.pdf", 파일타입: "PDF", URL: "/download/cloudwiz/KTDS_CloudWiz_소개자료.pdf" }
     ],
     제품상세문의: { 이메일: "cloudwiz@kt.com", 전화번호: "02-523-7029" },
@@ -11,7 +10,9 @@ export const cloudwiz: PlatformProduct = {
     ],
     다운로드: [],
     노출뉴스: [],
-    소개영상: [],
+    소개영상: [
+        { 타이틀: "CloudWiz 소개영상", URL: "https://www.youtube.com/watch?v=isccgTBl-vA" }
+    ],
     고객사례: [
         {
             고객조직: "국내 통신사 A",
@@ -77,5 +78,5 @@ export const cloudwiz: PlatformProduct = {
     ],
     주요고객군: "클라우드 운영팀, 인프라 조직, 금융·제조·공공 기관",
     설명: "CloudWiz는 기업의 멀티클라우드 리소스를 통합 모니터링하고 운영 자동화를 지원하는 클라우드 관리 플랫폼입니다. 분산된 운영 정보를 단일 화면으로 제공하고 비용 최적화·보안 진단·운영 자동화를 통해 운영 효율성과 안정성을 높입니다.",
-    타이틀: "멀티클라우드 운영 효율화·자동화를 지원하는 CloudWiz 관리 서비스"
+    타이틀: "멀티클라우드 운영 효율화·자동화를 지원하는\n CloudWiz 관리 서비스"
 };

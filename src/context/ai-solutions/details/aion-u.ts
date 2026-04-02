@@ -91,5 +91,5 @@ export const aionU: PlatformProduct = {
     ],
     주요고객군: "DX/AI 조직, 현업 실무자, 지식 기반 서비스 도입 기업·공공기관",
     설명: "AI:ON‑U는 기업이 생성형 AI Agent를 빠르게 만들고 운영할 수 있도록 지원하는 No‑Code 기반 Agent Builder 플랫폼입니다. RAG·모델 선택·프롬프트 설정·워크플로우 구성·배포 기능을 모두 제공하여 다양한 비즈니스 용도의 AI Agent를 수분 내 생성할 수 있습니다.",
-    타이틀: "엔터프라이즈 맞춤형 AI Agent를 빠르게 구축하는 Agent Builder 'AI:ON‑U'"
+    타이틀: "엔터프라이즈 맞춤형 AI Agent를 \n 빠르게 구축하는 Agent Builder 'AI:ON‑U'"
 };

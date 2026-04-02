@@ -32,14 +32,14 @@ export const HERO_SLIDES = [
   {
     category: 'Works AI',
     main: ['내 일을 대신하는 개인 비서', 'AI 사내 업무 포털'] as [string, string],
-    sub: '여러 시스템 이동 없이, 필요한 정보 제공부터 업무 처리까지,\nAI 사내 업무 포털로 복잡한 업무와 흩어진 정보를 한 곳에 모아 더 쉽고 빠르게 일할 수 있도록 도와줍니다.',
+    sub: '여러 시스템 이동 없이, 필요한 정보 제공부터 업무 처리까지,\nAI 사내 업무 포털로 한 곳에 모아 확인하세요.',
     highlight: 1,
     link: '/ai-agents?tab=AI 포털',
   },
   {
     category: 'AI:ON-U',
     main: ['비즈니스 맞춤형 AI Agent 구축', '노코딩 Agent Builder'] as [string, string],
-    sub: 'Agent Builder로 코딩 없이 간단한 설정만으로 필요한 기능만 선택해\n기업 업무에 필요한 AI Agent를 바로 만들고 빠르게 구축/운영할 수 있습니다.',
+    sub: 'Agent Builder로 코딩 없이 간단한 설정만으로 필요한 기능만 선택해\n기업 업무에 필요한 AI Agent를 바로 만들고 빠르게 구축·운영할 수 있습니다.',
     highlight: 1,
     link: '/ai-solutions?tab=AI:ON-U',
   },
@@ -50,12 +50,12 @@ export const HERO_SLIDES = [
 export const HOME_USE_CASE = {
   sectionLabel: '고객 사례',
   sectionTitle: 'Use Cases',
-  quote: '질문만으로 원하는 데이터(문서, 통계)를 바로 찾고,\n3개월 안에 업무에 적용한 AI 구축 사례',
+  quote: '질문만으로 원하는 데이터(문서, 통계)를 바로 찾고,\n3개월 내 업무에 적용한 AI 구축 사례',
   company: '한국기계산업진흥원',
   images: ['/images/aioun-u_agentbuilder_ui_3.png', '/images/Usecase_home.png'],
   description: [
-    '수많은 문서와 통계 데이터 속에서 원하는 정보를 찾기 어려운 환경에서, Works AI와 SQL Agent를 통해 질문만으로 필요한 데이터를 바로 확인할 수 있는 환경 구축하였습니다. AI:ON-U를 활용해 맞춤형 AI Agent를 빠르게 생성하여, 단기간 내 업무에 적용했습니다.',
-    '그 결과, 복잡한 데이터 탐색 과정 없이도 원하는 결과를 즉시 확인할 수 있게 되었고 약 3개월 내에 실제 업무에 활용 가능한 AI 기반 업무 환경을 구현했습니다.',
+    '방대한 문서와 통계 데이터로 인해 정보 탐색이 어려운 환경을 개선하고자, Works AI와 SQL Agent를 도입해 질문 기반으로 필요한 데이터를 즉시 확인할 수 있는 환경을 구축했습니다. 더불어 AI:ON-U를 활용해 맞춤형 AI Agent를 신속히 생성하고, 이를 단기간 내 업무에 적용했습니다.',
+    '그 결과, 복잡한 탐색 과정 없이도 원하는 정보를 즉시 확보할 수 있게 되었으며, 약 3개월 만에 실제 업무에 적용 가능한 AI 기반 업무 환경을 구현함으로써 데이터 활용 효율성과 업무 생산성을 향상시켰습니다.',
   ],
   tags: ['#구축 기간 3개월', '#데이터 접근성과 활용도 향상'],
   bullets: [

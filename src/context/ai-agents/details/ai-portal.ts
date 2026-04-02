@@ -3,7 +3,7 @@ import { PlatformProduct } from '../../types';
 export const aiPortal: PlatformProduct = {
     다운로드: [],
     노출뉴스: [],
-    타이틀: "AI 에이전트 기반으로 다양한 업무처리를 지원하는 사내 AI Agent Portal, 'Works AI'",
+    타이틀: "AI 에이전트 기반으로 다양한 업무처리를 지원하는 \n 사내 AI Agent Portal, 'Works AI'",
     설명: "본 서비스는 임직원이 AI Agent를 활용해 다양한 업무를 처리를 하는 AI 기반 업무 포털 솔루션입니다.",
     주요고객군: "사내 지식 관리와 보안이 중요한 금융·대기업·공공기관",
     핵심가치: [

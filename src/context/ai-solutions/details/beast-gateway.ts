@@ -87,5 +87,5 @@ export const beastGateway: PlatformProduct = {
     ],
     주요고객군: "공공기관 · 금융기관 · 대규모 API 트래픽 운영 기업",
     설명: "Beast AI Gateway는 기업 내부 시스템을 AI Agent와 연결해 API·LLM·MCP·워크플로우를 통합 관리하는 엔터프라이즈 AI 게이트웨이 플랫폼입니다. 보안·트래픽·정책·거버넌스를 중앙에서 통합해 운영 복잡도를 줄이고 안정적인 AI 활용 환경을 제공합니다.",
-    타이틀: "엔터프라이즈용 API·LLM·MCP 통합 관리 플랫폼 'BEAST AI Gateway'"
+    타이틀: "엔터프라이즈용 API·LLM·MCP 통합 관리 플랫폼\n 'BEAST AI Gateway'"
 };

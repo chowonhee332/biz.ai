@@ -22,7 +22,7 @@ export default function UseCasePage() {
             {/* Content Body */}
             <section className="pb-32 flex-1 relative">
                 {/* Hero Banner with Silk */}
-                <div className="relative overflow-hidden bg-[#3a3a3a] mx-3 mt-[68px] mb-3 rounded-[28px] h-[300px] flex items-center justify-center">
+                <div className="relative overflow-hidden bg-[#3a3a3a] mx-3 mt-[68px] mb-3 rounded-[28px] h-[260px] flex items-center justify-center">
                     <div className="absolute inset-0 z-0">
                         <Silk speed={1} scale={0.6} color="#b8e4ff" noiseIntensity={1.2} rotation={5} />
                     </div>

@@ -47,8 +47,8 @@ export default function ServiceContent({ activeTab, content }: ServiceContentPro
                 {/* 1. 개요 */}
                 <div id="section-overview" className="mb-[32px] scroll-mt-32">
                     <p className="text-brand-primary text-body-sm font-bold mb-2 tracking-wide">{activeTab}</p>
-                    <h2 className="text-heading-md font-bold text-text-primary mb-4 break-keep">{content.타이틀}</h2>
-                    <p className="text-text-secondary text-body-sm leading-relaxed break-keep font-normal">{content.설명}</p>
+                    <h2 className="text-heading-md font-bold text-text-primary mb-4 break-keep whitespace-pre-line">{content.타이틀}</h2>
+                    <p className="text-text-secondary text-body-sm leading-relaxed break-keep font-normal whitespace-pre-line">{content.설명}</p>
                 </div>
 
                 {/* 2. 주요 고객군 */}
@@ -80,7 +80,7 @@ export default function ServiceContent({ activeTab, content }: ServiceContentPro
                                             <div className="text-body font-bold text-text-primary leading-snug">{title.trim()}</div>
                                         </div>
                                         {description && (
-                                            <div className="text-body-sm leading-relaxed font-normal break-keep text-text-secondary pl-9">
+                                            <div className="text-body-sm leading-relaxed font-normal break-keep text-text-secondary pl-9 whitespace-pre-line">
                                                 {description}
                                             </div>
                                         )}
@@ -116,8 +116,8 @@ export default function ServiceContent({ activeTab, content }: ServiceContentPro
                                                 />
                                             </div>
                                             <div className="pt-2 pb-8 px-8">
-                                                <h4 className="text-body font-bold text-text-primary mb-2">{item.타이틀}</h4>
-                                                <p className="text-body-xs leading-relaxed break-keep font-normal text-text-secondary">{item.설명}</p>
+                                                <h4 className="text-body font-bold text-text-primary mb-2 whitespace-pre-line">{item.타이틀}</h4>
+                                                <p className="text-body-xs leading-relaxed break-keep font-normal text-text-secondary whitespace-pre-line">{item.설명}</p>
                                             </div>
                                         </div>
                                     ))}
@@ -158,7 +158,7 @@ export default function ServiceContent({ activeTab, content }: ServiceContentPro
                                             {item.타이틀.replace(/^\d+\.\s*/, '')}
                                         </div>
                                     </div>
-                                    <div className="text-body-sm leading-relaxed font-normal break-keep text-text-secondary pl-9">
+                                    <div className="text-body-sm leading-relaxed font-normal break-keep text-text-secondary pl-9 whitespace-pre-line">
                                         {item.설명}
                                     </div>
                                 </div>
@@ -178,9 +178,9 @@ export default function ServiceContent({ activeTab, content }: ServiceContentPro
                                 <div key={i} className="rounded-[20px] p-7 bg-bg-surface flex flex-col gap-5">
                                     {item.항목 ? (
                                         <>
-                                            <h4 className="text-body font-bold text-text-primary leading-tight">{item.타이틀}</h4>
+                                            <h4 className="text-body font-bold text-text-primary leading-tight whitespace-pre-line">{item.타이틀}</h4>
                                             {item.설명 && (
-                                                <div className="text-label-lg leading-relaxed text-text-secondary">{item.설명}</div>
+                                                <div className="text-label-lg leading-relaxed text-text-secondary whitespace-pre-line">{item.설명}</div>
                                             )}
                                             <div className="flex flex-col gap-3">
                                                 {item.항목.filter(h => h.중타이틀 || h.설명).map((h, hi) => {
@@ -202,7 +202,7 @@ export default function ServiceContent({ activeTab, content }: ServiceContentPro
                                                                     <span className="w-6 shrink-0 flex items-center justify-start font-bold leading-none" style={{ fontSize: '32px' }}>·</span>
                                                                     {h.중타이틀}
                                                                 </div>
-                                                                <div className="text-body-sm leading-relaxed pl-7 text-text-secondary">{h.설명}</div>
+                                                                <div className="text-body-sm leading-relaxed pl-7 text-text-secondary whitespace-pre-line">{h.설명}</div>
                                                             </div>
                                                         </div>
                                                     );
@@ -215,10 +215,10 @@ export default function ServiceContent({ activeTab, content }: ServiceContentPro
                                                 <span className="w-6 shrink-0 flex items-center justify-start">
                                                     <span className="text-brand-primary font-bold leading-none" style={{ fontSize: '32px' }}>·</span>
                                                 </span>
-                                                <h4 className="text-body font-bold text-text-primary leading-snug">{item.타이틀}</h4>
+                                                <h4 className="text-body font-bold text-text-primary leading-snug whitespace-pre-line">{item.타이틀}</h4>
                                             </div>
                                             {item.설명 && (
-                                                <div className="text-body-sm font-normal leading-relaxed pl-7 text-text-secondary">{item.설명}</div>
+                                                <div className="text-body-sm font-normal leading-relaxed pl-7 text-text-secondary whitespace-pre-line">{item.설명}</div>
                                             )}
                                         </>
                                     )}
