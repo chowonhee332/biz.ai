@@ -1,14 +1,10 @@
 import { useEffect } from 'react';
-import { useTheme } from './context/ThemeContext';
 import { Mail, Phone, FileText, Quote } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import { motion, useScroll } from 'motion/react';
 import Layout from './components/Layout';
 
 import { USE_CASES, USE_CASE_CATEGORY_COLORS, type UseCaseDetailSection, type UseCaseDetailGroup, type UseCaseDetailItem, type UseCaseDetailQuote } from '@/context/use-cases/use-case-data';
-const accentColor  = '#1A75FF';
-const accentBg     = '#1A75FF0D';
-const accentBorder = '#1A75FF33';
 
 type BulletType = 'number' | 'dot' | 'bar';
 
@@ -63,7 +59,6 @@ function BulletList({ items, bulletType }: { items: { title: string | null; desc
 export default function UseCaseDetailPage() {
     const { scrollYProgress } = useScroll();
     const { id } = useParams();
-    const { isDark } = useTheme();
 
     const parsedId = id ? parseInt(id) : NaN;
     const caseIndex = !isNaN(parsedId) && parsedId >= 1 && parsedId <= USE_CASES.length ? parsedId - 1 : 0;
@@ -137,9 +132,9 @@ export default function UseCaseDetailPage() {
 
                                 {/* 본문 */}
                                 {section.id === 'summary' ? (
-                                    <div className="p-7 rounded-[20px] flex gap-4" style={{ backgroundColor: accentBg, border: `1px solid ${accentBorder}` }}>
-                                        <FileText className="size-5 shrink-0 mt-0.5" style={{ color: accentColor }} />
-                                        <div className="leading-relaxed break-keep text-body-sm" style={{ color: accentColor, fontWeight: 500 }}>
+                                    <div className="p-7 rounded-[20px] flex gap-4 bg-brand-primary/5 border border-brand-primary/20">
+                                        <FileText className="size-5 shrink-0 mt-0.5 text-brand-primary" />
+                                        <div className="leading-relaxed break-keep text-body-sm text-brand-primary font-medium">
                                             {section.content}
                                         </div>
                                     </div>
@@ -198,12 +193,12 @@ export default function UseCaseDetailPage() {
                                     ) : (
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                                             {section.items.map((it: UseCaseDetailItem, idx: number) => (
-                                                <div key={idx} className={`p-7 rounded-[20px] flex flex-col gap-3 ${section.id === 'results' ? `${isDark ? 'bg-[#0B0F16]' : 'bg-[#EEF4FF]'}` : 'bg-bg-surface'}`}>
+                                                <div key={idx} className={`p-7 rounded-[20px] flex flex-col gap-3 ${section.id === 'results' ? 'bg-bg-brand-subtle' : 'bg-bg-surface'}`}>
                                                     {section.id !== 'results' && (
                                                         <span className="text-brand-primary text-body-sm font-bold shrink-0 leading-none mt-0.5">{(idx + 1).toString().padStart(2, '0')}</span>
                                                     )}
                                                     <div className={`font-bold leading-tight text-body ${section.id === 'results' ? 'text-brand-primary' : 'text-text-primary'}`}>{it.타이틀}</div>
-                                                    <p className={`text-body-sm leading-relaxed break-keep font-normal ${section.id === 'results' ? (isDark ? 'text-white/70' : 'text-text-secondary') : 'text-text-secondary'}`}>{it.설명}</p>
+                                                    <p className={`text-body-sm leading-relaxed break-keep font-normal text-text-secondary`}>{it.설명}</p>
                                                 </div>
                                             ))}
                                         </div>
@@ -227,9 +222,9 @@ export default function UseCaseDetailPage() {
 
                                 {/* 하단 강조 블록 */}
                                 {section.footer && (
-                                    <div className="mt-2 p-7 rounded-[20px] flex gap-4" style={{ backgroundColor: accentBg, border: `1px solid ${accentBorder}` }}>
-                                        <FileText className="size-5 shrink-0 mt-0.5" style={{ color: accentColor }} />
-                                        <div className="leading-relaxed break-keep text-body-sm" style={{ color: accentColor, fontWeight: 500 }}>
+                                    <div className="mt-2 p-7 rounded-[20px] flex gap-4 bg-brand-primary/5 border border-brand-primary/20">
+                                        <FileText className="size-5 shrink-0 mt-0.5 text-brand-primary" />
+                                        <div className="leading-relaxed break-keep text-body-sm text-brand-primary font-medium">
                                             {section.footer}
                                         </div>
                                     </div>

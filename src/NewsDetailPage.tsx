@@ -47,9 +47,9 @@ export default function NewsDetailPage() {
 
                         {/* 날짜 & 언론사 & 링크 */}
                         <div className="flex items-center gap-2 mb-8 flex-wrap justify-center">
-                            <span className="text-[16px] font-medium px-4 h-9 inline-flex items-center rounded-full" style={{ backgroundColor: isDark ? '#222222' : '#f6f6f6', color: isDark ? '#FFFFFF' : undefined }}>{news.날짜}</span>
+                            <span className="text-[16px] font-medium px-4 h-9 inline-flex items-center rounded-full bg-bg-surface text-text-primary">{news.날짜}</span>
                             {news.언론사 && (
-                                <span className="text-[16px] font-medium px-4 h-9 inline-flex items-center rounded-full" style={{ backgroundColor: isDark ? '#222222' : '#f6f6f6', color: isDark ? '#FFFFFF' : undefined }}>{news.언론사}</span>
+                                <span className="text-[16px] font-medium px-4 h-9 inline-flex items-center rounded-full bg-bg-surface text-text-primary">{news.언론사}</span>
                             )}
                             {news.링크 && (
                                 <a href={news.링크} target="_blank" rel="noopener noreferrer" className="text-[16px] font-medium text-text-secondary hover:text-text-primary transition-colors inline-flex items-center gap-1 h-9 px-4 rounded-full border border-border-light">

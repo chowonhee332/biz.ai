@@ -6,11 +6,9 @@ import { Button } from '@/components/ui/button';
 
 import { USE_CASES, USE_CASE_CATEGORIES, USE_CASE_CATEGORY_COLORS } from '@/context/use-cases/use-case-data';
 import Layout from './components/Layout';
-import { useTheme } from './context/ThemeContext';
 import Silk from './components/Silk';
 
 export default function UseCasePage() {
-    const { isDark } = useTheme();
     const [activeCategory, setActiveCategory] = useState(USE_CASE_CATEGORIES[0]);
     const navigate = useNavigate();
 
@@ -51,7 +49,7 @@ export default function UseCasePage() {
                                 onClick={() => setActiveCategory(category)}
                                 className={`relative h-full !text-[18px] transition-colors flex items-center px-1 cursor-pointer hover:!bg-transparent focus-visible:ring-0 focus-visible:outline-none ${activeCategory === category
                                     ? "text-text-primary font-bold"
-                                    : "text-[#666666] font-bold hover:text-text-secondary"
+                                    : "text-text-dim font-bold hover:text-text-secondary"
                                     }`}
                             >
                                 {category}
@@ -93,10 +91,10 @@ export default function UseCasePage() {
                                         <h3 className="text-text-primary text-[22px] font-bold leading-snug whitespace-pre-line">
                                             {item.상세내용?.title || item.타이틀}
                                         </h3>
-                                        <p className="text-[#888888] text-[16px] leading-relaxed line-clamp-2 font-normal">
+                                        <p className="text-text-secondary text-[16px] leading-relaxed line-clamp-2 font-normal">
                                             {item.상세내용?.header || item.설명}
                                         </p>
-                                        <span className="text-[14px] font-medium px-3 py-1 rounded-full mt-0.5 self-start" style={{ backgroundColor: isDark ? '#222222' : '#f6f6f6', color: isDark ? '#FFFFFF' : undefined }}>
+                                        <span className="text-[14px] font-medium px-3 py-1 rounded-full mt-0.5 self-start bg-bg-surface text-text-primary">
                                             #{item.태그}
                                         </span>
                                     </div>

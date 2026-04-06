@@ -7,11 +7,9 @@ import { Button } from '@/components/ui/button';
 import { HIGHLIGHT_NEWS, REGULAR_NEWS, NEWS_CATEGORIES, type NewsItem } from '@/context/news/news-data';
 import { getTagColor } from '@/lib/utils';
 import Layout from './components/Layout';
-import { useTheme } from './context/ThemeContext';
 import Silk from './components/Silk';
 
 export default function NewsPage() {
-    const { isDark } = useTheme();
     const [activeCategory, setActiveCategory] = useState("전체");
     const navigate = useNavigate();
 
@@ -51,7 +49,7 @@ export default function NewsPage() {
                                 onClick={() => setActiveCategory(category)}
                                 className={`relative h-full !text-[18px] transition-colors flex items-center px-1 cursor-pointer hover:!bg-transparent active:!bg-transparent focus:!bg-transparent active:!text-current focus:!text-current focus-visible:ring-0 focus-visible:outline-none rounded-none ${activeCategory === category
                                     ? "text-text-primary font-bold"
-                                    : "text-[#666666] font-bold hover:text-text-secondary"
+                                    : "text-text-dim font-bold hover:text-text-secondary"
                                     }`}
                             >
                                 {category}
@@ -93,10 +91,10 @@ export default function NewsPage() {
                                 <div className="flex-1 w-full flex flex-col justify-center py-1">
                                     <span className={`${getTagColor(news.태그)} text-[16px] font-medium mb-2`}>{news.태그}</span>
                                     <h3 className="text-text-primary text-[24px] font-bold leading-snug mb-3 group-hover:text-text-secondary transition-colors line-clamp-2">{news.타이틀}</h3>
-                                    <p className="text-[#888888] text-[16px] leading-relaxed line-clamp-2 mb-4 font-normal max-w-[700px]">{news.설명}</p>
+                                    <p className="text-text-secondary text-[16px] leading-relaxed line-clamp-2 mb-4 font-normal max-w-[700px]">{news.설명}</p>
                                     <div className="flex items-center gap-2">
-                                        <span className="text-[14px] font-medium px-3 py-1 rounded-full" style={{ backgroundColor: isDark ? '#222222' : '#f6f6f6', color: isDark ? '#FFFFFF' : undefined }} >{news.언론사 || news.솔루션}</span>
-                                        <span className="text-[14px] font-medium px-3 py-1 rounded-full" style={{ backgroundColor: isDark ? '#222222' : '#f6f6f6', color: isDark ? '#FFFFFF' : undefined }}>{news.날짜}</span>
+                                        <span className="text-[14px] font-medium px-3 py-1 rounded-full bg-bg-surface text-text-primary">{news.언론사 || news.솔루션}</span>
+                                        <span className="text-[14px] font-medium px-3 py-1 rounded-full bg-bg-surface text-text-primary">{news.날짜}</span>
                                     </div>
                                 </div>
                             </motion.div>
