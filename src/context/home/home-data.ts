@@ -32,7 +32,7 @@ export const HERO_SLIDES = [
   {
     category: 'Works AI',
     main: ['내 일을 대신하는 개인 비서', 'AI 사내 업무 포털'] as [string, string],
-    sub: '여러 시스템 이동 없이 정보 확인부터 업무 처리까지,\n AI 사내 통합 업무 포털로 효율적인 업무환경을 제공합니다.',
+    sub: '여러 시스템 이동 없이 정보 확인부터 업무 처리까지,\n 사내 통합 업무 포털로 효율적인 업무환경을 제공합니다.',
     highlight: 1,
     link: '/ai-agents?tab=AI 포털',
   },
