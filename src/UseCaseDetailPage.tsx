@@ -95,7 +95,7 @@ export default function UseCaseDetailPage() {
                             {detail?.title || item.타이틀}
                         </h1>
                         <p className="text-body-sm md:text-body text-text-secondary break-keep">
-                            {item.설명}
+                            {detail?.header || item.설명}
                         </p>
                     </motion.div>
                 </div>
